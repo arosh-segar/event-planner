@@ -2,11 +2,11 @@ import React from 'react';
 import {StyleSheet, View, Text, ScrollView,Alert} from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Event from './Event';
+import Guest from './Guest';
 import { FloatingAction } from "react-native-floating-action";
 
 
-class Events extends React.Component{
+class Guests extends React.Component{
 
 
   render() {
@@ -17,25 +17,20 @@ class Events extends React.Component{
       <View style={styles.container}>
         {/*<EntypoIcon name="arrow-long-left" style={styles.icon}></EntypoIcon>*/}
 
-            <View style={styles.scrollArea1}>
-                <ScrollView>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                </ScrollView>
-              <FloatingAction
-                showBackground={false}
-                animated={false}
-                onPressMain={()=>{
-                   navigation.navigate("AddEvent")
-                }}/>
-            </View>
+        <View style={styles.scrollArea1}>
+          <ScrollView>
+            <Guest/>
+            <Guest/>
+            <Guest/>
+            <Guest/>
+          </ScrollView>
+          <FloatingAction
+            showBackground={false}
+            animated={false}
+            onPressMain={()=>{
+              navigation.navigate("AddGuest")
+            }}/>
+        </View>
       </View>
     )
   }
@@ -90,4 +85,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Events
+export default Guests

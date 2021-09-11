@@ -1,13 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,96 +9,37 @@ import {
   View,
 } from 'react-native';
 
+import Home from './components/Home'
+import Events from './components/Event/Events';
+import AddEvent from "./components/Event/AddEvent";
+import Guest from './components/Guest/Guest';
+import Guests from './components/Guest/Guests'
+import AddGuest from './components/Guest/AddGuest'
+import Task from './components/ToDoList/Task'
+import Tasks from './components/ToDoList/Tasks'
+import AddTask from './components/ToDoList/AddTask'
+
+import {NavigationContainer} from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack'
+
+const {Navigator,Screen} = createStackNavigator()
+
 function App() {
   return (
-    <View style={styles.container}>
-      <View style={styles.rectRow}>
-        <View style={styles.rect}>
-          <Text style={styles.events}>Events</Text>
-        </View>
-        <View style={styles.rect2}>
-          <Text style={styles.guests}>Guests</Text>
-        </View>
-      </View>
-      <View style={styles.rect3Row}>
-        <View style={styles.rect3}>
-          <Text style={styles.toDoList}>To-Do-List</Text>
-        </View>
-        <View style={styles.rect4}>
-          <Text style={styles.shoppingList}>Shopping List</Text>
-        </View>
-      </View>
-    </View>
+    <NavigationContainer>
+    <Navigator>
+        <Screen  name={"Home"} component={Home}/>
+        <Screen  name={"Events"} component={Events}/>
+        <Screen  name={"AddEvent"} component={AddEvent}/>
+        <Screen  name={"Guest"} component={Guest}/>
+        <Screen  name={"Guests"} component={Guests}/>
+        <Screen  name={"AddGuest"} component={AddGuest}/>
+        <Screen  name={"Task"} component={Task}/>
+        <Screen  name={"To Do List"} component={Tasks}/>
+        <Screen  name={"AddTask"} component={AddTask}/>
+      </Navigator>
+    </NavigationContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  rect: {
-    width: 142,
-    height: 116,
-    backgroundColor: "#E6E6E6"
-  },
-  events: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: 24,
-    marginTop: 43,
-    marginLeft: 36
-  },
-  rect2: {
-    width: 142,
-    height: 116,
-    backgroundColor: "#E6E6E6",
-    marginLeft: 10
-  },
-  guests: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: 23,
-    marginTop: 46,
-    marginLeft: 40
-  },
-  rectRow: {
-    height: 116,
-    flexDirection: "row",
-    marginTop: 187,
-    marginLeft: 55,
-    marginRight: 26
-  },
-  rect3: {
-    width: 142,
-    height: 118,
-    backgroundColor: "#E6E6E6"
-  },
-  toDoList: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: 23,
-    marginTop: 51,
-    marginLeft: 9
-  },
-  rect4: {
-    width: 148,
-    height: 118,
-    backgroundColor: "#E6E6E6",
-    marginLeft: 10
-  },
-  shoppingList: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: 22,
-    marginTop: 51,
-    marginLeft: 9
-  },
-  rect3Row: {
-    height: 118,
-    flexDirection: "row",
-    marginTop: 52,
-    marginLeft: 55,
-    marginRight: 20
-  }
-});
 export default App;

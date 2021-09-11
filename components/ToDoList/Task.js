@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
-function Event(){
+
+function Task(){
 
 
   return(
@@ -47,4 +48,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Event
+export default Task

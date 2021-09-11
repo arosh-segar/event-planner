@@ -2,11 +2,12 @@ import React from 'react';
 import {StyleSheet, View, Text, ScrollView,Alert} from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Event from './Event';
+import Task from './Task';
 import { FloatingAction } from "react-native-floating-action";
+import MaterialChip from 'react-native-material-chip'
 
 
-class Events extends React.Component{
+class Tasks extends React.Component{
 
 
   render() {
@@ -16,26 +17,28 @@ class Events extends React.Component{
     return (
       <View style={styles.container}>
         {/*<EntypoIcon name="arrow-long-left" style={styles.icon}></EntypoIcon>*/}
-
-            <View style={styles.scrollArea1}>
-                <ScrollView>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                </ScrollView>
-              <FloatingAction
-                showBackground={false}
-                animated={false}
-                onPressMain={()=>{
-                   navigation.navigate("AddEvent")
-                }}/>
-            </View>
+          <ScrollView
+             horizontal={true}
+             style={styles.chipRow}
+          >
+            <MaterialChip text={"ALL"} style={[styles.chip,{paddingLeft:20}]}/>
+            <MaterialChip text={" STATUS"} style={[styles.chip,{paddingLeft:6}]} />
+            <MaterialChip text={"PRIORITY"} style={[styles.chip,{paddingLeft:5}]}/>
+            <MaterialChip text={"EVENT"} style={[styles.chip,{paddingLeft:13}]}/>
+          </ScrollView>
+        <View style={styles.scrollArea1}>
+          <ScrollView>
+            <Task/>
+            <Task/>
+            <Task/>
+          </ScrollView>
+          <FloatingAction
+            showBackground={false}
+            animated={false}
+            onPressMain={()=>{
+              navigation.navigate("AddTask")
+            }}/>
+        </View>
       </View>
     )
   }
@@ -87,7 +90,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 7,
     marginRight: -115
+  },
+  chipRow:{
+    height: 32,
+    flexDirection: "row",
+    marginTop: 10,
+    marginLeft: 18,
+    marginRight: 54
+  },
+  chip:{
+    width:100
   }
 });
 
-export default Events
+export default Tasks
