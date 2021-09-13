@@ -8,6 +8,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import {heightPercentageToDP as hp,widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import Events from './Event/Events';
 
 
@@ -48,68 +49,66 @@ const styles = StyleSheet.create({
     flex: 1
   },
   rect: {
-    width: 142,
-    height: 116,
+    width: wp('35%'),
+    height: hp('18%'),
     backgroundColor: "#E6E6E6"
   },
   events: {
     fontFamily: "roboto-regular",
     color: "#121212",
-    fontSize: 24,
-    marginTop: 43,
-    marginLeft: 36
+    fontSize: hp('3%'),
+    marginTop: hp('6%'),
+    marginLeft: wp('10%')
   },
   rect2: {
-    width: 142,
-    height: 116,
+    width: wp('35%'),
+    height: hp('18%'),
     backgroundColor: "#E6E6E6",
-    marginLeft: 10
+    marginLeft: wp('4%')
   },
   guests: {
     fontFamily: "roboto-regular",
     color: "#121212",
-    fontSize: 23,
-    marginTop: 46,
-    marginLeft: 40
+    fontSize: hp('3%'),
+    marginTop: hp('6%'),
+    marginLeft: wp('10%')
   },
   rectRow: {
-    height: 116,
+    height: hp('1%'),
     flexDirection: "row",
-    marginTop: 187,
-    marginLeft: 55,
-    marginRight: 26
+    marginTop: hp('30%'),
+    marginLeft: wp('14%')
   },
   rect3: {
-    width: 142,
-    height: 118,
+    width: wp('35%'),
+    height: hp('18%'),
     backgroundColor: "#E6E6E6"
   },
   toDoList: {
     fontFamily: "roboto-regular",
     color: "#121212",
-    fontSize: 23,
-    marginTop: 51,
-    marginLeft: 9
+    fontSize: hp('3%'),
+    marginTop: hp('6%'),
+    marginLeft: wp('8%')
   },
   rect4: {
-    width: 148,
-    height: 118,
+    width: wp('35%'),
+    height: hp('18%'),
     backgroundColor: "#E6E6E6",
-    marginLeft: 10
+    marginLeft: wp('4%')
   },
   shoppingList: {
     fontFamily: "roboto-regular",
     color: "#121212",
-    fontSize: 22,
-    marginTop: 51,
-    marginLeft: 9
+    fontSize: hp('3%'),
+    marginTop: hp('6%'),
+    marginLeft: wp('8%')
   },
   rect3Row: {
-    height: 118,
+    height: hp('1%'),
     flexDirection: "row",
-    marginTop: 52,
-    marginLeft: 55,
-    marginRight: 20
+    marginTop: hp('20%'),
+    marginLeft: wp('14%')
   }
 });
 export default Home;
