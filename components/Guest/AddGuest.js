@@ -1,90 +1,97 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TextInput,Button,Text } from "react-native";
-import {Picker} from '@react-native-picker/picker'
-import RadioButton from 'radio-buttons-react-native'
+
+import { Select,
+    VStack,  HStack, Checkbox,
+    CheckIcon,Button, Center,NativeBaseProvider,Input,Radio,Text } from 'native-base';
+
 
 function AddGuest(props) {
   return (
-    <View style={styles.container}>
-      <View style={styles.rect}>
-        <TextInput
-          style={styles.textInput}
-          placeholder={"Event Name"}
-        />
-      </View>
-      <View style={styles.rect}>
-        <Picker
-          style={styles.textInput}
-        >
-          <Picker.Item label={"Event"} value={1}/>
-          <Picker.Item label={"event"} value={1}/>
-          <Picker.Item label={"event"} value={1}/>
-        </Picker>
-      </View>
-      <View style={styles.rect}>
-        <TextInput
-          style={styles.textInput}
-          placeholder={"Event Name"}
-        />
-      </View>
-      <View style={styles.rect}>
-        <TextInput
-          style={styles.textInput}
-          placeholder={"Event Name"}
-        />
-      </View>
-      <View style={styles.rect}>
-        <TextInput
-          style={styles.textInput}
-          placeholder={"Event Name"}
-        />
-      </View>
-      <View style={styles.rect}>
+      <NativeBaseProvider>
+          <Center mt={10}>
+          <Input w="90%" mx={3} mb={5} placeholder="Guest Name" borderColor='lightBlue.600'
+              _light={{
+                  placeholderTextColor: "blueGray.400",
+              }}
+              _dark={{
+                  placeholderTextColor: "blueGray.50",
+              }}
+          />
+              <Input w="90%" mx={3} mb={5} placeholder="Age" borderColor='lightBlue.600'
+                     _light={{
+                         placeholderTextColor: "blueGray.400",
+                     }}
+                     _dark={{
+                         placeholderTextColor: "blueGray.50",
+                     }}
+              />
+              <VStack alignItems="center" space={4} mb={5}>
+                  <Select borderColor='lightBlue.600'
+
+                      minWidth={325}
+                      accessibilityLabel="Select your favorite programming language"
+                      placeholder="Gender"
+
+                      _light={{
+                          placeholderTextColor: "blueGray.400",
+                      }}
+                      _dark={{
+                          placeholderTextColor: "blueGray.50",
+                      }}
+
+                      _selectedItem={{
+                          bg: "blueGray.400",
+                          endIcon: <CheckIcon size={4} />,
+                      }}
+                  >
+                      <Select.Item label="Male" value="js" />
+                      <Select.Item label="Female" value="ts" />
+
+                  </Select>
+              </VStack>
+              <Input w="90%" mx={3} mb={5} placeholder="Email" borderColor='lightBlue.600'
+                     _light={{
+                         placeholderTextColor: "blueGray.400",
+                     }}
+                     _dark={{
+                         placeholderTextColor: "blueGray.50",
+                     }}
+              />
+          </Center>
+
+              <Radio.Group
+                  defaultValue="1"
+                  name="exampleGroup"
+                  accessibilityLabel="favorite colorscheme"
+                  ml={6}
+              >
+                  <Radio colorScheme="emerald" value="1" my={1}>
+                      Invited
+                  </Radio>
+                  <Radio colorScheme="secondary" value="2" my={2}>
+                      Attending
+                  </Radio>
+
+              </Radio.Group>
+          <Text fontSize="lg" ml={6} bold>Status</Text>
+              <HStack space={20} ml={6} mt={2}>
+                  <Checkbox value="test" accessibilityLabel="This is a dummy checkbox" >invited</Checkbox>
+                  <Checkbox
+                      value="test"
+                      accessibilityLabel="This is a dummy checkbox"
+                      defaultIsChecked
+                  >Attending</Checkbox>
+              </HStack>
+          <Center mt={5}>
+              <Button variant={"solid"} size="lg" bg="lightBlue.600" >Save</Button>
+              </Center>
+          </NativeBaseProvider>
 
 
-
-      </View>
-      <View style={styles.Button}>
-        <Button
-          title={"Add"}
-        />
-      </View>
-    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop:100
-  },
-  rect: {
-    width: 337,
-    height: 53,
-    backgroundColor: "#E6E6E6",
-    marginTop: 7,
-    marginLeft: 19
-  },
-  textInput: {
-    height: 39,
-    width: 278,
-    marginTop: 5,
-    marginLeft: 16
-  },
-  addEvent: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 21,
-    width: 82,
-    marginTop: -144,
-    marginLeft: 139
-  },
-  Button: {
-    height: 36,
-    width: 130,
-    marginTop: 40,
-    marginLeft: 110
-  }
-});
+
+
 
 export default AddGuest;
