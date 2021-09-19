@@ -4,6 +4,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Guest from './Guest';
 import { FloatingAction } from "react-native-floating-action";
+import {heightPercentageToDP as hp,widthPercentageToDP as wp} from 'react-native-responsive-screen'
 
 
 class Guests extends React.Component{
@@ -19,6 +20,12 @@ class Guests extends React.Component{
 
         <View style={styles.scrollArea1}>
           <ScrollView>
+            <Guest/>
+            <Guest/>
+            <Guest/>
+            <Guest/>
+            <Guest/>
+            <Guest/>
             <Guest/>
             <Guest/>
             <Guest/>
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     left: 0
   },
   scrollArea1: {
-    top: 81,
+    top: hp('10%'),
     width: 405,
     height: 404,
     position: "absolute",
