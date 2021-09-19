@@ -1,50 +1,44 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
 
-function Event(){
+import Icon from 'react-native-vector-icons/Entypo';
+import {  Text, NativeBaseProvider, Box, useMediaQuery} from "native-base";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+function Guest(){
 
 
   return(
+    <NativeBaseProvider>
 
-    <View style={styles.container}>
-      <View style={styles.rect}>
-        <Text style={styles.loremIpsum}>Event name:{"\n"}Event type:</Text>
-        <Text style={styles.loremIpsum}>Event name:{"\n"}Event type:</Text>
-        {/*<Icon name="dots-three-vertical" style={styles.icon}></Icon>*/}
-      </View>
-    </View>
+      <Box
+        bg="white"
+        shadow={2}
+        rounded="lg"
+        minWidth="80%"
+        h={20}
+        mb={5}
+        ml={5}
+        bg="#0284c7"
+
+      >
+
+
+        <Text color="#FFFFFF"  mb={3} mt={3} ml={3} >
+          Event
+        </Text>
+        <Text color="#FFFFFF" ml={3}>
+          Venue
+        </Text>
+        <FontAwesomeIcon icon={faEllipsisV} color={"white"} style={{left:350,bottom:60}}/>
+
+      </Box>
+
+    </NativeBaseProvider>
 
   )
 
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  rect: {
-    width: 410,
-    height: 100,
-    backgroundColor: "#E6E6E6"
-  },
-  loremIpsum: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 20,
-    width: 97,
-    marginTop: 20,
-    marginLeft: 12
-  } ,
-  icon: {
-    color: "rgba(128,128,128,1)",
-    fontSize: 40,
-    height: 43,
-    width: 40,
-    marginLeft: 380,
-    marginBottom:500
-  },
-});
 
 
-export default Event
+export default Guest

@@ -1,10 +1,14 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView,Alert} from 'react-native';
+import {StyleSheet, View, Text, ScrollView,Alert,TouchableOpacity,Touchable} from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Task from './Task';
 import { FloatingAction } from "react-native-floating-action";
+import { Fab ,Box , Icon, NativeBaseProvider ,Button ,Do} from 'native-base'
 import MaterialChip from 'react-native-material-chip'
+import AntDesign from "react-native-vector-icons/AntDesign";
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
+import { faCalendar, faPlus ,faEllipsisV} from "@fortawesome/free-solid-svg-icons";
 
 
 class Tasks extends React.Component{
@@ -31,8 +35,25 @@ class Tasks extends React.Component{
             <Task/>
             <Task/>
             <Task/>
+            <Task/>
+            <Task/>
           </ScrollView>
+          {/*<NativeBaseProvider>*/}
+          {/*  <TouchableOpacity onPress={()=>{*/}
+          {/*    Alert.alert("as")*/}
+          {/*  }}>*/}
+          {/*  <Box position={"relative"} h={"90%"} w={"100%"}>*/}
+          {/*   <Fab*/}
+          {/*   active={false}*/}
+          {/*   postion={"absolute"}*/}
+          {/*   size={"sm"}*/}
+          {/*   icon={<FontAwesomeIcon icon={faPlus} color={"white"}/>}*/}
+          {/*   />*/}
+          {/*   </Box>*/}
+          {/*  </TouchableOpacity>*/}
+          {/*</NativeBaseProvider>*/}
           <FloatingAction
+            color={"blue"}
             showBackground={false}
             animated={false}
             onPressMain={()=>{
@@ -48,7 +69,8 @@ class Tasks extends React.Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginBottom:100,
   },
   icon: {
     color: "rgba(128,128,128,1)",
@@ -65,15 +87,11 @@ const styles = StyleSheet.create({
     left: 0
   },
   scrollArea1: {
-    top: 81,
+    top: 100,
     width: 405,
-    height: 404,
+    height: 400,
     position: "absolute",
     left: 0
-  },
-  scrollArea1_contentContainerStyle: {
-    height: 84,
-    width: 375
   },
   rectStack: {
     width: 375,
@@ -99,7 +117,8 @@ const styles = StyleSheet.create({
     marginRight: 54
   },
   chip:{
-    width:100
+    width:100,
+    backgroundColor:"blue"
   }
 });
 
