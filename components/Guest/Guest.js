@@ -12,15 +12,13 @@ function Guest(){
           bg="white"
           shadow={2}
           rounded="lg"
-          maxWidth="80%"
+          minWidth="80%"
           h={20}
           mb={5}
           ml={5}
           bg="#0284c7"
 
       >
-
-
 
         <Text color="#FFFFFF"  mb={3} mt={3} ml={3} >
           Sabesan
