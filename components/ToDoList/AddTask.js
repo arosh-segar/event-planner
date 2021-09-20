@@ -6,7 +6,7 @@ import DateInput from 'react-native-datepicker'
 import TimeInput from '@react-native-community/datetimepicker'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
-import {faCalendar} from '@fortawesome/free-solid-svg-icons'
+import {faUsers} from '@fortawesome/free-solid-svg-icons'
 
 function AddTask(props) {
 
@@ -50,7 +50,7 @@ function AddTask(props) {
       </View>
       <View style={[styles.rect,{flexDirection:"row"}]}>
         <FontAwesomeIcon
-          icon={faCalendar}
+          icon={faUsers}
           style={styles.calendar}
           onPress={()=>{
             setShow(true)

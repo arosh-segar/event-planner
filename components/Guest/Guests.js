@@ -5,6 +5,7 @@ import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommun
 import Guest from './Guest';
 import { FloatingAction } from "react-native-floating-action";
 import {heightPercentageToDP as hp,widthPercentageToDP as wp} from 'react-native-responsive-screen'
+import FAB from "react-native-fab";
 
 
 class Guests extends React.Component{
@@ -31,12 +32,12 @@ class Guests extends React.Component{
             <Guest/>
             <Guest/>
           </ScrollView>
-          <FloatingAction
-            showBackground={false}
-            animated={false}
-            onPressMain={()=>{
-              navigation.navigate("AddGuest")
-            }}/>
+          <FAB
+            buttonColor="blue"
+            iconTextColor="#FFFFFF"
+            onClickAction={() => {navigation.navigate("AddGuest")}}
+            visible={true}
+          />
         </View>
       </View>
     )

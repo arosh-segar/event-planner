@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, ScrollView,Alert} from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Event from './Event';
-import { FloatingAction } from "react-native-floating-action";
+import FAB from 'react-native-fab'
 
 
 
@@ -16,7 +16,6 @@ class Events extends React.Component{
 
     return (
       <View style={styles.container}>
-        {/*<EntypoIcon name="arrow-long-left" style={styles.icon}></EntypoIcon>*/}
 
             <View style={styles.scrollArea1}>
                 <ScrollView>
@@ -30,12 +29,12 @@ class Events extends React.Component{
                   <Event/>
                   <Event/>
                 </ScrollView>
-              <FloatingAction
-                showBackground={false}
-                animated={false}
-                onPressMain={()=>{
-                   navigation.navigate("AddEvent")
-                }}/>
+              <FAB
+                buttonColor="blue"
+                iconTextColor="#FFFFFF"
+                onClickAction={() => {navigation.navigate("AddEvent")}}
+                visible={true}
+              />
             </View>
       </View>
     )
