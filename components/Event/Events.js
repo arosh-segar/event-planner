@@ -1,14 +1,11 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView,Alert} from 'react-native';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
-import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Event from './Event';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
-import {FloatingAction} from 'react-native-floating-action';
 import FAB from 'react-native-fab'
-
-
+import { NativeBaseProvider } from "native-base/src/core/NativeBaseProvider";
+import { Center, Input, VStack } from "native-base";
 
 class Events extends React.Component {
   render() {
@@ -21,8 +18,6 @@ class Events extends React.Component {
             <VStack position="absolute" top="35%" left="5%">
               <FontAwesomeIcon icon={faSearch} color={'#94a3b8'} size={18} />
             </VStack>
-      <View style={styles.container}>
-
             <Input
               textAlign="center"
               placeholder="Search Event"
@@ -58,8 +53,9 @@ class Events extends React.Component {
         </Center>
       </NativeBaseProvider>
     );
+  }
 }
-    }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Icon from 'react-native-vector-icons/Entypo';
-import { Text, NativeBaseProvider, Box, useMediaQuery, Center} from "native-base";
+import { Text, NativeBaseProvider, Box, useMediaQuery, Center, VStack } from "native-base";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 function Guest(){
@@ -14,7 +14,7 @@ function Guest(){
         bg="white"
         shadow={2}
         rounded="lg"
-        minWidth="95%"
+        minWidth="90%"
         height={"90%"}
         mt={5}
         mb={5}
@@ -33,7 +33,9 @@ function Guest(){
         <Text color="#FFFFFF" mb={1} mt={1} ml={3}>
           Doing
         </Text>
-        <FontAwesomeIcon icon={faEllipsisV} color={"white"} style={{left:350,bottom:60}}/>
+        <VStack position="absolute" right="5%" top="40%">
+          <FontAwesomeIcon icon={faEllipsisV} color={'white'} />
+        </VStack>
 
       </Box>
       </Center>

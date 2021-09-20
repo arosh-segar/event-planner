@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 
 function AddTask(props) {
+
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
 
@@ -77,9 +78,9 @@ function AddTask(props) {
               bg: 'blueGray.400',
               endIcon: <CheckIcon size={4} />,
             }}>
-            <Select.Item label="Birthday" value="Birthday" />
-            <Select.Item label="Wedding" value="Wedding" />
-            <Select.Item label="Batch Party" value="Batch Party" />
+            <Select.Item label="Low" value="Low" />
+            <Select.Item label="Medium" value="Medium" />
+            <Select.Item label="High" value="High" />
           </Select>
         </VStack>
         <VStack alignItems="center" space={4} mb={5}>
