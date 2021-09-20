@@ -1,114 +1,111 @@
 import React from 'react';
+
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {heightPercentageToDP as hp,widthPercentageToDP as wp} from 'react-native-responsive-screen'
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import Events from './Event/Events';
-
-
+import {
+  Image,
+  Button,
+  Center,
+  NativeBaseProvider,
+  Text,
+  Flex,
+  VStack,
+} from 'native-base';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faCalendar,
+  faUsers,
+  faClipboardList,
+  faShoppingCart,
+} from '@fortawesome/free-solid-svg-icons';
 
 function Home({navigation}) {
   return (
-    <View style={styles.container}>
-      <View style={styles.rectRow}>
-        <View style={styles.rect} onTouchStart={()=>{
-          navigation.navigate("Events")
-        }}>
-          <Text style={styles.events}>Events</Text>
-        </View>
-        <View style={styles.rect2} onTouchStart={()=>{
-          navigation.navigate("Guests")
-        }}>
-          <Text style={styles.guests}>Guests</Text>
-        </View>
-      </View>
-      <View style={styles.rect3Row}>
-        <View style={styles.rect3}  onTouchStart={()=>{
-          navigation.navigate("To Do List")
-        }}>
-          <Text style={styles.toDoList}>To-Do-List</Text>
-        </View>
-        <View style={styles.rect4}  onTouchStart={()=>{
-          navigation.navigate("ShoppingList")
-        }}>
-          <Text style={styles.shoppingList}>Shopping List</Text>
-        </View>
-      </View>
-    </View>
-  )
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  rect: {
-    width: wp('35%'),
-    height: hp('18%'),
-    backgroundColor: "#E6E6E6"
-  },
-  events: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: hp('3%'),
-    marginTop: hp('6%'),
-    marginLeft: wp('10%')
-  },
-  rect2: {
-    width: wp('35%'),
-    height: hp('18%'),
-    backgroundColor: "#E6E6E6",
-    marginLeft: wp('4%')
-  },
-  guests: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: hp('3%'),
-    marginTop: hp('6%'),
-    marginLeft: wp('10%')
-  },
-  rectRow: {
-    height: hp('1%'),
-    flexDirection: "row",
-    marginTop: hp('30%'),
-    marginLeft: wp('14%')
-  },
-  rect3: {
-    width: wp('35%'),
-    height: hp('18%'),
-    backgroundColor: "#E6E6E6"
-  },
-  toDoList: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: hp('3%'),
-    marginTop: hp('6%'),
-    marginLeft: wp('8%')
-  },
-  rect4: {
-    width: wp('35%'),
-    height: hp('18%'),
-    backgroundColor: "#E6E6E6",
-    marginLeft: wp('4%')
-  },
-  shoppingList: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: hp('3%'),
-    marginTop: hp('6%'),
-    marginLeft: wp('8%')
-  },
-  rect3Row: {
-    height: hp('1%'),
-    flexDirection: "row",
-    marginTop: hp('20%'),
-    marginLeft: wp('14%')
-  }
-});
+    <NativeBaseProvider>
+      <Center h="100%">
+        <Flex
+          w="90%"
+          h="25%"
+          direction="row"
+          alignItems="center"
+          justifyContent="center">
+          <Button
+            borderRadius={15}
+            onPress={() => navigation.navigate('Events')}
+            w="45%"
+            h="100%"
+            bg="#0284c7">
+            <Center>
+              <FontAwesomeIcon icon={faCalendar} color="#FFFFFF" size={58} />
+              <Text mt="50%" color="#FFFFFF">
+                EVENTS
+              </Text>
+            </Center>
+          </Button>
+          <VStack w="5%" />
+          <Button
+            borderRadius={15}
+            w="45%"
+            h="100%"
+            onPress={() => navigation.navigate('Guests')}
+            bg="#0284c7">
+            <Center>
+              <FontAwesomeIcon icon={faUsers} color="#FFFFFF" size={65} />
+              <Text mt="35%" color="#FFFFFF">
+                GUESTS
+              </Text>
+            </Center>
+          </Button>
+        </Flex>
+        <Flex
+          w="90%"
+          mt="5%"
+          h="25%"
+          direction="row"
+          alignItems="center"
+          justifyContent="center">
+          <Button
+            borderRadius={15}
+            w="45%"
+            h="100%"
+            onPress={() => navigation.navigate('To Do List')}
+            bg="#0284c7">
+            <Center>
+              <FontAwesomeIcon
+                icon={faClipboardList}
+                color="#FFFFFF"
+                size={55}
+              />
+              <Text mt="30%" color="#FFFFFF">
+                TO-DO LIST
+              </Text>
+            </Center>
+          </Button>
+          <VStack w="5%" />
+          <Button
+            borderRadius={15}
+            w="45%"
+            h="100%"
+            onPress={() => navigation.navigate('Events')}
+            bg="#0284c7">
+            <Center>
+              <FontAwesomeIcon
+                marginTop="20%"
+                icon={faShoppingCart}
+                color="#FFFFFF"
+                size={55}
+              />
+              <Text mt="20%" color="#FFFFFF">
+                SHOPPING LIST
+              </Text>{' '}
+            </Center>
+          </Button>
+        </Flex>
+      </Center>
+    </NativeBaseProvider>
+  );
+}
 export default Home;
