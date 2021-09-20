@@ -3,45 +3,63 @@ import {StyleSheet, View, Text, ScrollView,Alert} from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Event from './Event';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {FloatingAction} from 'react-native-floating-action';
 import FAB from 'react-native-fab'
 
 
 
-class Events extends React.Component{
-
-
+class Events extends React.Component {
   render() {
-
-    const {navigation} = this.props
+    const {navigation} = this.props;
 
     return (
+      <NativeBaseProvider>
+        <Center h="100%">
+          <VStack w="90%" mt="5" mx={3} mb="4%">
+            <VStack position="absolute" top="35%" left="5%">
+              <FontAwesomeIcon icon={faSearch} color={'#94a3b8'} size={18} />
+            </VStack>
       <View style={styles.container}>
 
-            <View style={styles.scrollArea1}>
-                <ScrollView>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                  <Event/>
-                </ScrollView>
-              <FAB
-                buttonColor="blue"
-                iconTextColor="#FFFFFF"
-                onClickAction={() => {navigation.navigate("AddEvent")}}
-                visible={true}
-              />
-            </View>
-      </View>
-    )
-  }
+            <Input
+              textAlign="center"
+              placeholder="Search Event"
+              borderColor="lightBlue.600"
+              _light={{
+                placeholderTextColor: 'blueGray.400',
+              }}
+              _dark={{
+                placeholderTextColor: 'blueGray.50',
+              }}
+            />
+          </VStack>
 
-
+          <VStack w="100%" h="85%">
+            <ScrollView>
+              <Event />
+              <Event />
+              <Event />
+              <Event />
+              <Event />
+              <Event />
+              <Event />
+              <Event />
+              <Event />
+            </ScrollView>
+          </VStack>
+          <FAB
+            buttonColor="blue"
+            iconTextColor="#FFFFFF"
+            onClickAction={() => {navigation.navigate("AddEvent")}}
+            visible={true}
+          />
+        </Center>
+      </NativeBaseProvider>
+    );
 }
+    }
 
 const styles = StyleSheet.create({
   container: {
