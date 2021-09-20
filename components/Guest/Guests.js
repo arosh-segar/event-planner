@@ -5,7 +5,9 @@ import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommun
 import Guest from './Guest';
 import { FloatingAction } from "react-native-floating-action";
 import {heightPercentageToDP as hp,widthPercentageToDP as wp} from 'react-native-responsive-screen'
-
+import {NativeBaseProvider, Center, VStack, Input} from 'native-base';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
+import {faSearch} from '@fortawesome/free-solid-svg-icons'
 
 class Guests extends React.Component{
 
@@ -15,81 +17,52 @@ class Guests extends React.Component{
     const {navigation} = this.props
 
     return (
-      <View style={styles.container}>
-        {/*<EntypoIcon name="arrow-long-left" style={styles.icon}></EntypoIcon>*/}
+        <NativeBaseProvider>
+          <Center h="100%">
+            <VStack w="90%" mt="5" mx={3} mb="4%">
+              <VStack position="absolute" top="35%" left="5%">
+                <FontAwesomeIcon icon={faSearch} color={'#94a3b8'} size={18} />
+              </VStack>
 
-        <View style={styles.scrollArea1}>
-          <ScrollView>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-            <Guest/>
-          </ScrollView>
-          <FloatingAction
-            showBackground={false}
-            animated={false}
-            onPressMain={()=>{
-              navigation.navigate("AddGuest")
-            }}/>
-        </View>
-      </View>
+              <Input
+                  textAlign="center"
+                  placeholder="Search Event"
+                  borderColor="lightBlue.600"
+                  _light={{
+                    placeholderTextColor: 'blueGray.400',
+                  }}
+                  _dark={{
+                    placeholderTextColor: 'blueGray.50',
+                  }}
+              />
+            </VStack>
+
+            <VStack w="100%" h="85%">
+              <ScrollView>
+                <Guest />
+                <Guest />
+                <Guest />
+                <Guest />
+                <Guest />
+                <Guest />
+                <Guest />
+                <Guest />
+              </ScrollView>
+            </VStack>
+            <FloatingAction
+                showBackground={false}
+                animated={false}
+                onPressMain={() => {
+                  navigation.navigate('AddGuest');
+                }}
+            />
+          </Center>
+        </NativeBaseProvider>
     )
   }
 
 
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  icon: {
-    color: "rgba(128,128,128,1)",
-    fontSize: 40,
-    marginTop: 75,
-    marginLeft: 19
-  },
-  rect: {
-    top: 0,
-    width: 375,
-    height: 84,
-    position: "absolute",
-    backgroundColor: "#E6E6E6",
-    left: 0
-  },
-  scrollArea1: {
-    top: hp('10%'),
-    width: 405,
-    height: 404,
-    position: "absolute",
-    left: 0
-  },
-  scrollArea1_contentContainerStyle: {
-    height: 84,
-    width: 375
-  },
-  rectStack: {
-    width: 375,
-    height: 165
-  },
-  icon2: {
-    color: "rgba(128,128,128,1)",
-    fontSize: 40,
-    marginLeft: 75,
-    marginTop: 143
-  },
-  rectStackRow: {
-    height: 186,
-    flexDirection: "row",
-    marginTop: 7,
-    marginRight: -115
-  }
-});
 
 export default Guests

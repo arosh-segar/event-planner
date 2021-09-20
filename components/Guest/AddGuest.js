@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { Select,
     VStack,  HStack, Checkbox,
-    CheckIcon,Button, Center,NativeBaseProvider,Input,Radio,Text } from 'native-base';
+    CheckIcon,Button, Center,NativeBaseProvider,Input,Radio,Text,Flex } from 'native-base';
 
 
 function AddGuest(props) {
@@ -58,21 +58,32 @@ function AddGuest(props) {
                      }}
               />
           </Center>
+          <Text fontSize="lg" ml={6} bold>Food Preference</Text>
 
               <Radio.Group
                   defaultValue="1"
                   name="exampleGroup"
                   accessibilityLabel="favorite colorscheme"
                   ml={6}
-              >
-                  <Radio colorScheme="emerald" value="1" my={1}>
-                      Invited
-                  </Radio>
-                  <Radio colorScheme="secondary" value="2" my={2}>
-                      Attending
-                  </Radio>
 
+
+              >
+                  <Flex
+                      w="90%"
+
+                      direction="row"
+
+                       >
+
+                  <Radio colorScheme="emerald" value="1" my={1} w="60%">
+                      Vegetarian
+                  </Radio>
+                  <Radio colorScheme="secondary" value="2" my={2} w="60%">
+                      Non-Veg
+                  </Radio>
+                  </Flex>
               </Radio.Group>
+
           <Text fontSize="lg" ml={6} bold>Status</Text>
               <HStack space={20} ml={6} mt={2}>
                   <Checkbox value="test" accessibilityLabel="This is a dummy checkbox" >invited</Checkbox>
@@ -83,7 +94,7 @@ function AddGuest(props) {
                   >Attending</Checkbox>
               </HStack>
           <Center mt={5}>
-              <Button variant={"solid"} size="lg" bg="lightBlue.600" >Save</Button>
+              <Button variant={"solid"} w="90%" bg="lightBlue.600"  >Save</Button>
               </Center>
           </NativeBaseProvider>
 
