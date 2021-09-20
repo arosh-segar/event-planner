@@ -28,8 +28,8 @@ function AddGuest(props) {
               <VStack alignItems="center" space={4} mb={5}>
                   <Select borderColor='lightBlue.600'
 
-                      minWidth={325}
-                      accessibilityLabel="Select your favorite programming language"
+                      minWidth={"90%"}
+                      accessibilityLabel="Select your Gender"
                       placeholder="Gender"
 
                       _light={{
