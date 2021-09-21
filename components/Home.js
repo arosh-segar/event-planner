@@ -5,7 +5,6 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import Events from './Event/Events';
-import ShoppingItems from './ShoppingList/ShoppingItems';
 import {
   Image,
   Button,
@@ -90,7 +89,7 @@ function Home({navigation}) {
             borderRadius={15}
             w="45%"
             h="100%"
-            onPress={() => navigation.navigate('Shopping List')}
+            onPress={() => navigation.navigate('Events')}
             bg="#0284c7">
             <Center>
               <FontAwesomeIcon
