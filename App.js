@@ -27,8 +27,19 @@ import {createStackNavigator} from '@react-navigation/stack';
 const {Navigator, Screen} = createStackNavigator();
 
 function App() {
+  const MyTheme = {
+    dark: false,
+    colors: {
+      primary: 'rgb(0, 0, 0)',
+      background: 'rgb(0, 0, 0)',
+      card: 'rgb(255, 255, 255)',
+      text: 'rgb(28, 28, 30)',
+      border: 'rgb(199, 199, 204)',
+      notification: 'rgb(255, 69, 58)',
+    },
+  };
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <Navigator>
         <Screen name={'Home'} component={Home} />
         <Screen name={'Events'} component={Events} />
