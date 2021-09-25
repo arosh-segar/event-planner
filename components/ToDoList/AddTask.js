@@ -1,130 +1,211 @@
-import React, { Component, useDebugValue, useState } from "react";
-import { StyleSheet, View, TextInput, Button, Text, Alert } from "react-native";
-import {Picker} from '@react-native-picker/picker'
-import RadioButton from 'radio-buttons-react-native'
-import DateInput from 'react-native-datepicker'
-import TimeInput from '@react-native-community/datetimepicker'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
-import {faCalendar} from '@fortawesome/free-solid-svg-icons'
+import React, {Component, useDebugValue, useState} from 'react';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {
+  Flex,
+  Select,
+  Text,
+  VStack,
+  CheckIcon,
+  Center,
+  Button,
+  NativeBaseProvider,
+  Input,
+} from 'native-base';
 
 function AddTask(props) {
 
-  const[show,setShow] = useState(false)
-  const[time,setTime] = useState("End Time")
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleDate = dateValue => {
+    setDate(dateValue);
+    hideDatePicker();
+  };
+
+  const showTimePicker = () => {
+    setTimePickerVisibility(true);
+  };
+
+  const hideTimePicker = () => {
+    setTimePickerVisibility(false);
+  };
+
+  const handleTime = timeValue => {
+    setTime(timeValue);
+    hideTimePicker();
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.rect}>
-        <TextInput
-          style={styles.textInput}
-          placeholder={"Task Name"}
-        />
-      </View>
-      <View style={styles.rect}>
-        <Picker
-          style={styles.textInput}
-        >
-          <Picker.Item label={"Priority"} value={1}/>
-          <Picker.Item label={"event"} value={1}/>
-          <Picker.Item label={"event"} value={1}/>
-        </Picker>
-      </View>
-      <View style={styles.rect}>
-        <Picker
-          style={styles.textInput}
-        >
-          <Picker.Item label={"Event Name"} value={1}/>
-          <Picker.Item label={"event"} value={1}/>
-          <Picker.Item label={"event"} value={1}/>
-        </Picker>
-      </View>
-      <View style={styles.rect}>
-        <DateInput
-          style={styles.textInput}
-          useNativeDriver={true}
-          mode={"date"}
-          showIcon={false}
-          placeholder={"End Date"}
-        />
-      </View>
-      <View style={[styles.rect,{flexDirection:"row"}]}>
-        <FontAwesomeIcon
-          icon={faCalendar}
-          style={styles.calendar}
-          onPress={()=>{
-            setShow(true)
+    <NativeBaseProvider>
+      <Center mt={10}>
+        <Input
+          w="90%"
+          mx={3}
+          mb={5}
+          placeholder="Task Name"
+          borderColor="lightBlue.600"
+          _light={{
+            placeholderTextColor: 'blueGray.400',
           }}
-         />
-        <TextInput
-         value={time}
-        />
-        {show &&(
-        <TimeInput
-          style={styles.textInput}
-          value={new Date(1598051730000)}
-          mode={'time'}
-          show={false}
-          onChange={(e,v)=>{
-           // Alert.alert(v.toString())
-            setTime(v.toLocaleTimeString())
-            setShow(false)
+          _dark={{
+            placeholderTextColor: 'blueGray.50',
           }}
         />
-        )}
-      </View>
-      <View style={styles.rect}>
-        <TextInput
-          style={styles.textInput}
-          placeholder={"Notes"}
+        <VStack alignItems="center" space={4} mb={5}>
+          <Select
+            borderColor="lightBlue.600"
+            minWidth="90%"
+            accessibilityLabel="Select your favorite programming language"
+            placeholder="Priority"
+            _light={{
+              placeholderTextColor: 'blueGray.400',
+            }}
+            _dark={{
+              placeholderTextColor: 'blueGray.50',
+            }}
+            _selectedItem={{
+              bg: 'blueGray.400',
+              endIcon: <CheckIcon size={4} />,
+            }}>
+            <Select.Item label="Low" value="Low" />
+            <Select.Item label="Medium" value="Medium" />
+            <Select.Item label="High" value="High" />
+          </Select>
+        </VStack>
+        <VStack alignItems="center" space={4} mb={5}>
+          <Select
+            borderColor="lightBlue.600"
+            minWidth="90%"
+            accessibilityLabel="Select your favorite programming language"
+            placeholder="Event Name"
+            _light={{
+              placeholderTextColor: 'blueGray.400',
+            }}
+            _dark={{
+              placeholderTextColor: 'blueGray.50',
+            }}
+            _selectedItem={{
+              bg: 'blueGray.400',
+              endIcon: <CheckIcon size={4} />,
+            }}>
+            <Select.Item label="Birthday" value="Birthday" />
+            <Select.Item label="Wedding" value="Wedding" />
+            <Select.Item label="Batch Party" value="Batch Party" />
+          </Select>
+        </VStack>
+
+        <Flex
+          w="90%"
+          direction="row"
+          alignItems="center"
+          justifyContent="center">
+          {/* The button that used to trigger the date picker */}
+          <Button
+            mb={5}
+            w="40%"
+            variant={'solid'}
+            size="lg"
+            bg="lightBlue.600"
+            onPress={showDatePicker}>
+            Select Date
+          </Button>
+          <VStack w="10%" />
+          {/* Display the selected date */}
+          <VStack
+            w="50%"
+            mb={5}
+            space={2}
+            paddingY={2}
+            alignItems="center"
+            border={1.5}
+            borderColor="lightBlue.600"
+            borderRadius={5}>
+            <Text fontSize="xl">
+              {date &&
+                `${date?.getDate()} / ${date?.getMonth()} / ${date?.getFullYear()}`}
+            </Text>
+          </VStack>
+        </Flex>
+
+        {/* The date picker */}
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleDate}
+          onCancel={hideDatePicker}
         />
-      </View>
-      <View style={styles.Button}>
-        <Button
-          title={"Add"}
+        <Flex
+          w="90%"
+          direction="row"
+          alignItems="center"
+          justifyContent="center">
+          {/* The button that used to trigger the time picker */}
+          <Button
+            mb={5}
+            w="40%"
+            variant={'solid'}
+            size="lg"
+            bg="lightBlue.600"
+            onPress={showTimePicker}>
+            Select Time
+          </Button>
+          <VStack w="10%" />
+          {/* Display the selected time */}
+          <VStack
+            w="50%"
+            mb={5}
+            space={2}
+            paddingY={2}
+            alignItems="center"
+            border={1.5}
+            borderColor="lightBlue.600"
+            borderRadius={5}>
+            <Text fontSize="xl">
+              {time && `${time?.getHours()} : ${time?.getMinutes()} : 00`}
+            </Text>
+          </VStack>
+        </Flex>
+
+        {/* The time picker */}
+        <DateTimePickerModal
+          isVisible={isTimePickerVisible}
+          mode="time"
+          onConfirm={handleTime}
+          onCancel={hideTimePicker}
         />
-      </View>
-    </View>
+
+        <Input
+          w="90%"
+          h={20}
+          mx={3}
+          mb={5}
+          placeholder="Notes"
+          borderColor="lightBlue.600"
+          _light={{
+            placeholderTextColor: 'blueGray.400',
+          }}
+          _dark={{
+            placeholderTextColor: 'blueGray.50',
+          }}
+        />
+
+        <Button w="90%" variant={'solid'} size="lg" bg="lightBlue.600">
+          Add Task
+        </Button>
+      </Center>
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop:100
-  },
-  rect: {
-    width: 337,
-    height: 53,
-    backgroundColor: "#E6E6E6",
-    marginTop: 7,
-    marginLeft: 19
-  },
-  textInput: {
-    height: 39,
-    width: 278,
-    marginTop: 5,
-    marginLeft: 16
-  },
-  addEvent: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 21,
-    width: 82,
-    marginTop: -144,
-    marginLeft: 139
-  },
-  Button: {
-    height: 36,
-    width: 130,
-    marginTop: 40,
-    marginLeft: 110
-  },
-  calendar:{
-    marginLeft:10,
-    height:500
-
-  }
-});
 
 export default AddTask;
