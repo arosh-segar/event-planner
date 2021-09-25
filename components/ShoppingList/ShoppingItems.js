@@ -6,6 +6,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import FAB from 'react-native-fab';
+
 import {
   Box,
   Center,
@@ -20,6 +21,7 @@ import MaterialChip from 'react-native-material-chip';
 import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {ImageBackground} from 'react-native';
 
 class ShoppingItems extends React.Component {
   render() {
@@ -27,123 +29,130 @@ class ShoppingItems extends React.Component {
 
     return (
       <NativeBaseProvider>
-        <Center h="100%">
-          <HStack w={'90%'} h={'10%'}>
-            <ScrollView horizontal={true}>
+        <ImageBackground
+          hp={'100%'}
+          wp={'100%'}
+          source={require('../ImageBackground/image/bgl90.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
+          <Center h="100%">
+            <HStack w={'90%'} h={'10%'}>
+              <ScrollView horizontal={true}>
+                <HStack space={3}>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={0}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600"
+                    bg={'lightBlue.600'}>
+                    <Text px={25} color={'#ffff'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                </HStack>
+              </ScrollView>
+            </HStack>
+
+            <VStack w="100%" h="70%">
+              <ScrollView>
+                <ShoppingItem />
+                <ShoppingItem />
+                <ShoppingItem />
+                <ShoppingItem />
+                <ShoppingItem />
+                <ShoppingItem />
+                <ShoppingItem />
+              </ScrollView>
+              <FAB
+                buttonColor="blue"
+                iconTextColor="#FFFFFF"
+                onClickAction={() => {
+                  navigation.navigate('AddShoppingItem');
+                }}
+                visible={true}
+              />
+            </VStack>
+
+            <HStack w={'90%'} h={'10%'} mt={8}>
               <HStack space={3}>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
+                <Center height={'65%'}>
+                  <Text color="#0D6E92" fontSize="2xl" ml={0} bold>
+                    TOTAL
+                  </Text>
+                  <Text color="#0D6E92" fontSize="lg" ml={1}>
+                    100000.00
                   </Text>
                 </Center>
-                <Center
-                  border={0}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600"
-                  bg={'lightBlue.600'}>
-                  <Text px={25} color={'#ffff'} fontWeight={700}>
-                    ALL
+                <Center height={'65%'}>
+                  <Text color="#0D6E92" fontSize="2xl" ml={6} bold>
+                    SPENT
+                  </Text>
+                  <Text color="#0D6E92" fontSize="lg" ml={7}>
+                    50000.00
                   </Text>
                 </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
+                <Center height={'65%'}>
+                  <Text color="#0D6E92" fontSize="2xl" ml={4} bold>
+                    REMAINING
                   </Text>
-                </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
+                  <Text color="#0D6E92" fontSize="lg" ml={0}>
+                    50000.00
                   </Text>
                 </Center>
               </HStack>
-            </ScrollView>
-          </HStack>
-
-          <VStack w="100%" h="70%">
-            <ScrollView>
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-            </ScrollView>
-          </VStack>
-          <FAB
-            buttonColor="blue"
-            iconTextColor="#FFFFFF"
-            onClickAction={() => {
-              navigation.navigate('AddShoppingItem');
-            }}
-            visible={true}
-          />
-
-          <HStack w={'90%'} h={'10%'} mt={8}>
-            <HStack space={3}>
-              <Center height={'65%'}>
-                <Text color="#0D6E92" fontSize="2xl" ml={0} bold>
-                  TOTAL
-                </Text>
-                <Text color="#0D6E92" fontSize="lg" ml={1}>
-                  100000.00
-                </Text>
-              </Center>
-              <Center height={'65%'}>
-                <Text color="#0D6E92" fontSize="2xl" ml={6} bold>
-                  SPENT
-                </Text>
-                <Text color="#0D6E92" fontSize="lg" ml={7}>
-                  50000.00
-                </Text>
-              </Center>
-              <Center height={'65%'}>
-                <Text color="#0D6E92" fontSize="2xl" ml={4} bold>
-                  REMAINING
-                </Text>
-                <Text color="#0D6E92" fontSize="lg" ml={0}>
-                  50000.00
-                </Text>
-              </Center>
             </HStack>
-          </HStack>
-        </Center>
+          </Center>
 
-        <Center>
-          <Text fontSize="lg" ml={6} bold>
-            TOTAL
-          </Text>
-          <Text fontSize="lg" ml={6} bold>
-            100000.00
-          </Text>
+          {/*<Center>*/}
+          {/*  <Text fontSize="lg" ml={6} bold>*/}
+          {/*    TOTAL*/}
+          {/*  </Text>*/}
+          {/*  <Text fontSize="lg" ml={6} bold>*/}
+          {/*    100000.00*/}
+          {/*  </Text>*/}
 
-          <Text fontSize="lg" ml={6} bold>
-            SPENT
-          </Text>
-          <Text fontSize="lg" ml={6} bold>
-            50000.00
-          </Text>
+          {/*  <Text fontSize="lg" ml={6} bold>*/}
+          {/*    SPENT*/}
+          {/*  </Text>*/}
+          {/*  <Text fontSize="lg" ml={6} bold>*/}
+          {/*    50000.00*/}
+          {/*  </Text>*/}
 
-          <Text fontSize="lg" ml={6} bold>
-            REMAINING
-          </Text>
-          <Text fontSize="lg" ml={6} bold>
-            50000.00
-          </Text>
-        </Center>
+          {/*  <Text fontSize="lg" ml={6} bold>*/}
+          {/*    REMAINING*/}
+          {/*  </Text>*/}
+          {/*  <Text fontSize="lg" ml={6} bold>*/}
+          {/*    50000.00*/}
+          {/*  </Text>*/}
+          {/*</Center>*/}
+        </ImageBackground>
       </NativeBaseProvider>
     );
   }
@@ -152,6 +161,12 @@ class ShoppingItems extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
   },
   icon: {
     color: 'rgba(128,128,128,1)',
