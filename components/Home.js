@@ -42,13 +42,16 @@ function Home({navigation}) {
             justifyContent="center">
             <Button
               borderRadius={15}
+              border={2}
+              borderColor="lightBlue.600"
+              shadow={5}
               onPress={() => navigation.navigate('Events')}
               w="45%"
               h="100%"
-              bg="#0284c7">
+              bg="#FFFFFF">
               <Center>
-                <FontAwesomeIcon icon={faCalendar} color="#FFFFFF" size={58} />
-                <Text mt="50%" color="#FFFFFF">
+                <FontAwesomeIcon icon={faCalendar} color="#0284c7" size={58} />
+                <Text mt="50%" color="#0284c7">
                   EVENTS
                 </Text>
               </Center>
