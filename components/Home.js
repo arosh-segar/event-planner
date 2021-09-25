@@ -30,7 +30,7 @@ function Home({navigation}) {
       <ImageBackground
         hp={'100%'}
         wp={'100%'}
-        source={require('./ImageBackground/image/bg.jpg')}
+        source={require('./ImageBackground/image/bg213.jpg')}
         resizeMode="cover"
         style={styles.image}>
         <Center h="100%">
@@ -42,16 +42,13 @@ function Home({navigation}) {
             justifyContent="center">
             <Button
               borderRadius={15}
-              border={2}
-              borderColor="lightBlue.600"
-              shadow={5}
+              style={styles.shadow}
               onPress={() => navigation.navigate('Events')}
               w="45%"
-              h="100%"
-              bg="#FFFFFF">
+              h="100%">
               <Center>
-                <FontAwesomeIcon icon={faCalendar} color="#0284c7" size={58} />
-                <Text mt="50%" color="#0284c7">
+                <FontAwesomeIcon icon={faCalendar} color="#fff" size={58} />
+                <Text mt="50%" color="#fff">
                   EVENTS
                 </Text>
               </Center>
@@ -59,13 +56,13 @@ function Home({navigation}) {
             <VStack w="5%" />
             <Button
               borderRadius={15}
+              style={styles.shadow}
               w="45%"
               h="100%"
-              onPress={() => navigation.navigate('Guests')}
-              bg="#0284c7">
+              onPress={() => navigation.navigate('Guests')}>
               <Center>
-                <FontAwesomeIcon icon={faUsers} color="#FFFFFF" size={65} />
-                <Text mt="35%" color="#FFFFFF">
+                <FontAwesomeIcon icon={faUsers} color="#0284c7" size={65} />
+                <Text mt="35%" color="#0284c7">
                   GUESTS
                 </Text>
               </Center>
@@ -80,17 +77,17 @@ function Home({navigation}) {
             justifyContent="center">
             <Button
               borderRadius={15}
+              style={styles.shadow}
               w="45%"
               h="100%"
-              onPress={() => navigation.navigate('To Do List')}
-              bg="#0284c7">
+              onPress={() => navigation.navigate('To Do List')}>
               <Center>
                 <FontAwesomeIcon
                   icon={faClipboardList}
-                  color="#FFFFFF"
+                  color="#0284c7"
                   size={55}
                 />
-                <Text mt="30%" color="#FFFFFF">
+                <Text mt="30%" color="#0284c7">
                   TO-DO LIST
                 </Text>
               </Center>
@@ -98,18 +95,18 @@ function Home({navigation}) {
             <VStack w="5%" />
             <Button
               borderRadius={15}
+              style={styles.shadow}
               w="45%"
               h="100%"
-              onPress={() => navigation.navigate('Shopping List')}
-              bg="#0284c7">
+              onPress={() => navigation.navigate('Shopping List')}>
               <Center>
                 <FontAwesomeIcon
                   marginTop="20%"
                   icon={faShoppingCart}
-                  color="#FFFFFF"
+                  color="#0284c7"
                   size={55}
                 />
-                <Text mt="20%" color="#FFFFFF">
+                <Text mt="20%" color="#0284c7">
                   SHOPPING LIST
                 </Text>{' '}
               </Center>
@@ -140,6 +137,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     backgroundColor: '#000000c0',
+  },
+  shadow: {
+    backgroundColor: 'rgba(255,255,255,0.5)',
   },
 });
 export default Home;
