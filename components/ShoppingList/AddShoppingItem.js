@@ -57,10 +57,10 @@ function AddShoppingItem(props) {
           }}
         />
 
-        <Text fontSize="lg" mx={3} mb={5} bold>
+        <Text fontSize="lg" mt={5} mx={3} mb={4} w={'90%'} bold>
           Status
         </Text>
-        <HStack space={20} ml={6} mt={2}>
+        <HStack space={20} mb={10} w={'90%'}>
           <Checkbox value="purchased" accessibilityLabel="purchased">
             purchased
           </Checkbox>
