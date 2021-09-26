@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView,Alert,TouchableOpacity,Touchable} from 'react-native';
+import {StyleSheet, View, ScrollView, Alert, TouchableOpacity, Touchable, ImageBackground} from 'react-native';
 import Task from './Task';
 import FAB from 'react-native-fab'
 import { Center, VStack, HStack, Input, Select, CheckIcon,Text } from "native-base";
 import { NativeBaseProvider } from "native-base/src/core/NativeBaseProvider";
+
 
 
 class Tasks extends React.Component{
@@ -15,23 +16,29 @@ class Tasks extends React.Component{
 
     return (
       <NativeBaseProvider>
+        <ImageBackground
+            hp={'100%'}
+            wp={'100%'}
+            source={require('../ImageBackground/image/bg.jpg')}
+            resizeMode="cover"
+            style={styles.image}>
         <Center h="100%">
           <HStack w={"90%"} h={"10%"}>
             <ScrollView
               horizontal={true}
             >
               <HStack space={3}>
-                <Center border={3} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>ALL</Text>
+                <Center border={2} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
+                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>EVENTS</Text>
                 </Center>
                 <Center border={0} borderRadius={20} height={"65%"} borderColor='lightBlue.600' bg={"lightBlue.600"}>
-                  <Text px={25} color={'#ffff'} fontWeight={700}>ALL</Text>
+                  <Text px={25} color={'#ffff'} fontWeight={700}>PRIORITY</Text>
                 </Center>
-                <Center border={3} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>ALL</Text>
+                <Center border={2} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
+                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>STATUS</Text>
                 </Center>
-                <Center border={3} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>ALL</Text>
+                <Center border={2} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
+                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>TASKS</Text>
                 </Center>
               </HStack>
             </ScrollView>
@@ -67,12 +74,13 @@ class Tasks extends React.Component{
           </ScrollView>
         </VStack>
           <FAB
-            buttonColor="blue"
-            iconTextColor="#FFFFFF"
+              buttonColor="white"
+              iconTextColor="#0284c7"
             onClickAction={() => {navigation.navigate("AddTask")}}
             visible={true}
           />
         </Center>
+        </ImageBackground>
       </NativeBaseProvider>
     )
   }
@@ -132,7 +140,13 @@ const styles = StyleSheet.create({
   chip:{
     width:100,
     backgroundColor:"blue"
-  }
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+  },
 });
 
 export default Tasks

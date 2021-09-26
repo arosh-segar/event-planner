@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, TextInput, Platform} from 'react-native';
+
 //import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 //import MaterialButtonPrimary from "MaterialButtonPrimary";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -14,6 +14,8 @@ import {
   NativeBaseProvider,
   Input,
 } from 'native-base';
+import {ImageBackground, StyleSheet, View} from 'react-native';
+
 
 function AddEvent(props) {
   const [date, setDate] = useState('');
@@ -49,24 +51,31 @@ function AddEvent(props) {
   };
 
   return (
-    <NativeBaseProvider>
-      <Center mt={10}>
+    <NativeBaseProvider >
+      <ImageBackground
+          hp={'100%'}
+          wp={'100%'}
+          source={require('../ImageBackground/image/bgl90.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
+      <Center mt={10}  >
         <Input
           w="90%"
           mx={3}
           mb={5}
           placeholder="Event Name"
-          borderColor="lightBlue.600"
+          borderColor="#0284c7"
           _light={{
             placeholderTextColor: 'blueGray.400',
           }}
           _dark={{
             placeholderTextColor: 'blueGray.50',
           }}
+
         />
         <VStack alignItems="center" space={4} mb={5}>
           <Select
-            borderColor="lightBlue.600"
+            borderColor="#0284c7"
             minWidth="90%"
             accessibilityLabel="Select your favorite programming language"
             placeholder="Event Type"
@@ -90,7 +99,7 @@ function AddEvent(props) {
           mx={3}
           mb={5}
           placeholder="Event Venue"
-          borderColor="lightBlue.600"
+          borderColor="#0284c7"
           _light={{
             placeholderTextColor: 'blueGray.400',
           }}
@@ -178,12 +187,27 @@ function AddEvent(props) {
           onConfirm={handleTime}
           onCancel={hideTimePicker}
         />
-        <Button w="90%" variant={'solid'} size="lg" bg="lightBlue.600">
-          Add Event
+        <Button w="90%" variant={'solid'} size="lg" border={2}
+                borderColor="lightBlue.600" bg="#ffff">
+
+          <Text  color="#0284c7">
+            SAVE
+          </Text>
+
         </Button>
       </Center>
+      </ImageBackground>
     </NativeBaseProvider>
   );
 }
+const styles = StyleSheet.create({
+      image: {
+      flex: 1,
+          justifyContent: 'center',
+          height: '100%',
+          width: '100%',
+    }
 
+
+  });
 export default AddEvent;

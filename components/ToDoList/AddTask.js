@@ -11,6 +11,7 @@ import {
   NativeBaseProvider,
   Input,
 } from 'native-base';
+import {ImageBackground, StyleSheet} from "react-native";
 
 function AddTask(props) {
 
@@ -48,6 +49,12 @@ function AddTask(props) {
 
   return (
     <NativeBaseProvider>
+      <ImageBackground
+          hp={'100%'}
+          wp={'100%'}
+          source={require('../ImageBackground/image/bgl90.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
       <Center mt={10}>
         <Input
           w="90%"
@@ -200,12 +207,25 @@ function AddTask(props) {
           }}
         />
 
-        <Button w="90%" variant={'solid'} size="lg" bg="lightBlue.600">
-          Add Task
-        </Button>
+        <Button w="90%" variant={'solid'} size="lg" border={2}
+                borderColor="lightBlue.600" bg="#ffff">
+
+          <Text  color="#0284c7">
+            SAVE
+          </Text></Button>
       </Center>
+      </ImageBackground>
     </NativeBaseProvider>
   );
 }
+const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+  }
 
+
+});
 export default AddTask;
