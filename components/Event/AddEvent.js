@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
-
-//import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
-//import MaterialButtonPrimary from "MaterialButtonPrimary";
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, TextInput, Platform} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   Flex,
@@ -16,11 +14,16 @@ import {
 } from 'native-base';
 import {ImageBackground, StyleSheet, View} from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
 
-function AddEvent(props) {
+function AddEvent(route) {
+  const {addEvents} = route.route.params;
+  const [name, setName] = useState('');
+  const [type, setType] = useState('');
+  const [venue, setVenue] = useState('');
+  const [estimatedBudget, setEstimatedBudget] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -50,21 +53,34 @@ function AddEvent(props) {
     hideTimePicker();
   };
 
+  const generateID = () => {
+    return `E${Math.floor(Math.random() * 100)}`;
+  };
+
+  const handleSubmit = async () => {
+    const event = {
+      name,
+      type,
+      venue,
+      estimatedBudget,
+      date: `${date?.getDate()} / ${date?.getMonth()} / ${date?.getFullYear()}`,
+      time: `${time?.getHours()} : ${time?.getMinutes()} : 00`,
+    };
+
+    addEvents(event);
+  };
+
   return (
-    <NativeBaseProvider >
-      <ImageBackground
-          hp={'100%'}
-          wp={'100%'}
-          source={require('../ImageBackground/image/bgl90.jpg')}
-          resizeMode="cover"
-          style={styles.image}>
-      <Center mt={10}  >
+    <NativeBaseProvider>
+      <Center mt={10}>
         <Input
           w="90%"
           mx={3}
           mb={5}
           placeholder="Event Name"
-          borderColor="#0284c7"
+          borderColor="lightBlue.600"
+          onChangeText={nameInput => setName(nameInput)}
+          defaultValue={name}
           _light={{
             placeholderTextColor: 'blueGray.400',
           }}
@@ -99,7 +115,24 @@ function AddEvent(props) {
           mx={3}
           mb={5}
           placeholder="Event Venue"
-          borderColor="#0284c7"
+          onChangeText={venueInput => setVenue(venueInput)}
+          defaultValue={venue}
+          borderColor="lightBlue.600"
+          _light={{
+            placeholderTextColor: 'blueGray.400',
+          }}
+          _dark={{
+            placeholderTextColor: 'blueGray.50',
+          }}
+        />
+        <Input
+          w="90%"
+          mx={3}
+          mb={5}
+          placeholder="Estimated Budget"
+          borderColor="lightBlue.600"
+          onChangeText={budgetInput => setEstimatedBudget(budgetInput)}
+          defaultValue={estimatedBudget}
           _light={{
             placeholderTextColor: 'blueGray.400',
           }}
@@ -187,27 +220,18 @@ function AddEvent(props) {
           onConfirm={handleTime}
           onCancel={hideTimePicker}
         />
-        <Button w="90%" variant={'solid'} size="lg" border={2}
-                borderColor="lightBlue.600" bg="#ffff">
-
-          <Text  color="#0284c7">
-            SAVE
-          </Text>
-
+        <Button
+          w="90%"
+          variant={'solid'}
+          size="lg"
+          bg="lightBlue.600"
+          onPress={handleSubmit}>
+          Add Event
         </Button>
       </Center>
       </ImageBackground>
     </NativeBaseProvider>
   );
 }
-const styles = StyleSheet.create({
-      image: {
-      flex: 1,
-          justifyContent: 'center',
-          height: '100%',
-          width: '100%',
-    }
 
-
-  });
 export default AddEvent;

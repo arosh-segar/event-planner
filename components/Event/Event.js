@@ -10,7 +10,8 @@ import {
 } from 'native-base';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
-function Guest() {
+function Event(props) {
+  const {name, venue} = props.event;
   const [isOptionOpen, setIsOptionOpen] = useState(false);
   return (
     <NativeBaseProvider>
@@ -23,10 +24,10 @@ function Guest() {
           h={20}
           mb={5}>
           <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-            Event
+            {name}
           </Text>
           <Text color="#FFFFFF" ml={3}>
-            Venue
+            {venue}
           </Text>
           <VStack position="absolute" right="5%" top="40%">
             <Text onPress={() => setIsOptionOpen(!isOptionOpen)} ml={3}>
@@ -65,4 +66,4 @@ function Guest() {
   );
 }
 
-export default Guest;
+export default Event;

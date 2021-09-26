@@ -1,18 +1,55 @@
 import React from 'react';
 import {StyleSheet, View, ScrollView, Alert, TouchableOpacity, Touchable, ImageBackground} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Alert,
+  TouchableOpacity,
+  Touchable,
+} from 'react-native';
 import Task from './Task';
-import FAB from 'react-native-fab'
-import { Center, VStack, HStack, Input, Select, CheckIcon,Text } from "native-base";
-import { NativeBaseProvider } from "native-base/src/core/NativeBaseProvider";
+import FAB from 'react-native-fab';
+import {
+  Center,
+  VStack,
+  HStack,
+  Input,
+  Select,
+  CheckIcon,
+  Text,
+} from 'native-base';
+import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
-class Tasks extends React.Component{
+class Tasks extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+    };
+  }
+  componentDidMount = () => {
+    this.getTasks();
+  };
 
+  getTasks = async () => {
+    const result = await AsyncStorage.getItem('tasks');
+    if (result !== null) {
+      this.setState({tasks: JSON.parse(result)});
+    }
+  };
+
+  addTasks = async task => {
+    const updatedTasks = [...this.state.tasks, task];
+    this.setState({tasks: updatedTasks});
+    await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+  };
 
   render() {
-
-    const {navigation} = this.props
+    const {navigation} = this.props;
 
     return (
       <NativeBaseProvider>
@@ -23,20 +60,51 @@ class Tasks extends React.Component{
             resizeMode="cover"
             style={styles.image}>
         <Center h="100%">
-          <HStack w={"90%"} h={"10%"}>
-            <ScrollView
-              horizontal={true}
-            >
+          <HStack w={'90%'} h={'10%'}>
+            <ScrollView horizontal={true}>
               <HStack space={3}>
+                <Center
+                  border={3}
+                  borderRadius={20}
+                  height={'65%'}
+                  borderColor="lightBlue.600">
+                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                    ALL
+                  </Text>
                 <Center border={2} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
                   <Text px={25} color={'lightBlue.600'} fontWeight={700}>EVENTS</Text>
                 </Center>
+                <Center
+                  border={0}
+                  borderRadius={20}
+                  height={'65%'}
+                  borderColor="lightBlue.600"
+                  bg={'lightBlue.600'}>
+                  <Text px={25} color={'#ffff'} fontWeight={700}>
+                    ALL
+                  </Text>
                 <Center border={0} borderRadius={20} height={"65%"} borderColor='lightBlue.600' bg={"lightBlue.600"}>
                   <Text px={25} color={'#ffff'} fontWeight={700}>PRIORITY</Text>
                 </Center>
+                <Center
+                  border={3}
+                  borderRadius={20}
+                  height={'65%'}
+                  borderColor="lightBlue.600">
+                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                    ALL
+                  </Text>
                 <Center border={2} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
                   <Text px={25} color={'lightBlue.600'} fontWeight={700}>STATUS</Text>
                 </Center>
+                <Center
+                  border={3}
+                  borderRadius={20}
+                  height={'65%'}
+                  borderColor="lightBlue.600">
+                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                    ALL
+                  </Text>
                 <Center border={2} borderRadius={20} height={"65%"} borderColor='lightBlue.600'>
                   <Text px={25} color={'lightBlue.600'} fontWeight={700}>TASKS</Text>
                 </Center>
@@ -64,28 +132,26 @@ class Tasks extends React.Component{
               <Select.Item label="High" value="High" />
             </Select>
           </VStack>
-        <VStack w="100%" h="70%">
-          <ScrollView>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-          </ScrollView>
-        </VStack>
+          <VStack w="100%" h="70%">
+            <ScrollView>
+              {this.state.tasks.map((task, index) => (
+                <Task key={index} task={task} />
+              ))}
+            </ScrollView>
+          </VStack>
           <FAB
-              buttonColor="white"
-              iconTextColor="#0284c7"
-            onClickAction={() => {navigation.navigate("AddTask")}}
+            buttonColor="blue"
+            iconTextColor="#FFFFFF"
+            onClickAction={() => {
+              navigation.navigate('AddTask');
+              navigation.navigate('AddTask', {addTasks: this.addTasks});
+            }}
             visible={true}
           />
         </Center>
-        </ImageBackground>
       </NativeBaseProvider>
-    )
+    );
   }
-
-
 }
 
 const styles = StyleSheet.create({
@@ -126,16 +192,16 @@ const styles = StyleSheet.create({
   },
   rectStackRow: {
     height: 186,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 7,
-    marginRight: -115
+    marginRight: -115,
   },
-  chipRow:{
+  chipRow: {
     height: 32,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 10,
     marginLeft: 18,
-    marginRight: 54
+    marginRight: 54,
   },
   chip:{
     width:100,
@@ -147,6 +213,10 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
+  chip: {
+    width: 100,
+    backgroundColor: 'blue',
+  },
 });
 
-export default Tasks
+export default Tasks;
