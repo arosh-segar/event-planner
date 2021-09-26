@@ -7,8 +7,32 @@ import FAB from 'react-native-fab';
 import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {Center, Input, VStack} from 'native-base';
 import {ImageBackground} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Events extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: [],
+    };
+  }
+  componentDidMount = () => {
+    this.getEvents();
+  };
+
+  getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      this.setState({events: JSON.parse(result)});
+    }
+  };
+
+  addEvents = async event => {
+    const updatedEvents = [...this.state.events, event];
+    this.setState({events: updatedEvents});
+    await AsyncStorage.setItem('events', JSON.stringify(updatedEvents));
+  };
+
   render() {
     const {navigation} = this.props;
 
@@ -40,15 +64,9 @@ class Events extends React.Component {
 
             <VStack w="100%" h="85%">
               <ScrollView>
-                <Event />
-                <Event />
-                <Event />
-                <Event />
-                <Event />
-                <Event />
-                <Event />
-                <Event />
-                <Event />
+                {this.state.events.map((event, index) => (
+                  <Event key={index} event={event} />
+                ))}
               </ScrollView>
             </VStack>
             <FAB
@@ -56,6 +74,7 @@ class Events extends React.Component {
               iconTextColor="#FFFFFF"
               onClickAction={() => {
                 navigation.navigate('AddEvent');
+                navigation.navigate('AddEvent', {addEvents: this.addEvents});
               }}
               visible={true}
             />

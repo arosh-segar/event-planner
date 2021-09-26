@@ -12,8 +12,12 @@ import {
   Input,
 } from 'native-base';
 
-function AddTask(props) {
-
+function AddTask(route) {
+  const {addTasks} = route.route.params;
+  const [name, setName] = useState('');
+  const [priority, setPriority] = useState('');
+  const [event, setEvent] = useState('');
+  const [notes, setNotes] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
 
@@ -46,6 +50,22 @@ function AddTask(props) {
     hideTimePicker();
   };
 
+  const handleSubmit = async () => {
+    const task = {
+      name,
+      priority,
+      event,
+      notes,
+      status: 'pending',
+      date: `${date?.getDate()} / ${date?.getMonth()} / ${date?.getFullYear()}`,
+      time: `${time?.getHours()} : ${time?.getMinutes()} : 00`,
+    };
+
+    console.log(task);
+
+    addTasks(task);
+  };
+
   return (
     <NativeBaseProvider>
       <Center mt={10}>
@@ -55,6 +75,8 @@ function AddTask(props) {
           mb={5}
           placeholder="Task Name"
           borderColor="lightBlue.600"
+          onChangeText={taskInput => setName(taskInput)}
+          defaultValue={name}
           _light={{
             placeholderTextColor: 'blueGray.400',
           }}
@@ -66,6 +88,7 @@ function AddTask(props) {
           <Select
             borderColor="lightBlue.600"
             minWidth="90%"
+            onValueChange={priorityInput => setPriority(priorityInput)}
             accessibilityLabel="Select your favorite programming language"
             placeholder="Priority"
             _light={{
@@ -88,6 +111,7 @@ function AddTask(props) {
             borderColor="lightBlue.600"
             minWidth="90%"
             accessibilityLabel="Select your favorite programming language"
+            onValueChange={eventInput => setEvent(eventInput)}
             placeholder="Event Name"
             _light={{
               placeholderTextColor: 'blueGray.400',
@@ -191,6 +215,8 @@ function AddTask(props) {
           mx={3}
           mb={5}
           placeholder="Notes"
+          onChangeText={notesInput => setNotes(notesInput)}
+          defaultValue={notes}
           borderColor="lightBlue.600"
           _light={{
             placeholderTextColor: 'blueGray.400',
@@ -200,7 +226,12 @@ function AddTask(props) {
           }}
         />
 
-        <Button w="90%" variant={'solid'} size="lg" bg="lightBlue.600">
+        <Button
+          onPress={handleSubmit}
+          w="90%"
+          variant={'solid'}
+          size="lg"
+          bg="lightBlue.600">
           Add Task
         </Button>
       </Center>

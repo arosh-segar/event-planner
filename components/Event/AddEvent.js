@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, TextInput, Platform} from 'react-native';
-//import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
-//import MaterialButtonPrimary from "MaterialButtonPrimary";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   Flex,
@@ -14,13 +12,25 @@ import {
   NativeBaseProvider,
   Input,
 } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
 
-function AddEvent(props) {
+function AddEvent(route) {
+  const {addEvents} = route.route.params;
+  const [name, setName] = useState('');
+  const [type, setType] = useState('');
+  const [venue, setVenue] = useState('');
+  const [estimatedBudget, setEstimatedBudget] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+
+  /* useEffect(() => {
+    async function fetchData() {
+      await getEvents();
+    }
+    fetchData();
+  }, []); */
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -48,6 +58,23 @@ function AddEvent(props) {
     hideTimePicker();
   };
 
+  const generateID = () => {
+    return `E${Math.floor(Math.random() * 100)}`;
+  };
+
+  const handleSubmit = async () => {
+    const event = {
+      name,
+      type,
+      venue,
+      estimatedBudget,
+      date: `${date?.getDate()} / ${date?.getMonth()} / ${date?.getFullYear()}`,
+      time: `${time?.getHours()} : ${time?.getMinutes()} : 00`,
+    };
+
+    addEvents(event);
+  };
+
   return (
     <NativeBaseProvider>
       <Center mt={10}>
@@ -57,6 +84,8 @@ function AddEvent(props) {
           mb={5}
           placeholder="Event Name"
           borderColor="lightBlue.600"
+          onChangeText={nameInput => setName(nameInput)}
+          defaultValue={name}
           _light={{
             placeholderTextColor: 'blueGray.400',
           }}
@@ -68,6 +97,7 @@ function AddEvent(props) {
           <Select
             borderColor="lightBlue.600"
             minWidth="90%"
+            onValueChange={typeInput => setType(typeInput)}
             accessibilityLabel="Select your favorite programming language"
             placeholder="Event Type"
             _light={{
@@ -90,7 +120,24 @@ function AddEvent(props) {
           mx={3}
           mb={5}
           placeholder="Event Venue"
+          onChangeText={venueInput => setVenue(venueInput)}
+          defaultValue={venue}
           borderColor="lightBlue.600"
+          _light={{
+            placeholderTextColor: 'blueGray.400',
+          }}
+          _dark={{
+            placeholderTextColor: 'blueGray.50',
+          }}
+        />
+        <Input
+          w="90%"
+          mx={3}
+          mb={5}
+          placeholder="Estimated Budget"
+          borderColor="lightBlue.600"
+          onChangeText={budgetInput => setEstimatedBudget(budgetInput)}
+          defaultValue={estimatedBudget}
           _light={{
             placeholderTextColor: 'blueGray.400',
           }}
@@ -178,7 +225,12 @@ function AddEvent(props) {
           onConfirm={handleTime}
           onCancel={hideTimePicker}
         />
-        <Button w="90%" variant={'solid'} size="lg" bg="lightBlue.600">
+        <Button
+          w="90%"
+          variant={'solid'}
+          size="lg"
+          bg="lightBlue.600"
+          onPress={handleSubmit}>
           Add Event
         </Button>
       </Center>
