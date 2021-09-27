@@ -1,27 +1,37 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView, Alert} from 'react-native';
+import {ScrollView} from 'react-native';
 import Guest from './Guest';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
 import FAB from 'react-native-fab';
-import {
-  Box,
-  Center,
-  CheckIcon,
-  HStack,
-  Input,
-  Select,
-  VStack,
-  Text,
-} from 'native-base';
-import MaterialChip from 'react-native-material-chip';
+import {Center, HStack, Input, VStack, Text} from 'native-base';
 import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Guests extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      guests: [],
+    };
+  }
+
+  componentDidMount = () => {
+    this.getGuests();
+  };
+
+  getGuests = async () => {
+    const result = await AsyncStorage.getItem('guests');
+    if (result !== null) {
+      this.setState({guests: JSON.parse(result)});
+    }
+  };
+
+  addGuests = async guest => {
+    const updatedGuests = [...this.state.guests, guest];
+    this.setState({guests: updatedGuests});
+    await AsyncStorage.setItem('guests', JSON.stringify(updatedGuests));
+  };
   render() {
     const {navigation} = this.props;
 
@@ -89,13 +99,9 @@ class Guests extends React.Component {
           </VStack>
           <VStack w="100%" h="70%">
             <ScrollView>
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
+              {this.state.guests.map((guest, index) => (
+                <Guest key={index} guest={guest} />
+              ))}
             </ScrollView>
           </VStack>
           <FAB
@@ -103,6 +109,7 @@ class Guests extends React.Component {
             iconTextColor="#FFFFFF"
             onClickAction={() => {
               navigation.navigate('AddGuest');
+              navigation.navigate('AddGuest', {addGuests: this.addGuests});
             }}
             visible={true}
           />
@@ -111,55 +118,5 @@ class Guests extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  icon: {
-    color: 'rgba(128,128,128,1)',
-    fontSize: 40,
-    marginTop: 75,
-    marginLeft: 19,
-  },
-  rect: {
-    top: 0,
-    width: 375,
-    height: 84,
-    position: 'absolute',
-    backgroundColor: '#E6E6E6',
-    left: 0,
-  },
-  scrollArea1: {
-    top: hp('10%'),
-    width: 405,
-    height: 404,
-    position: 'absolute',
-    left: 0,
-  },
-  scrollArea1_contentContainerStyle: {
-    height: 84,
-    width: 375,
-  },
-  rectStack: {
-    width: 375,
-    height: 165,
-  },
-  icon2: {
-    color: 'rgba(128,128,128,1)',
-    fontSize: 40,
-    marginLeft: 75,
-    marginTop: 143,
-  },
-  rectStackRow: {
-    height: 186,
-    flexDirection: 'row',
-    marginTop: 7,
-    marginRight: -115,
-  },
-  chip: {
-    width: 100,
-  },
-});
 
 export default Guests;
