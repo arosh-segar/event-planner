@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, TextInput, Platform} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   Flex,
@@ -12,7 +11,6 @@ import {
   NativeBaseProvider,
   Input,
 } from 'native-base';
-import AsyncStorage from '@react-native-community/async-storage';
 
 function AddEvent(route) {
   const {addEvents} = route.route.params;
