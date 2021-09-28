@@ -22,8 +22,17 @@ import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import {ImageBackground} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class ShoppingItems extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      shoppinglist: [],
+    };
+  }
+
   render() {
     const {navigation} = this.props;
 
@@ -45,7 +54,7 @@ class ShoppingItems extends React.Component {
                     height={'65%'}
                     borderColor="lightBlue.600">
                     <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
+                      EVENT1
                     </Text>
                   </Center>
                   <Center
@@ -55,7 +64,7 @@ class ShoppingItems extends React.Component {
                     borderColor="lightBlue.600"
                     bg={'lightBlue.600'}>
                     <Text px={25} color={'#ffff'} fontWeight={700}>
-                      ALL
+                      EVENT2
                     </Text>
                   </Center>
                   <Center
@@ -64,7 +73,7 @@ class ShoppingItems extends React.Component {
                     height={'65%'}
                     borderColor="lightBlue.600">
                     <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
+                      EVENT3
                     </Text>
                   </Center>
                   <Center
@@ -73,7 +82,7 @@ class ShoppingItems extends React.Component {
                     height={'65%'}
                     borderColor="lightBlue.600">
                     <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
+                      EVENT4
                     </Text>
                   </Center>
                 </HStack>
@@ -91,8 +100,8 @@ class ShoppingItems extends React.Component {
                 <ShoppingItem />
               </ScrollView>
               <FAB
-                buttonColor="blue"
-                iconTextColor="#FFFFFF"
+                buttonColor="#FFFFFF"
+                iconTextColor="#0D6E92"
                 onClickAction={() => {
                   navigation.navigate('AddShoppingItem');
                 }}

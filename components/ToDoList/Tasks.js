@@ -123,8 +123,8 @@ class Tasks extends React.Component {
             </ScrollView>
           </VStack>
           <FAB
-            buttonColor="blue"
-            iconTextColor="#FFFFFF"
+            buttonColor="#FFFFFF"
+            iconTextColor="#0D6E92"
             onClickAction={() => {
               navigation.navigate('AddTask');
               navigation.navigate('AddTask', {addTasks: this.addTasks});

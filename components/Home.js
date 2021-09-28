@@ -30,7 +30,7 @@ function Home({navigation}) {
       <ImageBackground
         hp={'100%'}
         wp={'100%'}
-        source={require('./ImageBackground/image/bg213.jpg')}
+        source={require('./ImageBackground/image/bg.jpg')}
         resizeMode="cover"
         style={styles.image}>
         <Center h="100%">
@@ -42,13 +42,16 @@ function Home({navigation}) {
             justifyContent="center">
             <Button
               borderRadius={15}
-              style={styles.shadow}
+              border={3}
+              borderColor="#0284c7"
+              //style={styles.shadow}
+              bg={'#ffff'}
               onPress={() => navigation.navigate('Events')}
               w="45%"
               h="100%">
               <Center>
-                <FontAwesomeIcon icon={faCalendar} color="#fff" size={58} />
-                <Text mt="50%" color="#fff">
+                <FontAwesomeIcon icon={faCalendar} color="#0284c7" size={58} />
+                <Text mt="50%" color="#0284c7">
                   EVENTS
                 </Text>
               </Center>
@@ -56,7 +59,10 @@ function Home({navigation}) {
             <VStack w="5%" />
             <Button
               borderRadius={15}
-              style={styles.shadow}
+              border={3}
+              borderColor="#0284c7"
+              //style={styles.shadow}
+              bg={'#ffff'}
               w="45%"
               h="100%"
               onPress={() => navigation.navigate('Guests')}>
@@ -77,7 +83,10 @@ function Home({navigation}) {
             justifyContent="center">
             <Button
               borderRadius={15}
-              style={styles.shadow}
+              border={3}
+              borderColor="#0284c7"
+              //style={styles.shadow}
+              bg={'#ffff'}
               w="45%"
               h="100%"
               onPress={() => navigation.navigate('To Do List')}>
@@ -95,7 +104,10 @@ function Home({navigation}) {
             <VStack w="5%" />
             <Button
               borderRadius={15}
-              style={styles.shadow}
+              border={3}
+              borderColor="#0284c7"
+              //style={styles.shadow}
+              bg={'#ffff'}
               w="45%"
               h="100%"
               onPress={() => navigation.navigate('Shopping List')}>

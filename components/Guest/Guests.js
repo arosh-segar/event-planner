@@ -105,8 +105,8 @@ class Guests extends React.Component {
             </ScrollView>
           </VStack>
           <FAB
-            buttonColor="blue"
-            iconTextColor="#FFFFFF"
+            buttonColor="#FFFFFF"
+            iconTextColor="#0D6E92"
             onClickAction={() => {
               navigation.navigate('AddGuest');
               navigation.navigate('AddGuest', {addGuests: this.addGuests});
