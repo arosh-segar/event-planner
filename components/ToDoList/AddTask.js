@@ -74,6 +74,7 @@ function AddTask(route) {
           wp={'100%'}
           source={require('../ImageBackground/image/bgl90.jpg')}
           resizeMode="cover"
+          postition={"fixed"}
           style={styles.image}>
       <Center mt={10}>
         <Input

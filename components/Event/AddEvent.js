@@ -12,9 +12,7 @@ import {
   NativeBaseProvider,
   Input,
 } from 'native-base';
-import {ImageBackground, StyleSheet, View} from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
 
 function AddEvent(route) {
   const {addEvents} = route.route.params;
@@ -229,7 +227,6 @@ function AddEvent(route) {
           Add Event
         </Button>
       </Center>
-      </ImageBackground>
     </NativeBaseProvider>
   );
 }
