@@ -12,8 +12,6 @@ import {
   Input,
 } from 'native-base';
 
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
 import {ImageBackground, StyleSheet} from 'react-native';
 
 function AddEvent(route) {
