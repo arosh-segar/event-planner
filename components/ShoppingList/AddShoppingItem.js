@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 
 import {
   Select,
@@ -18,7 +18,30 @@ import {ImageBackground, StyleSheet} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-function AddShoppingItem(props) {
+function AddShoppingItem(route) {
+  const {addShoppingItem} = route.route.params;
+  const [itemName, setItemName] = useState('');
+  const [itemPrice, setItemPrice] = useState(0.0);
+  const [itemQty, setItemQty] = useState(0);
+  const [itemStatus, setItemStatus] = useState('pending');
+  const [event, setEvent] = useState('');
+
+  const generateID = () => {
+    return `E${Math.floor(Math.random() * 100)}`;
+  };
+
+  const handleSubmit = async () => {
+    const shoppingItem = {
+      itemName,
+      itemQty,
+      itemPrice,
+      itemStatus,
+      event,
+    };
+
+    addShoppingItem(shoppingItem);
+  };
+
   return (
     <NativeBaseProvider>
       <ImageBackground
@@ -28,12 +51,36 @@ function AddShoppingItem(props) {
         resizeMode="cover"
         style={styles.image}>
         <Center mt={10}>
+          <Select
+            mb={5}
+            borderColor="lightBlue.600"
+            minWidth="90%"
+            accessibilityLabel="Select your favorite programming language"
+            onValueChange={eventInput => setEvent(eventInput)}
+            placeholder="Event Name"
+            _light={{
+              placeholderTextColor: 'blueGray.400',
+            }}
+            _dark={{
+              placeholderTextColor: 'blueGray.50',
+            }}
+            _selectedItem={{
+              bg: 'blueGray.400',
+              endIcon: <CheckIcon size={4} />,
+            }}>
+            <Select.Item label="Birthday" value="Birthday" />
+            <Select.Item label="Wedding" value="Wedding" />
+            <Select.Item label="Batch Party" value="Batch Party" />
+          </Select>
+
           <Input
             w="90%"
             mx={3}
             mb={5}
             placeholder="Item Name"
             borderColor="lightBlue.600"
+            onChangeText={nameInput => setItemName(nameInput)}
+            defaultValue={itemName}
             _light={{placeholderTextColor: 'blueGray.400'}}
             _dark={{placeholderTextColor: 'blueGray.50'}}
           />
@@ -44,6 +91,8 @@ function AddShoppingItem(props) {
             mb={5}
             placeholder="Item Quantity"
             borderColor="lightBlue.600"
+            onChangeText={qtyInput => setItemQty(qtyInput)}
+            defaultValue={itemQty}
             _light={{
               placeholderTextColor: 'blueGray.400',
             }}
@@ -58,6 +107,8 @@ function AddShoppingItem(props) {
             mb={5}
             placeholder="Price per Quantity"
             borderColor="lightBlue.600"
+            onChangeText={priceInput => setItemPrice(priceInput)}
+            defaultValue={itemPrice}
             _light={{
               placeholderTextColor: 'blueGray.400',
             }}
@@ -78,7 +129,9 @@ function AddShoppingItem(props) {
           </Text>
           <HStack space={20} mb={10} w={'90%'}>
             <Checkbox
+              defaultIsChecked="purchased"
               value="purchased"
+              onChange={statusInput => setItemStatus(statusInput)}
               accessibilityLabel="purchased"
               color="#0D6E92">
               <Text
@@ -102,7 +155,8 @@ function AddShoppingItem(props) {
             size="lg"
             border={2}
             borderColor="lightBlue.600"
-            bg="#ffff">
+            bg="#ffff"
+            onPress={handleSubmit}>
             <Text color="#0284c7">SAVE</Text>
           </Button>
         </Center>

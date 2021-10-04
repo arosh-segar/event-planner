@@ -29,9 +29,27 @@ class ShoppingItems extends React.Component {
     super(props);
 
     this.state = {
-      shoppinglist: [],
+      shoppingItems: [],
     };
   }
+  componentDidMount = () => {
+    this.getShoppingItems();
+  };
+  getShoppingItems = async () => {
+    const result = await AsyncStorage.getItem('shoppingItems');
+    if (result !== null) {
+      this.setState({shoppingItems: JSON.parse(result)});
+    }
+  };
+
+  addShoppingItem = async shoppingItem => {
+    const updatedShoppingItems = [...this.state.shoppingItems, shoppingItem];
+    this.setState({shoppingItems: updatedShoppingItems});
+    await AsyncStorage.setItem(
+      'shoppingItems',
+      JSON.stringify(updatedShoppingItems),
+    );
+  };
 
   render() {
     const {navigation} = this.props;
@@ -91,19 +109,21 @@ class ShoppingItems extends React.Component {
 
             <VStack w="100%" h="70%">
               <ScrollView>
-                <ShoppingItem />
-                <ShoppingItem />
-                <ShoppingItem />
-                <ShoppingItem />
-                <ShoppingItem />
-                <ShoppingItem />
-                <ShoppingItem />
+                {this.state.shoppingItems.map((shoppingItem, index) => (
+                  <ShoppingItem key={index} shoppingItem={shoppingItem} />
+                ))}
               </ScrollView>
               <FAB
                 buttonColor="#FFFFFF"
                 iconTextColor="#0D6E92"
                 onClickAction={() => {
                   navigation.navigate('AddShoppingItem');
+                  navigation.navigate('AddShoppingItem', {
+                    addShoppingItem: this.addShoppingItem,
+                  });
+                  // this.props.navigation.navigate('AddShoppingItem', {
+                  //   addShoppingItem: this.addShoppingItem,
+                  // });
                 }}
                 visible={true}
               />
@@ -138,29 +158,6 @@ class ShoppingItems extends React.Component {
               </HStack>
             </HStack>
           </Center>
-
-          {/*<Center>*/}
-          {/*  <Text fontSize="lg" ml={6} bold>*/}
-          {/*    TOTAL*/}
-          {/*  </Text>*/}
-          {/*  <Text fontSize="lg" ml={6} bold>*/}
-          {/*    100000.00*/}
-          {/*  </Text>*/}
-
-          {/*  <Text fontSize="lg" ml={6} bold>*/}
-          {/*    SPENT*/}
-          {/*  </Text>*/}
-          {/*  <Text fontSize="lg" ml={6} bold>*/}
-          {/*    50000.00*/}
-          {/*  </Text>*/}
-
-          {/*  <Text fontSize="lg" ml={6} bold>*/}
-          {/*    REMAINING*/}
-          {/*  </Text>*/}
-          {/*  <Text fontSize="lg" ml={6} bold>*/}
-          {/*    50000.00*/}
-          {/*  </Text>*/}
-          {/*</Center>*/}
         </ImageBackground>
       </NativeBaseProvider>
     );
