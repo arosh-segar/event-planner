@@ -1,119 +1,125 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView, Alert, ImageBackground} from 'react-native';
+import {ScrollView, ImageBackground, StyleSheet} from 'react-native';
 import Guest from './Guest';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
 import FAB from 'react-native-fab';
-import {
-  Box,
-  Center,
-  CheckIcon,
-  HStack,
-  Input,
-  Select,
-  VStack,
-  Text,
-} from 'native-base';
-import MaterialChip from 'react-native-material-chip';
+import {Center, HStack, Input, VStack, Text} from 'native-base';
 import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Guests extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      guests: [],
+    };
+  }
+
+  componentDidMount = () => {
+    this.getGuests();
+  };
+
+  getGuests = async () => {
+    const result = await AsyncStorage.getItem('guests');
+    if (result !== null) {
+      this.setState({guests: JSON.parse(result)});
+    }
+  };
+
+  addGuests = async guest => {
+    const updatedGuests = [...this.state.guests, guest];
+    this.setState({guests: updatedGuests});
+    await AsyncStorage.setItem('guests', JSON.stringify(updatedGuests));
+  };
   render() {
     const {navigation} = this.props;
 
     return (
       <NativeBaseProvider>
         <ImageBackground
-            hp={'100%'}
-            wp={'100%'}
-            source={require('../ImageBackground/image/bg.jpg')}
-            resizeMode="cover"
-            style={styles.image}>
-        <Center h="100%">
-          <HStack w={'90%'} h={'10%'}>
-            <ScrollView horizontal={true}>
-              <HStack space={3}>
-                <Center
-                  border={2}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    EVENT 1
-                  </Text>
-                </Center>
-                <Center
-                  border={0}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600"
-                  bg={'lightBlue.600'}>
-                  <Text px={25} color={'#ffff'} fontWeight={700}>
-                    EVENT 2
-                  </Text>
-                </Center>
-                <Center
-                  border={2}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    EVENT 3
-                  </Text>
-                </Center>
-                <Center
-                  border={2}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    EVENT 4
-                  </Text>
-                </Center>
-              </HStack>
-            </ScrollView>
-          </HStack>
-          <VStack w="90%" mt="5" mx={3} mb="4%">
-            <VStack position="absolute" top="35%" left="5%">
-              <FontAwesomeIcon icon={faSearch} color={'#94a3b8'} size={18} />
+          hp={'100%'}
+          wp={'100%'}
+          source={require('../ImageBackground/image/bg.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
+          <Center h="100%">
+            <HStack w={'90%'} h={'10%'}>
+              <ScrollView horizontal={true}>
+                <HStack space={3}>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={0}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600"
+                    bg={'lightBlue.600'}>
+                    <Text px={25} color={'#ffff'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                </HStack>
+              </ScrollView>
+            </HStack>
+            <VStack w="90%" mt="5" mx={3} mb="4%">
+              <VStack position="absolute" top="35%" left="5%">
+                <FontAwesomeIcon icon={faSearch} color={'#94a3b8'} size={18} />
+              </VStack>
+              <Input
+                textAlign="center"
+                placeholder="Search Event"
+                borderColor="lightBlue.600"
+                _light={{
+                  placeholderTextColor: 'blueGray.400',
+                }}
+                _dark={{
+                  placeholderTextColor: 'blueGray.50',
+                }}
+              />
             </VStack>
-            <Input
-              textAlign="center"
-              placeholder="Search Event"
-              borderColor="lightBlue.600"
-              _light={{
-                placeholderTextColor: 'blueGray.400',
+            <VStack w="100%" h="70%">
+              <ScrollView>
+                {this.state.guests.map((guest, index) => (
+                  <Guest key={index} guest={guest} />
+                ))}
+              </ScrollView>
+            </VStack>
+            <FAB
+              buttonColor="#FFFFFF"
+              iconTextColor="#0D6E92"
+              onClickAction={() => {
+                navigation.navigate('AddGuest');
+                navigation.navigate('AddGuest', {addGuests: this.addGuests});
               }}
-              _dark={{
-                placeholderTextColor: 'blueGray.50',
-              }}
+              visible={true}
             />
-          </VStack>
-          <VStack w="100%" h="70%">
-            <ScrollView>
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
-              <Guest />
-            </ScrollView>
-          </VStack>
-          <FAB
-              buttonColor="white"
-              iconTextColor="#0284c7"
-            onClickAction={() => {
-              navigation.navigate('AddGuest');
-            }}
-            visible={true}
-          />
-        </Center>
+          </Center>
         </ImageBackground>
       </NativeBaseProvider>
     );
@@ -121,53 +127,6 @@ class Guests extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  icon: {
-    color: 'rgba(128,128,128,1)',
-    fontSize: 40,
-    marginTop: 75,
-    marginLeft: 19,
-  },
-  rect: {
-    top: 0,
-    width: 375,
-    height: 84,
-    position: 'absolute',
-    backgroundColor: '#E6E6E6',
-    left: 0,
-  },
-  scrollArea1: {
-    top: hp('10%'),
-    width: 405,
-    height: 404,
-    position: 'absolute',
-    left: 0,
-  },
-  scrollArea1_contentContainerStyle: {
-    height: 84,
-    width: 375,
-  },
-  rectStack: {
-    width: 375,
-    height: 165,
-  },
-  icon2: {
-    color: 'rgba(128,128,128,1)',
-    fontSize: 40,
-    marginLeft: 75,
-    marginTop: 143,
-  },
-  rectStackRow: {
-    height: 186,
-    flexDirection: 'row',
-    marginTop: 7,
-    marginRight: -115,
-  },
-  chip: {
-    width: 100,
-  },
   image: {
     flex: 1,
     justifyContent: 'center',

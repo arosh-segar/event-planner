@@ -45,7 +45,7 @@ function Home({navigation}) {
               border={3}
               borderColor="#0284c7"
               //style={styles.shadow}
-                bg={'#ffff'}
+              bg={'#ffff'}
               onPress={() => navigation.navigate('Events')}
               w="45%"
               h="100%">
@@ -61,7 +61,7 @@ function Home({navigation}) {
               borderRadius={15}
               border={3}
               borderColor="#0284c7"
-                //style={styles.shadow}
+              //style={styles.shadow}
               bg={'#ffff'}
               w="45%"
               h="100%"
@@ -85,7 +85,7 @@ function Home({navigation}) {
               borderRadius={15}
               border={3}
               borderColor="#0284c7"
-                //style={styles.shadow}
+              //style={styles.shadow}
               bg={'#ffff'}
               w="45%"
               h="100%"
@@ -106,7 +106,7 @@ function Home({navigation}) {
               borderRadius={15}
               border={3}
               borderColor="#0284c7"
-                //style={styles.shadow}
+              //style={styles.shadow}
               bg={'#ffff'}
               w="45%"
               h="100%"

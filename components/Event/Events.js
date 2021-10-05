@@ -70,8 +70,8 @@ class Events extends React.Component {
               </ScrollView>
             </VStack>
             <FAB
-              buttonColor="white"
-              iconTextColor="#0284c7"
+              buttonColor="#FFFFFF"
+              iconTextColor="#0D6E92"
               onClickAction={() => {
                 navigation.navigate('AddEvent');
                 navigation.navigate('AddEvent', {addEvents: this.addEvents});
