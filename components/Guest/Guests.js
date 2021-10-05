@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, ImageBackground, StyleSheet} from 'react-native';
 import Guest from './Guest';
 import FAB from 'react-native-fab';
 import {Center, HStack, Input, VStack, Text} from 'native-base';
@@ -37,86 +37,102 @@ class Guests extends React.Component {
 
     return (
       <NativeBaseProvider>
-        <Center h="100%">
-          <HStack w={'90%'} h={'10%'}>
-            <ScrollView horizontal={true}>
-              <HStack space={3}>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-                <Center
-                  border={0}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600"
-                  bg={'lightBlue.600'}>
-                  <Text px={25} color={'#ffff'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-              </HStack>
-            </ScrollView>
-          </HStack>
-          <VStack w="90%" mt="5" mx={3} mb="4%">
-            <VStack position="absolute" top="35%" left="5%">
-              <FontAwesomeIcon icon={faSearch} color={'#94a3b8'} size={18} />
+        <ImageBackground
+          hp={'100%'}
+          wp={'100%'}
+          source={require('../ImageBackground/image/bg.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
+          <Center h="100%">
+            <HStack w={'90%'} h={'10%'}>
+              <ScrollView horizontal={true}>
+                <HStack space={3}>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={0}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600"
+                    bg={'lightBlue.600'}>
+                    <Text px={25} color={'#ffff'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                </HStack>
+              </ScrollView>
+            </HStack>
+            <VStack w="90%" mt="5" mx={3} mb="4%">
+              <VStack position="absolute" top="35%" left="5%">
+                <FontAwesomeIcon icon={faSearch} color={'#94a3b8'} size={18} />
+              </VStack>
+              <Input
+                textAlign="center"
+                placeholder="Search Event"
+                borderColor="lightBlue.600"
+                _light={{
+                  placeholderTextColor: 'blueGray.400',
+                }}
+                _dark={{
+                  placeholderTextColor: 'blueGray.50',
+                }}
+              />
             </VStack>
-            <Input
-              textAlign="center"
-              placeholder="Search Event"
-              borderColor="lightBlue.600"
-              _light={{
-                placeholderTextColor: 'blueGray.400',
+            <VStack w="100%" h="70%">
+              <ScrollView>
+                {this.state.guests.map((guest, index) => (
+                  <Guest key={index} guest={guest} />
+                ))}
+              </ScrollView>
+            </VStack>
+            <FAB
+              buttonColor="#FFFFFF"
+              iconTextColor="#0D6E92"
+              onClickAction={() => {
+                navigation.navigate('AddGuest');
+                navigation.navigate('AddGuest', {addGuests: this.addGuests});
               }}
-              _dark={{
-                placeholderTextColor: 'blueGray.50',
-              }}
+              visible={true}
             />
-          </VStack>
-          <VStack w="100%" h="70%">
-            <ScrollView>
-              {this.state.guests.map((guest, index) => (
-                <Guest key={index} guest={guest} />
-              ))}
-            </ScrollView>
-          </VStack>
-          <FAB
-            buttonColor="#FFFFFF"
-            iconTextColor="#0D6E92"
-            onClickAction={() => {
-              navigation.navigate('AddGuest');
-              navigation.navigate('AddGuest', {addGuests: this.addGuests});
-            }}
-            visible={true}
-          />
-        </Center>
+          </Center>
+        </ImageBackground>
       </NativeBaseProvider>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+  },
+});
 
 export default Guests;

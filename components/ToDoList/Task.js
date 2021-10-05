@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Icon from 'react-native-vector-icons/Entypo';
 import {
@@ -6,38 +6,49 @@ import {
   NativeBaseProvider,
   Box,
   useMediaQuery,
+  Collapse,
   Center,
   VStack,
 } from 'native-base';
-import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
+import {faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 function Guest(props) {
-  const {name, priority, event, status} = props.task;
+  const [isOpen, setIsOpen] = useState(false);
+  const {name, priority, event, notes, status, date, time} = props.task;
   return (
     <NativeBaseProvider>
       <Center flex={1}>
-        <Box
-          shadow={2}
-          rounded="lg"
-          minWidth="90%"
-          height={'90%'}
-          mt={5}
-          mb={5}
-          bg="#0284c7">
-          <Text color="#FFFFFF" mb={1} mt={4} ml={3}>
-            {name}
+        <Box shadow={2} rounded="lg" minWidth="90%" mb={5} bg="#0284c7">
+          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+            Task : {name}
           </Text>
-          <Text color="#FFFFFF" mb={1} mt={1} ml={3}>
-            {event}
+          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+            Event : {event}
           </Text>
-          <Text color="#FFFFFF" mb={1} mt={1} ml={3}>
-            {priority}
-          </Text>
-          <Text color="#FFFFFF" mb={1} mt={1} ml={3}>
-            {status}
-          </Text>
+          <Collapse isOpen={isOpen}>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Priority : {priority}
+            </Text>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Status: {status}
+            </Text>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Date: {date}
+            </Text>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Time: {time}
+            </Text>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Notes: {notes}
+            </Text>
+          </Collapse>
           <VStack position="absolute" right="5%" top="40%">
-            <FontAwesomeIcon icon={faEllipsisV} color={'white'} />
+            <Text onPress={() => setIsOpen(!isOpen)} ml={3}>
+              <FontAwesomeIcon
+                icon={isOpen ? faChevronUp : faChevronDown}
+                color={'white'}
+              />
+            </Text>
           </VStack>
         </Box>
       </Center>
