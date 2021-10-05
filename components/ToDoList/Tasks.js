@@ -5,6 +5,7 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
+  ImageBackground,
   Touchable,
 } from 'react-native';
 import Task from './Task';
@@ -50,88 +51,95 @@ class Tasks extends React.Component {
 
     return (
       <NativeBaseProvider>
-        <Center h="100%">
-          <HStack w={'90%'} h={'10%'}>
-            <ScrollView horizontal={true}>
-              <HStack space={3}>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-                <Center
-                  border={0}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600"
-                  bg={'lightBlue.600'}>
-                  <Text px={25} color={'#ffff'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
-                  </Text>
-                </Center>
-              </HStack>
-            </ScrollView>
-          </HStack>
-          <VStack alignItems="center" space={4} mb={5}>
-            <Select
-              borderColor="lightBlue.600"
-              minWidth="90%"
-              accessibilityLabel="Select your favorite programming language"
-              placeholder="Priority"
-              _light={{
-                placeholderTextColor: 'blueGray.400',
+        <ImageBackground
+          hp={'100%'}
+          wp={'100%'}
+          source={require('../ImageBackground/image/bg.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
+          <Center h="100%">
+            <HStack w={'90%'} h={'10%'}>
+              <ScrollView horizontal={true}>
+                <HStack space={3}>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={0}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600"
+                    bg={'lightBlue.600'}>
+                    <Text px={25} color={'#ffff'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                  <Center
+                    border={3}
+                    borderRadius={20}
+                    height={'65%'}
+                    borderColor="lightBlue.600">
+                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
+                      ALL
+                    </Text>
+                  </Center>
+                </HStack>
+              </ScrollView>
+            </HStack>
+            <VStack alignItems="center" space={4} mb={5}>
+              <Select
+                borderColor="lightBlue.600"
+                minWidth="90%"
+                accessibilityLabel="Select your favorite programming language"
+                placeholder="Priority"
+                _light={{
+                  placeholderTextColor: 'blueGray.400',
+                }}
+                _dark={{
+                  placeholderTextColor: 'blueGray.50',
+                }}
+                _selectedItem={{
+                  bg: 'blueGray.400',
+                  endIcon: <CheckIcon size={4} />,
+                }}>
+                <Select.Item label="Low" value="Low" />
+                <Select.Item label="Medium" value="Medium" />
+                <Select.Item label="High" value="High" />
+              </Select>
+            </VStack>
+            <VStack w="100%" h="70%">
+              <ScrollView>
+                {this.state.tasks.map((task, index) => (
+                  <Task key={index} task={task} />
+                ))}
+              </ScrollView>
+            </VStack>
+            <FAB
+              buttonColor="#FFFFFF"
+              iconTextColor="#0D6E92"
+              onClickAction={() => {
+                navigation.navigate('AddTask');
+                navigation.navigate('AddTask', {addTasks: this.addTasks});
               }}
-              _dark={{
-                placeholderTextColor: 'blueGray.50',
-              }}
-              _selectedItem={{
-                bg: 'blueGray.400',
-                endIcon: <CheckIcon size={4} />,
-              }}>
-              <Select.Item label="Low" value="Low" />
-              <Select.Item label="Medium" value="Medium" />
-              <Select.Item label="High" value="High" />
-            </Select>
-          </VStack>
-          <VStack w="100%" h="70%">
-            <ScrollView>
-              {this.state.tasks.map((task, index) => (
-                <Task key={index} task={task} />
-              ))}
-            </ScrollView>
-          </VStack>
-          <FAB
-            buttonColor="#FFFFFF"
-            iconTextColor="#0D6E92"
-            onClickAction={() => {
-              navigation.navigate('AddTask');
-              navigation.navigate('AddTask', {addTasks: this.addTasks});
-            }}
-            visible={true}
-          />
-        </Center>
+              visible={true}
+            />
+          </Center>
+        </ImageBackground>
       </NativeBaseProvider>
     );
   }
@@ -178,6 +186,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 7,
     marginRight: -115,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
   },
   chipRow: {
     height: 32,

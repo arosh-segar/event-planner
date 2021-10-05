@@ -5,17 +5,18 @@ import {
   Text,
   NativeBaseProvider,
   Box,
+  Collapse,
   useMediaQuery,
   Center,
   VStack,
   Button,
 } from 'native-base';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
+import {faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
 
 function ShoppingItem(props) {
-  const {itemName, itemQty, itemPrice, itemStatus} = props.shoppingItem;
-  const [isOptionOpen, setIsOptionOpen] = useState(false);
+  const {itemName, itemQty, itemPrice, itemStatus, event} = props.shoppingItem;
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <NativeBaseProvider>
@@ -24,11 +25,10 @@ function ShoppingItem(props) {
           shadow={2}
           rounded="lg"
           minWidth="90%"
-          h={24}
           mb={5}
           backgroundColor="#0284c7">
-          <Text color="#000" mb={3} mt={3} ml={3}>
-            {itemName}
+          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+            Item Name : {itemName}
           </Text>
           {/*<Text color="#FFFFFF" ml={3}>*/}
           {/*  {itemQty}*/}
@@ -36,41 +36,28 @@ function ShoppingItem(props) {
           {/*<Text color="#FFFFFF" ml={3}>*/}
           {/*  {itemPrice}*/}
           {/*</Text>*/}
-          <Text color="#FFFFFF" ml={3}>
-            {itemStatus}
+          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+            Status : {itemStatus}
           </Text>
+          <Collapse isOpen={isOpen}>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Event Name : {event}
+            </Text>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Price : {itemPrice}
+            </Text>
+            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              Quantity : {itemQty}
+            </Text>
+          </Collapse>
           <VStack position="absolute" right="5%" top="40%">
-            <Text onPress={() => setIsOptionOpen(!isOptionOpen)} ml={3}>
-              <FontAwesomeIcon icon={faEllipsisV} color={'white'} />
+            <Text onPress={() => setIsOpen(!isOpen)} ml={3}>
+              <FontAwesomeIcon
+                icon={isOpen ? faChevronUp : faChevronDown}
+                color={'white'}
+              />
             </Text>
           </VStack>
-
-          {isOptionOpen && (
-            <VStack
-              w="30%"
-              backgroundColor="white"
-              position="absolute"
-              top="2.5%"
-              right="15%">
-              <Button
-                w="100%"
-                variant={'solid'}
-                size="sm"
-                backgroundColor="transparent">
-                <Text color="black">Edit</Text>
-              </Button>
-              <Button
-                w="100%"
-                borderRadius={0}
-                variant={'solid'}
-                size="sm"
-                backgroundColor="transparent">
-                <Text w="100%" color="black">
-                  Delete
-                </Text>
-              </Button>
-            </VStack>
-          )}
         </Box>
       </Center>
     </NativeBaseProvider>
