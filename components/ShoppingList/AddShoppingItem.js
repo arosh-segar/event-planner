@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 import {
   Select,
@@ -17,6 +17,7 @@ import {
 import {ImageBackground, StyleSheet} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {getDefaultValue} from 'native-base/lib/typescript/components/composites/Typeahead/useTypeahead/utils';
 
 function AddShoppingItem(route) {
   const {addShoppingItem} = route.route.params;
@@ -25,9 +26,19 @@ function AddShoppingItem(route) {
   const [itemQty, setItemQty] = useState(0);
   const [itemStatus, setItemStatus] = useState('pending');
   const [event, setEvent] = useState('');
+  const [checkStatus, setCheckStatus] = useState(false);
 
   const generateID = () => {
     return `E${Math.floor(Math.random() * 100)}`;
+  };
+
+  const changeItemStatus = value => {
+    if (value == false) {
+      setItemStatus('pending');
+    }
+    if (value == true) {
+      setItemStatus('purchased');
+    }
   };
 
   const handleSubmit = async () => {
@@ -129,9 +140,7 @@ function AddShoppingItem(route) {
           </Text>
           <HStack space={20} mb={10} w={'90%'}>
             <Checkbox
-              defaultIsChecked="purchased"
-              value="purchased"
-              onChange={statusInput => setItemStatus(statusInput)}
+              onPress={() => changeItemStatus(!checkStatus)}
               accessibilityLabel="purchased"
               color="#0D6E92">
               <Text
