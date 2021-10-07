@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -20,6 +20,7 @@ import Tasks from './components/ToDoList/Tasks';
 import AddTask from './components/ToDoList/AddTask';
 import ShoppingItems from './components/ShoppingList/ShoppingItems';
 import AddShoppingItem from './components/ShoppingList/AddShoppingItem';
+import SplashScreen from 'react-native-splash-screen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -38,6 +39,11 @@ function App() {
       notification: 'rgb(255, 69, 58)',
     },
   };
+
+  useEffect(() => {
+    SplashScreen.hide();
+  });
+
   return (
     <NavigationContainer theme={MyTheme}>
       <Navigator>
