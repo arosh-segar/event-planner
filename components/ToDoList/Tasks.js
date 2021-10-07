@@ -40,6 +40,13 @@ class Tasks extends React.Component {
     }
   };
 
+  deleteTaskByName = async name => {
+    this.setState({
+      tasks: this.state.tasks.filter(task => task.name !== name),
+    });
+    await AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks));
+  };
+
   addTasks = async task => {
     const updatedTasks = [...this.state.tasks, task];
     this.setState({tasks: updatedTasks});
@@ -125,7 +132,11 @@ class Tasks extends React.Component {
             <VStack w="100%" h="70%">
               <ScrollView>
                 {this.state.tasks.map((task, index) => (
-                  <Task key={index} task={task} />
+                  <Task
+                    key={index}
+                    task={task}
+                    deleteTaskByName={this.deleteTaskByName}
+                  />
                 ))}
               </ScrollView>
             </VStack>

@@ -62,8 +62,6 @@ function AddTask(route) {
       time: `${time?.getHours()} : ${time?.getMinutes()} : 00`,
     };
 
-    console.log(task);
-
     addTasks(task);
   };
 
