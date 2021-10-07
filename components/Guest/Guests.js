@@ -13,6 +13,7 @@ class Guests extends React.Component {
     super(props);
     this.state = {
       guests: [],
+      search: '',
     };
   }
 
@@ -25,6 +26,13 @@ class Guests extends React.Component {
     if (result !== null) {
       this.setState({guests: JSON.parse(result)});
     }
+  };
+
+  deleteGuestByName = async name => {
+    this.setState({
+      guests: this.state.guests.filter(guest => guest.name !== name),
+    });
+    await AsyncStorage.setItem('guests', JSON.stringify(this.state.guests));
   };
 
   addGuests = async guest => {
@@ -93,7 +101,10 @@ class Guests extends React.Component {
               </VStack>
               <Input
                 textAlign="center"
-                placeholder="Search Event"
+                placeholder="Search Guest"
+                onChangeText={searchInput => {
+                  this.setState({search: searchInput});
+                }}
                 borderColor="lightBlue.600"
                 _light={{
                   placeholderTextColor: 'blueGray.400',
@@ -106,7 +117,17 @@ class Guests extends React.Component {
             <VStack w="100%" h="70%">
               <ScrollView>
                 {this.state.guests.map((guest, index) => (
-                  <Guest key={index} guest={guest} />
+                  <>
+                    {guest.name
+                      .toLowerCase()
+                      .includes(this.state.search.toLowerCase()) && (
+                      <Guest
+                        key={index}
+                        guest={guest}
+                        deleteGuestByName={this.deleteGuestByName}
+                      />
+                    )}
+                  </>
                 ))}
               </ScrollView>
             </VStack>

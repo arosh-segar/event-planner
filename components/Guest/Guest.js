@@ -7,14 +7,24 @@ import {
   Box,
   Collapse,
   useMediaQuery,
+  Button,
   Center,
   VStack,
 } from 'native-base';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faChevronUp,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import DeleteItemModal from '../modals/DeleteItemModal';
+
 function Guest(props) {
   const {name, age, gender, email, foodPreference, status} = props.guest;
+  const deleteGuestByName = props.deleteGuestByName;
   const [isOpen, setIsOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <NativeBaseProvider>
       <Center>
@@ -33,11 +43,17 @@ function Guest(props) {
               Gender : {gender}
             </Text>
             <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              email : {email}
+              Email : {email}
             </Text>
             <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
               Budget : {foodPreference}
             </Text>
+            <Button
+              rounded="none"
+              bg="#fc1f0f"
+              onPress={() => setShowModal(true)}>
+              <FontAwesomeIcon icon={faTrash} color={'white'} />
+            </Button>
           </Collapse>
           <VStack position="absolute" right="5%" top="40%">
             <Text onPress={() => setIsOpen(!isOpen)} ml={3}>
@@ -47,6 +63,12 @@ function Guest(props) {
               />
             </Text>
           </VStack>
+          <DeleteItemModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            deleteItem={deleteGuestByName}
+            name={name}
+          />
         </Box>
       </Center>
     </NativeBaseProvider>
