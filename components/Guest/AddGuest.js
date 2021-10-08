@@ -167,6 +167,16 @@ function AddGuest(route) {
     </NativeBaseProvider>
   );
 }
+const styles = StyleSheet.create({
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+        height: '100%',
+        width: '100%',
+    }
+
+
+});
 
 const styles = StyleSheet.create({
   image: {

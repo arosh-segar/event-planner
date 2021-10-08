@@ -1,32 +1,30 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Alert,
-  TouchableOpacity,
-  ImageBackground,
-  Touchable,
-} from 'react-native';
+import {StyleSheet, ScrollView, ImageBackground} from 'react-native';
 import Task from './Task';
 import FAB from 'react-native-fab';
-import {
-  Center,
-  VStack,
-  HStack,
-  Input,
-  Select,
-  CheckIcon,
-  Text,
-} from 'native-base';
+import {Center, VStack, HStack, Select, CheckIcon} from 'native-base';
 import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import AsyncStorage from '@react-native-community/async-storage';
+import Chip from './Chip';
+
+const priority = ['Low', 'Medium', 'High'];
+const events = ['e1', 'e2', 'e3'];
+const status = ['pending', 'done'];
+const tasks = ['t1', 't2', 't3'];
 
 class Tasks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tasks: [],
+      selected: false,
+      currentSelection: '',
+      filterBy: [],
+      event: events,
+      priority: priority,
+      status: status,
+      taskNames: tasks,
+      selectedValue: '',
     };
   }
   componentDidMount = () => {
@@ -51,11 +49,29 @@ class Tasks extends React.Component {
     const updatedTasks = [...this.state.tasks, task];
     this.setState({tasks: updatedTasks});
     await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    this.props.navigation.navigate('To Do List');
+  };
+
+  onChipSelected = option => {
+    this.setState({selectedValue: ''});
+    this.setState({selected: !this.state.selected});
+    this.setState({currentSelection: option});
+    let filter = [];
+    if (option === 'Event') {
+      filter = this.state.event;
+    } else if (option === 'Priority') {
+      filter = this.state.priority;
+    } else if (option === 'Status') {
+      filter = this.state.status;
+    } else if (option === 'Task') {
+      filter = this.state.taskNames;
+    }
+    this.setState({filterBy: filter});
   };
 
   render() {
     const {navigation} = this.props;
-
+    const select = this.state.currentSelection;
     return (
       <NativeBaseProvider>
         <ImageBackground
@@ -68,43 +84,44 @@ class Tasks extends React.Component {
             <HStack w={'90%'} h={'10%'}>
               <ScrollView horizontal={true}>
                 <HStack space={3}>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
-                  <Center
-                    border={0}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600"
-                    bg={'lightBlue.600'}>
-                    <Text px={25} color={'#ffff'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
+                  {
+                    <Chip
+                      selectedOption={'Event'}
+                      onChipSelected={this.onChipSelected}
+                      selected={
+                        this.state.currentSelection === 'Event' ? true : false
+                      }
+                    />
+                  }
+                  {
+                    <Chip
+                      selectedOption={'Priority'}
+                      onChipSelected={this.onChipSelected}
+                      selected={
+                        this.state.currentSelection === 'Priority'
+                          ? true
+                          : false
+                      }
+                    />
+                  }
+                  {
+                    <Chip
+                      selectedOption={'Status'}
+                      onChipSelected={this.onChipSelected}
+                      selected={
+                        this.state.currentSelection === 'Status' ? true : false
+                      }
+                    />
+                  }
+                  {
+                    <Chip
+                      selectedOption={'Task'}
+                      onChipSelected={this.onChipSelected}
+                      selected={
+                        this.state.currentSelection === 'Task' ? true : false
+                      }
+                    />
+                  }
                 </HStack>
               </ScrollView>
             </HStack>
@@ -113,7 +130,8 @@ class Tasks extends React.Component {
                 borderColor="lightBlue.600"
                 minWidth="90%"
                 accessibilityLabel="Select your favorite programming language"
-                placeholder="Priority"
+                placeholder={this.state.currentSelection}
+                onValueChange={input => this.setState({selectedValue: input})}
                 _light={{
                   placeholderTextColor: 'blueGray.400',
                 }}
@@ -124,25 +142,48 @@ class Tasks extends React.Component {
                   bg: 'blueGray.400',
                   endIcon: <CheckIcon size={4} />,
                 }}>
-                <Select.Item label="Low" value="Low" />
-                <Select.Item label="Medium" value="Medium" />
-                <Select.Item label="High" value="High" />
+                {this.state.filterBy.map((value, index) => {
+                  return (
+                    <Select.Item key={index} label={value} value={value} />
+                  );
+                })}
               </Select>
             </VStack>
             <VStack w="100%" h="70%">
               <ScrollView>
-                {this.state.tasks.map((task, index) => (
-                  <Task
-                    key={index}
-                    task={task}
-                    deleteTaskByName={this.deleteTaskByName}
-                  />
-                ))}
+                {!this.state.selectedValue ? (
+                  <>
+                    {this.state.tasks.map((task, index) => (
+                      <>
+                        <Task
+                          key={index}
+                          task={task}
+                          deleteTaskByName={this.deleteTaskByName}
+                        />
+                      </>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {this.state.tasks.map((task, index) => (
+                      <>
+                        {task[this.state.currentSelection.toLowerCase()] ===
+                          this.state.selectedValue && (
+                          <Task
+                            key={index}
+                            task={task}
+                            deleteTaskByName={this.deleteTaskByName}
+                          />
+                        )}
+                      </>
+                    ))}
+                  </>
+                )}
               </ScrollView>
             </VStack>
             <FAB
-              buttonColor="#FFFFFF"
-              iconTextColor="#0D6E92"
+              buttonColor="blue"
+              iconTextColor="#FFFFFF"
               onClickAction={() => {
                 navigation.navigate('AddTask');
                 navigation.navigate('AddTask', {addTasks: this.addTasks});

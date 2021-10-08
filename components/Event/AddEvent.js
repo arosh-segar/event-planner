@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   Flex,
@@ -24,13 +24,6 @@ function AddEvent(route) {
   const [time, setTime] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-
-  /* useEffect(() => {
-    async function fetchData() {
-      await getEvents();
-    }
-    fetchData();
-  }, []); */
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);

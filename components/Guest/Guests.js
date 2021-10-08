@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, ImageBackground, StyleSheet} from 'react-native';
+import {StyleSheet, ScrollView, ImageBackground} from 'react-native';
 import Guest from './Guest';
 import FAB from 'react-native-fab';
 import {Center, HStack, Input, VStack, Text} from 'native-base';
@@ -7,6 +7,7 @@ import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-community/async-storage';
+
 
 class Guests extends React.Component {
   constructor(props) {
@@ -148,6 +149,12 @@ class Guests extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+  },
   image: {
     flex: 1,
     justifyContent: 'center',
