@@ -116,9 +116,9 @@ function AddEvent(route) {
                 bg: 'blueGray.400',
                 endIcon: <CheckIcon size={4} />,
               }}>
-              <Select.Item label="Birthday" value="Birthday" />
-              <Select.Item label="Wedding" value="Wedding" />
-              <Select.Item label="Batch Party" value="Batch Party" />
+              <Select.Item label="Birthday" value="birthday" />
+              <Select.Item label="Wedding" value="wedding" />
+              <Select.Item label="Batch Party" value="party" />
             </Select>
           </VStack>
           <Input

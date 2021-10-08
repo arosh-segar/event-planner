@@ -1,4 +1,4 @@
-import React, {Component, useDebugValue, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   Flex,
@@ -12,6 +12,7 @@ import {
   Input,
 } from 'native-base';
 import {StyleSheet, ImageBackground} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function AddTask(route) {
   const {addTasks} = route.route.params;
@@ -21,12 +22,24 @@ function AddTask(route) {
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [events, setEvents] = useState([]);
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
+  useEffect(() => {
+    getEvents();
+  });
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
+  };
+
+  const getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      setEvents(JSON.parse(result));
+    }
   };
 
   const hideDatePicker = () => {
@@ -128,9 +141,9 @@ function AddTask(route) {
                 bg: 'blueGray.400',
                 endIcon: <CheckIcon size={4} />,
               }}>
-              <Select.Item label="Birthday" value="Birthday" />
-              <Select.Item label="Wedding" value="Wedding" />
-              <Select.Item label="Batch Party" value="Batch Party" />
+              {events.map(e => (
+                <Select.Item label={e.name} value={e.name} />
+              ))}
             </Select>
           </VStack>
 
