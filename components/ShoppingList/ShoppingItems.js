@@ -49,6 +49,7 @@ class ShoppingItems extends React.Component {
       'shoppingItems',
       JSON.stringify(updatedShoppingItems),
     );
+    this.props.navigation.navigate('Shopping List');
   };
 
   render() {

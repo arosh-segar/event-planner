@@ -39,6 +39,7 @@ class Events extends React.Component {
     const updatedEvents = [...this.state.events, event];
     this.setState({events: updatedEvents});
     await AsyncStorage.setItem('events', JSON.stringify(updatedEvents));
+    this.props.navigation.navigate('Events');
   };
 
   render() {

@@ -6,6 +6,7 @@ import {
   NativeBaseProvider,
   Box,
   useMediaQuery,
+  SlideFade,
   Button,
   Collapse,
   Center,
@@ -33,6 +34,14 @@ function Guest(props) {
           rounded="lg"
           minWidth="90%"
           mb={5}
+          borderWidth={4}
+          borderColor={
+            priority === 'Low'
+              ? '#5ae653'
+              : priority === 'Medium'
+              ? '#e6d32e'
+              : '#fc1f0f'
+          }
           bg="#0284c7"
           overflow="hidden">
           <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
@@ -42,27 +51,29 @@ function Guest(props) {
             Event : {event}
           </Text>
           <Collapse isOpen={isOpen}>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Priority : {priority}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Status: {status}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Date: {date}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Time: {time}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Notes: {notes}
-            </Text>
-            <Button
-              rounded="none"
-              bg="#fc1f0f"
-              onPress={() => setShowModal(true)}>
-              <FontAwesomeIcon icon={faTrash} color={'white'} />
-            </Button>
+            <SlideFade in={isOpen}>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Priority : {priority}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Status: {status}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Date: {date}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Time: {time}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Notes: {notes}
+              </Text>
+              <Button
+                rounded="none"
+                bg="#fc1f0f"
+                onPress={() => setShowModal(true)}>
+                <FontAwesomeIcon icon={faTrash} color={'white'} />
+              </Button>
+            </SlideFade>
           </Collapse>
           <VStack position="absolute" right="5%" top="40%">
             <Text onPress={() => setIsOpen(!isOpen)} ml={3}>

@@ -32,6 +32,9 @@ class Guests extends React.Component {
     const result = await AsyncStorage.getItem('events');
     if (result !== null) {
       this.setState({events: JSON.parse(result)});
+      if (this.state.events.length > 0) {
+        this.setState({currentSelection: this.state.events[0]?.name});
+      }
     }
   };
 
@@ -53,6 +56,7 @@ class Guests extends React.Component {
     const updatedGuests = [...this.state.guests, guest];
     this.setState({guests: updatedGuests});
     await AsyncStorage.setItem('guests', JSON.stringify(updatedGuests));
+    this.props.navigation.navigate('Guests');
   };
 
   onChipSelected = option => {

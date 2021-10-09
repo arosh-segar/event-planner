@@ -7,6 +7,7 @@ import {
   Box,
   Collapse,
   useMediaQuery,
+  SlideFade,
   Button,
   Center,
   VStack,
@@ -36,24 +37,26 @@ function Guest(props) {
             Status : {status}
           </Text>
           <Collapse isOpen={isOpen}>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Age : {age}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Gender : {gender}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Email : {email}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Budget : {foodPreference}
-            </Text>
-            <Button
-              rounded="none"
-              bg="#fc1f0f"
-              onPress={() => setShowModal(true)}>
-              <FontAwesomeIcon icon={faTrash} color={'white'} />
-            </Button>
+            <SlideFade in={isOpen}>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Age : {age}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Gender : {gender}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Email : {email}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Budget : {foodPreference}
+              </Text>
+              <Button
+                rounded="none"
+                bg="#fc1f0f"
+                onPress={() => setShowModal(true)}>
+                <FontAwesomeIcon icon={faTrash} color={'white'} />
+              </Button>
+            </SlideFade>
           </Collapse>
           <VStack position="absolute" right="5%" top="40%">
             <Text onPress={() => setIsOpen(!isOpen)} ml={3}>

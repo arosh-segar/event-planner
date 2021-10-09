@@ -9,7 +9,7 @@ import {
   Center,
   Flex,
   Image,
-  HStack,
+  SlideFade,
 } from 'native-base';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -76,24 +76,26 @@ function Event(props) {
             </VStack>
           </Flex>
           <Collapse isOpen={isOpen}>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Type : {type}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Venue : {venue}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Time : {time}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Budget : {estimatedBudget}
-            </Text>
-            <Button
-              rounded="none"
-              bg="#fc1f0f"
-              onPress={() => setShowModal(true)}>
-              <FontAwesomeIcon icon={faTrash} color={'white'} />
-            </Button>
+            <SlideFade in={isOpen}>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Type : {type}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Venue : {venue}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Time : {time}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Budget : {estimatedBudget}
+              </Text>
+              <Button
+                rounded="none"
+                bg="#fc1f0f"
+                onPress={() => setShowModal(true)}>
+                <FontAwesomeIcon icon={faTrash} color={'white'} />
+              </Button>
+            </SlideFade>
           </Collapse>
           <VStack position="absolute" right="5%" top="40%">
             <Text onPress={() => setIsOpen(!isOpen)} ml={3}>
