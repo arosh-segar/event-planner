@@ -7,7 +7,7 @@ import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import Chip from './Chip';
 
 class Guests extends React.Component {
   constructor(props) {
@@ -15,11 +15,24 @@ class Guests extends React.Component {
     this.state = {
       guests: [],
       search: '',
+      events: [],
+      selected: false,
+      currentSelection: '',
+      filterBy: [],
+      selectedValue: '',
     };
   }
 
   componentDidMount = () => {
     this.getGuests();
+    this.getEvents();
+  };
+
+  getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      this.setState({events: JSON.parse(result)});
+    }
   };
 
   getGuests = async () => {
@@ -41,6 +54,13 @@ class Guests extends React.Component {
     this.setState({guests: updatedGuests});
     await AsyncStorage.setItem('guests', JSON.stringify(updatedGuests));
   };
+
+  onChipSelected = option => {
+    this.setState({selectedValue: ''});
+    this.setState({selected: !this.state.selected});
+    this.setState({currentSelection: option});
+  };
+
   render() {
     const {navigation} = this.props;
 
@@ -56,43 +76,17 @@ class Guests extends React.Component {
             <HStack w={'90%'} h={'10%'}>
               <ScrollView horizontal={true}>
                 <HStack space={3}>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
-                  <Center
-                    border={0}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600"
-                    bg={'lightBlue.600'}>
-                    <Text px={25} color={'#ffff'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      ALL
-                    </Text>
-                  </Center>
+                  {this.state.events.map(event => (
+                    <Chip
+                      selectedOption={event.name}
+                      onChipSelected={this.onChipSelected}
+                      selected={
+                        this.state.currentSelection === event.name
+                          ? true
+                          : false
+                      }
+                    />
+                  ))}
                 </HStack>
               </ScrollView>
             </HStack>
@@ -121,13 +115,14 @@ class Guests extends React.Component {
                   <>
                     {guest.name
                       .toLowerCase()
-                      .includes(this.state.search.toLowerCase()) && (
-                      <Guest
-                        key={index}
-                        guest={guest}
-                        deleteGuestByName={this.deleteGuestByName}
-                      />
-                    )}
+                      .includes(this.state.search.toLowerCase()) &&
+                      guest.event === this.state.currentSelection && (
+                        <Guest
+                          key={index}
+                          guest={guest}
+                          deleteGuestByName={this.deleteGuestByName}
+                        />
+                      )}
                   </>
                 ))}
               </ScrollView>
@@ -149,12 +144,6 @@ class Guests extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    justifyContent: 'center',
-    height: '100%',
-    width: '100%',
-  },
   image: {
     flex: 1,
     justifyContent: 'center',

@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-import {ScrollView, ImageBackground, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {ImageBackground, StyleSheet} from 'react-native';
 import {
   Select,
   VStack,
-  HStack,
-  Checkbox,
   CheckIcon,
   Button,
   Center,
@@ -14,6 +12,7 @@ import {
   Text,
   Flex,
 } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function AddGuest(route) {
   const {addGuests} = route.route.params;
@@ -21,8 +20,21 @@ function AddGuest(route) {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [email, setEmail] = useState('');
+  const [event, setEvent] = useState('');
   const [foodPreference, setFoodPreference] = useState('Vegetarian');
   const [status, setStatus] = useState('Invited');
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    getEvents();
+  });
+
+  const getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      setEvents(JSON.parse(result));
+    }
+  };
 
   const handleSubmit = () => {
     const guest = {
@@ -30,6 +42,7 @@ function AddGuest(route) {
       age,
       gender,
       email,
+      event,
       foodPreference,
       status,
     };
@@ -44,7 +57,7 @@ function AddGuest(route) {
         source={require('../ImageBackground/image/bg.jpg')}
         resizeMode="cover"
         style={styles.image}>
-        <Center mt={10}>
+        <Center>
           <Input
             w="90%"
             mx={3}
@@ -112,6 +125,28 @@ function AddGuest(route) {
             }}
           />
         </Center>
+        <VStack alignItems="center" space={4} mb={5}>
+          <Select
+            borderColor="lightBlue.600"
+            minWidth="90%"
+            accessibilityLabel="Select your favorite programming language"
+            onValueChange={eventInput => setEvent(eventInput)}
+            placeholder="Event Name"
+            _light={{
+              placeholderTextColor: 'blueGray.400',
+            }}
+            _dark={{
+              placeholderTextColor: 'blueGray.50',
+            }}
+            _selectedItem={{
+              bg: 'blueGray.400',
+              endIcon: <CheckIcon size={4} />,
+            }}>
+            {events.map(e => (
+              <Select.Item label={e.name} value={e.name} />
+            ))}
+          </Select>
+        </VStack>
         <Text fontSize="lg" ml={6} bold>
           Food Preference
         </Text>
@@ -125,10 +160,10 @@ function AddGuest(route) {
           accessibilityLabel="favorite colorscheme"
           ml={6}>
           <Flex w="90%" direction="row">
-            <Radio colorScheme="emerald" value="Vegetarian" my={1} w="60%">
+            <Radio colorScheme="primary" value="Vegetarian" w="65%">
               Vegetarian
             </Radio>
-            <Radio colorScheme="secondary" value="Non-Veg" my={2} w="50%">
+            <Radio colorScheme="primary" value="Non-Veg" w="55%">
               Non-Veg
             </Radio>
           </Flex>
@@ -140,15 +175,17 @@ function AddGuest(route) {
 
         <Radio.Group
           defaultValue="invited"
+          direction="row"
+          w="90%"
           onChange={statusInput => setStatus(statusInput)}
           name="exampleGroup"
           accessibilityLabel="favorite colorscheme"
           ml={6}>
-          <Flex w="90%" direction="row">
-            <Radio colorScheme="emerald" value="Invited" my={1} w="53%">
+          <Flex direction="row">
+            <Radio colorScheme="primary" value="Invited" w="50%">
               Invited
             </Radio>
-            <Radio colorScheme="secondary" value="Attending" my={2} w="53%">
+            <Radio colorScheme="primary" value="Attending" w="60%">
               Attending
             </Radio>
           </Flex>
@@ -167,17 +204,6 @@ function AddGuest(route) {
     </NativeBaseProvider>
   );
 }
-const styles = StyleSheet.create({
-    image: {
-        flex: 1,
-        justifyContent: 'center',
-        height: '100%',
-        width: '100%',
-    }
-
-
-});
-
 const styles = StyleSheet.create({
   image: {
     flex: 1,
