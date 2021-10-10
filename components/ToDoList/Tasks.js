@@ -8,9 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Chip from './Chip';
 
 const priority = ['Low', 'Medium', 'High'];
-const events = ['e1', 'e2', 'e3'];
 const status = ['pending', 'done'];
-const tasks = ['t1', 't2', 't3'];
 
 class Tasks extends React.Component {
   constructor(props) {
@@ -20,29 +18,54 @@ class Tasks extends React.Component {
       selected: false,
       currentSelection: '',
       filterBy: [],
-      event: events,
+      events:"",
       priority: priority,
       status: status,
-      taskNames: tasks,
+      taskNames:"",
       selectedValue: '',
     };
   }
   componentDidMount = () => {
-    this.getTasks();
+    this.getTasks().then(tasks=>{
+      const names = tasks.map(task =>{
+        return task.name
+      })
+      this.setState({taskNames:names})
+    })
+
+    this.getEvents().then(events =>{
+      const eventNames = events.map(event =>{
+        return event.name
+      })
+      this.setState({events:eventNames});
+    })
   };
 
   getTasks = async () => {
     const result = await AsyncStorage.getItem('tasks');
     if (result !== null) {
       this.setState({tasks: JSON.parse(result)});
+      return this.state.tasks
+    }
+
+  };
+
+  getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      return JSON.parse(result)
     }
   };
 
-  deleteTaskByName = async name => {
-    this.setState({
-      tasks: this.state.tasks.filter(task => task.name !== name),
-    });
-    await AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks));
+  closeTask = async name => {
+
+    const task =this.state.tasks.filter(task => task.name==name)
+    const tasks=this.state.tasks.filter(task => task.name!=name)
+    task[0].status='done'
+    tasks.push(task)
+    this.setState({task:tasks})
+    await AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks))
+
   };
 
   addTasks = async task => {
@@ -58,12 +81,12 @@ class Tasks extends React.Component {
     this.setState({currentSelection: option});
     let filter = [];
     if (option === 'Event') {
-      filter = this.state.event;
+      filter = this.state.events;
     } else if (option === 'Priority') {
       filter = this.state.priority;
     } else if (option === 'Status') {
       filter = this.state.status;
-    } else if (option === 'Task') {
+    } else if (option === 'Name') {
       filter = this.state.taskNames;
     }
     this.setState({filterBy: filter});
@@ -71,7 +94,6 @@ class Tasks extends React.Component {
 
   render() {
     const {navigation} = this.props;
-    const select = this.state.currentSelection;
     return (
       <NativeBaseProvider>
         <ImageBackground
@@ -115,7 +137,7 @@ class Tasks extends React.Component {
                   }
                   {
                     <Chip
-                      selectedOption={'Task'}
+                      selectedOption={'Name'}
                       onChipSelected={this.onChipSelected}
                       selected={
                         this.state.currentSelection === 'Task' ? true : false
@@ -158,7 +180,7 @@ class Tasks extends React.Component {
                         <Task
                           key={index}
                           task={task}
-                          deleteTaskByName={this.deleteTaskByName}
+                          closeTaskByName={this.closeTask}
                         />
                       </>
                     ))}
@@ -172,7 +194,7 @@ class Tasks extends React.Component {
                           <Task
                             key={index}
                             task={task}
-                            deleteTaskByName={this.deleteTaskByName}
+                            closeTaskByName={this.closeTask}
                           />
                         )}
                       </>
@@ -182,9 +204,9 @@ class Tasks extends React.Component {
               </ScrollView>
             </VStack>
             <FAB
-              buttonColor="blue"
-              iconTextColor="#FFFFFF"
-              onClickAction={() => {
+                buttonColor="blue"
+                iconTextColor="#FFFFFF"
+                onClickAction={() => {
                 navigation.navigate('AddTask');
                 navigation.navigate('AddTask', {addTasks: this.addTasks});
               }}
@@ -196,8 +218,6 @@ class Tasks extends React.Component {
     );
   }
 }
-   }
-  }
 
 
 const styles = StyleSheet.create({
@@ -260,65 +280,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
   },
 });
-  const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-          marginBottom: 100,
-      },
-      icon: {
-        color: 'rgba(128,128,128,1)',
-          fontSize: 40,
-          marginTop: 75,
-          marginLeft: 19,
-      },
-      rect: {
-        top: 0,
-          width: 375,
-          height: '100%',
-          position: 'absolute',
-          backgroundColor: '#E6E6E6',
-          left: 0,
-      },
-      scrollArea1: {
-        top: 100,
-          width: 405,
-          height: 400,
-          position: 'absolute',
-          left: 0,
-      },
-      rectStack: {
-        width: 375,
-          height: 165,
-      },
-      icon2: {
-        color: 'rgba(128,128,128,1)',
-          fontSize: 40,
-          marginLeft: 75,
-          marginTop: 143,
-      },
-      rectStackRow: {
-        height: 186,
-          flexDirection: 'row',
-          marginTop: 7,
-          marginRight: -115,
-      },
-      image: {
-        flex: 1,
-          justifyContent: 'center',
-          height: '100%',
-          width: '100%',
-      },
-      chipRow: {
-        height: 32,
-          flexDirection: 'row',
-          marginTop: 10,
-          marginLeft: 18,
-          marginRight: 54,
-      },
-      chip: {
-        width: 100,
-          backgroundColor: 'blue',
-      },
-    });
 
 export default Tasks;

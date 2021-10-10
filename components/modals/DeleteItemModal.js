@@ -11,7 +11,7 @@ import {
 import {useState} from 'react';
 
 function DeleteItemModal(props) {
-  const {showModal, setShowModal, deleteItem, name} = props;
+  const {showModal, setShowModal, closeTask, name} = props;
   return (
     <>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -23,7 +23,8 @@ function DeleteItemModal(props) {
             <Button.Group space={2}>
               <Button
                 onPress={() => {
-                  deleteItem(name);
+                  closeTask(name);
+                  setShowModal(false);
                 }}>
                 Yes
               </Button>
