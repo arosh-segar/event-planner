@@ -14,10 +14,18 @@ class Events extends React.Component {
     super(props);
     this.state = {
       events: [],
+      search: '',
     };
   }
   componentDidMount = () => {
     this.getEvents();
+  };
+
+  deleteEventByName = async name => {
+    this.setState({
+      events: this.state.events.filter(event => event.name !== name),
+    });
+    await AsyncStorage.setItem('events', JSON.stringify(this.state.events));
   };
 
   getEvents = async () => {
@@ -31,6 +39,7 @@ class Events extends React.Component {
     const updatedEvents = [...this.state.events, event];
     this.setState({events: updatedEvents});
     await AsyncStorage.setItem('events', JSON.stringify(updatedEvents));
+    this.props.navigation.navigate('Events');
   };
 
   render() {
@@ -52,6 +61,9 @@ class Events extends React.Component {
               <Input
                 textAlign="center"
                 placeholder="Search Event"
+                onChangeText={searchInput => {
+                  this.setState({search: searchInput});
+                }}
                 borderColor="lightBlue.600"
                 _light={{
                   placeholderTextColor: 'blueGray.400',
@@ -65,7 +77,17 @@ class Events extends React.Component {
             <VStack w="100%" h="85%">
               <ScrollView>
                 {this.state.events.map((event, index) => (
-                  <Event key={index} event={event} />
+                  <>
+                    {event.name
+                      .toLowerCase()
+                      .includes(this.state.search.toLowerCase()) && (
+                      <Event
+                        key={index}
+                        event={event}
+                        deleteEventByName={this.deleteEventByName}
+                      />
+                    )}
+                  </>
                 ))}
               </ScrollView>
             </VStack>

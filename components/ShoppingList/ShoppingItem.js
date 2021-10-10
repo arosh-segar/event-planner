@@ -4,6 +4,7 @@ import {
   Text,
   NativeBaseProvider,
   Box,
+  SlideFade,
   Collapse,
   useMediaQuery,
   Center,
@@ -39,15 +40,17 @@ function ShoppingItem(props) {
             Status : {itemStatus}
           </Text>
           <Collapse isOpen={isOpen}>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Event Name : {event}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Price : {itemPrice}
-            </Text>
-            <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-              Quantity : {itemQty}
-            </Text>
+            <SlideFade in={isOpen}>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Event Name : {event}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Price : {itemPrice}
+              </Text>
+              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+                Quantity : {itemQty}
+              </Text>
+            </SlideFade>
           </Collapse>
           <VStack position="absolute" right="5%" top="40%">
             <Text onPress={() => setIsOpen(!isOpen)} ml={3}>
