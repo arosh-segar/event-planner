@@ -30,29 +30,29 @@ function Guest(props) {
     <NativeBaseProvider>
       <Center>
         <Box shadow={2} rounded="lg" minWidth="90%" mb={5} bg="#0284c7">
-          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+          <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
             Guest Name : {name}
           </Text>
-          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+          <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
             Status : {status}
           </Text>
           <Collapse isOpen={isOpen}>
             <SlideFade in={isOpen}>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Age : {age}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Gender : {gender}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Email : {email}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
-                Budget : {foodPreference}
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
+                Food Preference : {foodPreference}
               </Text>
               <Button
                 rounded="none"
-                bg="#fc1f0f"
+                bg="#ff3d3d"
                 onPress={() => setShowModal(true)}>
                 <FontAwesomeIcon icon={faTrash} color={'white'} />
               </Button>

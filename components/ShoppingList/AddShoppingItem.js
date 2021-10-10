@@ -47,11 +47,12 @@ function AddShoppingItem(route) {
       <ImageBackground
         hp={'100%'}
         wp={'100%'}
-        source={require('../ImageBackground/image/bg.jpg')}
+        source={require('../ImageBackground/image/bg-1.png')}
         resizeMode="cover"
         style={styles.image}>
         <Center mt={10}>
           <Select
+            bg={'#FFFFFF'}
             mb={5}
             borderColor="lightBlue.600"
             minWidth="90%"
@@ -76,6 +77,7 @@ function AddShoppingItem(route) {
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Item Name"
             borderColor="lightBlue.600"
@@ -88,6 +90,7 @@ function AddShoppingItem(route) {
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Item Quantity"
             borderColor="lightBlue.600"
@@ -104,6 +107,7 @@ function AddShoppingItem(route) {
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Price per Quantity"
             borderColor="lightBlue.600"
@@ -121,6 +125,7 @@ function AddShoppingItem(route) {
             fontSize="lg"
             mt={5}
             mx={3}
+            bg={'#FFFFFF'}
             mb={4}
             w={'90%'}
             color="#0D6E92"
@@ -153,11 +158,9 @@ function AddShoppingItem(route) {
             w="90%"
             variant={'solid'}
             size="lg"
-            border={2}
-            borderColor="lightBlue.600"
-            bg="#ffff"
+            bg="lightBlue.600"
             onPress={handleSubmit}>
-            <Text color="#0284c7">SAVE</Text>
+            <Text color="#FFFFFF">SAVE</Text>
           </Button>
         </Center>
       </ImageBackground>

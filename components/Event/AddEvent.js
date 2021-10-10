@@ -73,12 +73,13 @@ function AddEvent(route) {
       <ImageBackground
         hp={'100%'}
         wp={'100%'}
-        source={require('../ImageBackground/image/bgl90.jpg')}
+        source={require('../ImageBackground/image/bg-1.png')}
         resizeMode="cover"
         style={styles.image}>
         <Center mt={10}>
           <Input
             w="90%"
+            bg={'#FFFFFF'}
             mx={3}
             mb={5}
             placeholder="Event Name"
@@ -95,6 +96,7 @@ function AddEvent(route) {
           <VStack alignItems="center" space={4} mb={5}>
             <Select
               borderColor="lightBlue.600"
+              bg={'#FFFFFF'}
               minWidth="90%"
               onValueChange={typeInput => setType(typeInput)}
               accessibilityLabel="Select your favorite programming language"
@@ -111,11 +113,12 @@ function AddEvent(route) {
               }}>
               <Select.Item label="Birthday" value="birthday" />
               <Select.Item label="Wedding" value="wedding" />
-              <Select.Item label="Batch Party" value="party" />
+              <Select.Item label="Party" value="party" />
             </Select>
           </VStack>
           <Input
             w="90%"
+            bg={'#FFFFFF'}
             mx={3}
             mb={5}
             placeholder="Event Venue"
@@ -132,6 +135,7 @@ function AddEvent(route) {
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Estimated Budget"
             borderColor="lightBlue.600"
@@ -164,6 +168,7 @@ function AddEvent(route) {
             <VStack
               w="50%"
               mb={5}
+              bg={'#FFFFFF'}
               space={2}
               paddingY={2}
               alignItems="center"
@@ -206,6 +211,7 @@ function AddEvent(route) {
               w="50%"
               mb={5}
               space={2}
+              bg={'#FFFFFF'}
               paddingY={2}
               alignItems="center"
               border={1.5}
