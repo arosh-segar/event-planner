@@ -17,6 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import DeleteItemModal from '../modals/DeleteItemModal';
+import CompleteTaskModal from "../modals/CompleteTaskModal";
 
 function Guest(props) {
   const [isOpen, setIsOpen] = useState(false);

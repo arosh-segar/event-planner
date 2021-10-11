@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Chip from './Chip';
 
 const priority = ['Low', 'Medium', 'High'];
-const status = ['pending', 'done'];
+const status = ['Pending', 'Done'];
 
 class Tasks extends React.Component {
   constructor(props) {
@@ -154,12 +154,8 @@ class Tasks extends React.Component {
                 accessibilityLabel="Select your favorite programming language"
                 placeholder={this.state.currentSelection}
                 onValueChange={input => this.setState({selectedValue: input})}
-                _light={{
-                  placeholderTextColor: 'blueGray.400',
-                }}
-                _dark={{
-                  placeholderTextColor: 'blueGray.50',
-                }}
+                placeholderTextColor={"#101011"}
+                backgroundColor={"#9abadf"}
                 _selectedItem={{
                   bg: 'blueGray.400',
                   endIcon: <CheckIcon size={4} />,
