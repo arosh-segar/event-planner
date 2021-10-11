@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {
   Select,
@@ -10,13 +10,10 @@ import {
   Center,
   NativeBaseProvider,
   Input,
-  Radio,
   Text,
-  Flex,
 } from 'native-base';
 import {ImageBackground, StyleSheet} from 'react-native';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function AddShoppingItem(route) {
   const {addShoppingItem} = route.route.params;
@@ -25,9 +22,21 @@ function AddShoppingItem(route) {
   const [itemQty, setItemQty] = useState(0);
   const [itemStatus, setItemStatus] = useState('pending');
   const [event, setEvent] = useState('');
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    getEvents();
+  });
 
   const generateID = () => {
     return `E${Math.floor(Math.random() * 100)}`;
+  };
+
+  const getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      setEvents(JSON.parse(result));
+    }
   };
 
   const handleSubmit = async () => {
@@ -51,28 +60,28 @@ function AddShoppingItem(route) {
         resizeMode="cover"
         style={styles.image}>
         <Center mt={10}>
-          <Select
-            bg={'#FFFFFF'}
-            mb={5}
-            borderColor="lightBlue.600"
-            minWidth="90%"
-            accessibilityLabel="Select your favorite programming language"
-            onValueChange={eventInput => setEvent(eventInput)}
-            placeholder="Event Name"
-            _light={{
-              placeholderTextColor: 'blueGray.400',
-            }}
-            _dark={{
-              placeholderTextColor: 'blueGray.50',
-            }}
-            _selectedItem={{
-              bg: 'blueGray.400',
-              endIcon: <CheckIcon size={4} />,
-            }}>
-            <Select.Item label="Birthday" value="Birthday" />
-            <Select.Item label="Wedding" value="Wedding" />
-            <Select.Item label="Batch Party" value="Batch Party" />
-          </Select>
+          <VStack alignItems="center" space={4} mb={5}>
+            <Select
+              borderColor="lightBlue.600"
+              minWidth="90%"
+              accessibilityLabel="Select your favorite programming language"
+              onValueChange={eventInput => setEvent(eventInput)}
+              placeholder="Event Name"
+              _light={{
+                placeholderTextColor: 'blueGray.400',
+              }}
+              _dark={{
+                placeholderTextColor: 'blueGray.50',
+              }}
+              _selectedItem={{
+                bg: 'blueGray.400',
+                endIcon: <CheckIcon size={4} />,
+              }}>
+              {events.map(e => (
+                <Select.Item label={e.name} value={e.name} />
+              ))}
+            </Select>
+          </VStack>
 
           <Input
             w="90%"
@@ -134,11 +143,11 @@ function AddShoppingItem(route) {
           </Text>
           <HStack space={20} mb={10} w={'90%'}>
             <Checkbox
-              defaultIsChecked="purchased"
               value="purchased"
-              onChange={statusInput => setItemStatus(statusInput)}
-              accessibilityLabel="purchased"
-              color="#0D6E92">
+              color="#0D6E92"
+              onPress={() =>
+                setItemStatus('purchased', !itemStatus === 'purchased')
+              }>
               <Text
                 fontSize="lg"
                 mt={3}

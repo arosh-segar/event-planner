@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, View, ScrollView, Alert} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, ScrollView} from 'react-native';
 import ShoppingItem from './ShoppingItem';
 import {
   heightPercentageToDP as hp,
@@ -23,6 +23,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import {ImageBackground} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Chip from './Chip';
 
 class ShoppingItems extends React.Component {
   constructor(props) {
@@ -30,16 +31,41 @@ class ShoppingItems extends React.Component {
 
     this.state = {
       shoppingItems: [],
+      events: [],
+      event: {},
+      selected: false,
+      currentSelection: '',
+      filterBy: [],
+      selectedValue: '',
+      total: 0.0,
+      spent: 0.0,
+      remaining: 0.0,
     };
   }
+
   componentDidMount = () => {
     this.getShoppingItems();
+    this.getEvents();
   };
+
   getShoppingItems = async () => {
     const result = await AsyncStorage.getItem('shoppingItems');
     if (result !== null) {
       this.setState({shoppingItems: JSON.parse(result)});
+      this.setState({event: this.state.events[0]});
     }
+  };
+
+  getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      this.setState({events: JSON.parse(result)});
+      this.setState({event: this.state.events[0]});
+      if (this.state.events.length > 0) {
+        this.setState({currentSelection: this.state.events[0]?.name});
+      }
+    }
+    this.calculateTotal();
   };
 
   addShoppingItem = async shoppingItem => {
@@ -49,7 +75,74 @@ class ShoppingItems extends React.Component {
       'shoppingItems',
       JSON.stringify(updatedShoppingItems),
     );
+    this.calculateTotal();
     this.props.navigation.navigate('Shopping List');
+  };
+
+  deleteShoppingItem = async name => {
+    this.setState({
+      shoppingItems: this.state.shoppingItems.filter(
+        shoppingItem => shoppingItem.itemName !== name,
+      ),
+    });
+    await AsyncStorage.setItem(
+      'shoppingItems',
+      JSON.stringify(
+        this.state.shoppingItems.filter(
+          shoppingItem => shoppingItem.itemName !== name,
+        ),
+      ),
+    );
+    this.calculateTotal();
+  };
+
+  calculateTotal = () => {
+    let spentItemsPrice = 0.0;
+
+    for (let itm of this.state.shoppingItems) {
+      if (itm.event === this.state.events[0]?.name) {
+        let price = parseFloat(itm.itemPrice) * parseFloat(itm.itemQty);
+
+        if (itm.itemStatus == 'purchased') {
+          spentItemsPrice = spentItemsPrice + price;
+        }
+      }
+    }
+    this.setState({spent: spentItemsPrice.toFixed(2)});
+
+    let remainingAmt = this.state.event?.estimatedBudget - spentItemsPrice;
+    remainingAmt = parseFloat(remainingAmt).toFixed(2);
+
+    this.setState({remaining: remainingAmt});
+  };
+
+  onChipSelected = option => {
+    this.setState({selectedValue: ''});
+    this.setState({selected: !this.state.selected});
+    this.setState({currentSelection: option});
+    this.setState({
+      event: this.state.events.find(event => event.name === option),
+    });
+    this.setState({budget: this.state.event?.estimatedBudget});
+
+    let spentItemsPrice = 0.0;
+
+    for (let itm of this.state.shoppingItems) {
+      if (itm.event === option) {
+        let price = parseFloat(itm.itemPrice) * parseFloat(itm.itemQty);
+
+        if (itm.itemStatus == 'purchased') {
+          spentItemsPrice = spentItemsPrice + price;
+        }
+      }
+    }
+
+    let remainingAmt = this.state.event?.estimatedBudget - spentItemsPrice;
+    spentItemsPrice = spentItemsPrice.toFixed(2);
+    remainingAmt = remainingAmt.toFixed(2);
+
+    this.setState({spent: spentItemsPrice});
+    this.setState({remaining: remainingAmt});
   };
 
   render() {
@@ -67,43 +160,17 @@ class ShoppingItems extends React.Component {
             <HStack w={'90%'} h={'10%'}>
               <ScrollView horizontal={true}>
                 <HStack space={3}>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      EVENT1
-                    </Text>
-                  </Center>
-                  <Center
-                    border={0}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600"
-                    bg={'lightBlue.600'}>
-                    <Text px={25} color={'#ffff'} fontWeight={700}>
-                      EVENT2
-                    </Text>
-                  </Center>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      EVENT3
-                    </Text>
-                  </Center>
-                  <Center
-                    border={3}
-                    borderRadius={20}
-                    height={'65%'}
-                    borderColor="lightBlue.600">
-                    <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                      EVENT4
-                    </Text>
-                  </Center>
+                  {this.state.events.map(event => (
+                    <Chip
+                      selectedOption={event.name}
+                      onChipSelected={this.onChipSelected}
+                      selected={
+                        this.state.currentSelection === event.name
+                          ? true
+                          : false
+                      }
+                    />
+                  ))}
                 </HStack>
               </ScrollView>
             </HStack>
@@ -111,7 +178,16 @@ class ShoppingItems extends React.Component {
             <VStack w="100%" h="70%">
               <ScrollView>
                 {this.state.shoppingItems.map((shoppingItem, index) => (
-                  <ShoppingItem key={index} shoppingItem={shoppingItem} />
+                  <>
+                    {shoppingItem.itemName &&
+                      shoppingItem.event === this.state.currentSelection && (
+                        <ShoppingItem
+                          key={index}
+                          shoppingItem={shoppingItem}
+                          deleteShoppingItem={this.deleteShoppingItem}
+                        />
+                      )}
+                  </>
                 ))}
               </ScrollView>
               <FAB
@@ -134,10 +210,10 @@ class ShoppingItems extends React.Component {
               <HStack space={3}>
                 <Center height={'65%'}>
                   <Text color="#0D6E92" fontSize="2xl" ml={0} bold>
-                    TOTAL
+                    BUDGET
                   </Text>
                   <Text color="#0D6E92" fontSize="lg" ml={1}>
-                    100000.00
+                    {parseFloat(this.state.event?.estimatedBudget).toFixed(2)}
                   </Text>
                 </Center>
                 <Center height={'65%'}>
@@ -145,7 +221,7 @@ class ShoppingItems extends React.Component {
                     SPENT
                   </Text>
                   <Text color="#0D6E92" fontSize="lg" ml={7}>
-                    50000.00
+                    {this.state.spent}
                   </Text>
                 </Center>
                 <Center height={'65%'}>
@@ -153,7 +229,10 @@ class ShoppingItems extends React.Component {
                     REMAINING
                   </Text>
                   <Text color="#0D6E92" fontSize="lg" ml={0}>
-                    50000.00
+                    {/*{this.state.remaining}*/}
+                    {parseFloat(
+                      this.state.event?.estimatedBudget - this.state.spent,
+                    ).toFixed(2)}
                   </Text>
                 </Center>
               </HStack>

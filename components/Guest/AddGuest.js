@@ -24,19 +24,7 @@ function AddGuest(route) {
   const [event, setEvent] = useState('');
   const [foodPreference, setFoodPreference] = useState('Vegetarian');
   const [status, setStatus] = useState('Invited');
-  const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    getEvents();
-  });
-
-  const getEvents = async () => {
-    const result = await AsyncStorage.getItem('events');
-    if (result !== null) {
-      setEvents(JSON.parse(result));
-    }
-  };
 
   const validateFields = () => {
     let isValid = true;
