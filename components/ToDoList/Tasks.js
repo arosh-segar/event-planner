@@ -65,7 +65,6 @@ class Tasks extends React.Component {
     tasks.push(task)
     this.setState({task:tasks})
     await AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks))
-
   };
 
   addTasks = async task => {

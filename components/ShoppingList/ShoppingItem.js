@@ -12,11 +12,18 @@ import {
   Button,
 } from 'native-base';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faChevronUp,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import DeleteItemModal from '../modals/DeleteItemModal';
 
 function ShoppingItem(props) {
   const {itemName, itemQty, itemPrice, itemStatus, event} = props.shoppingItem;
   const [isOpen, setIsOpen] = useState(false);
+  const deleteShoppingItem = props.deleteShoppingItem;
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <NativeBaseProvider>
@@ -30,12 +37,6 @@ function ShoppingItem(props) {
           <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
             Item Name : {itemName}
           </Text>
-          {/*<Text color="#FFFFFF" ml={3}>*/}
-          {/*  {itemQty}*/}
-          {/*</Text>*/}
-          {/*<Text color="#FFFFFF" ml={3}>*/}
-          {/*  {itemPrice}*/}
-          {/*</Text>*/}
           <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
             Status : {itemStatus}
           </Text>
@@ -50,6 +51,12 @@ function ShoppingItem(props) {
               <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
                 Quantity : {itemQty}
               </Text>
+              <Button
+                rounded="none"
+                bg="#fc1f0f"
+                onPress={() => setShowModal(true)}>
+                <FontAwesomeIcon icon={faTrash} color={'white'} />
+              </Button>
             </SlideFade>
           </Collapse>
           <VStack position="absolute" right="5%" top="40%">
@@ -60,6 +67,12 @@ function ShoppingItem(props) {
               />
             </Text>
           </VStack>
+          <DeleteItemModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            deleteItem={deleteShoppingItem}
+            name={itemName}
+          />
         </Box>
       </Center>
     </NativeBaseProvider>

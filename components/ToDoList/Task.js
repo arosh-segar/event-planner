@@ -73,6 +73,7 @@ function Guest(props) {
                 bg={statusColor}
                 onPress={() => setShowModal(true)}>
                 <FontAwesomeIcon icon={faCheck} color={'white'} />
+
               </Button>
             </SlideFade>
           </Collapse>

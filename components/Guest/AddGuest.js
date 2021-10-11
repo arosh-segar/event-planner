@@ -13,6 +13,7 @@ import {
   Flex,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import ErrorModal from '../modals/ErrorModal';
 
 function AddGuest(route) {
   const {addGuests} = route.route.params;
@@ -23,30 +24,40 @@ function AddGuest(route) {
   const [event, setEvent] = useState('');
   const [foodPreference, setFoodPreference] = useState('Vegetarian');
   const [status, setStatus] = useState('Invited');
-  const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    getEvents();
-  });
-
-  const getEvents = async () => {
-    const result = await AsyncStorage.getItem('events');
-    if (result !== null) {
-      setEvents(JSON.parse(result));
+  const validateFields = () => {
+    let isValid = true;
+    if (
+      !name ||
+      !age ||
+      !gender ||
+      !email ||
+      !event ||
+      !foodPreference ||
+      !status ||
+      !events
+    ) {
+      isValid = false;
     }
+    return isValid;
   };
 
   const handleSubmit = () => {
-    const guest = {
-      name,
-      age,
-      gender,
-      email,
-      event,
-      foodPreference,
-      status,
-    };
-    addGuests(guest);
+    if (validateFields()) {
+      const guest = {
+        name,
+        age,
+        gender,
+        email,
+        event,
+        foodPreference,
+        status,
+      };
+      addGuests(guest);
+    } else {
+      setShowModal(true);
+    }
   };
 
   return (
@@ -147,15 +158,15 @@ function AddGuest(route) {
               bg: 'blueGray.400',
               endIcon: <CheckIcon size={4} />,
             }}>
-            {events.map(e => (
-              <Select.Item label={e.name} value={e.name} />
-            ))}
+            <Select.Item label="Kane's 11th" value="Kane's 11th" />
+            <Select.Item label="Norma's Party" value="Norma's Party" />
+            <Select.Item label="Event 3" value="Event 3" />
+            <Select.Item label="David's Birthday" value="David's Birthday" />
           </Select>
         </VStack>
-        <Text color="#0D6E92" fontSize="lg" ml={6} bold>
+        <Text fontSize="lg" ml={6} mb={2} bold>
           Food Preference
         </Text>
-
         <Radio.Group
           defaultValue="vegetarian"
           onChange={foodPreferenceInput =>
@@ -165,10 +176,8 @@ function AddGuest(route) {
           accessibilityLabel="favorite colorscheme"
           ml={6}>
           <Flex w="90%" direction="row">
-            <Radio colorScheme="primary" value="Vegetarian" w="65%">
-              <Text ml={3} bold color="#0D6E92">
-                Vegetarian
-              </Text>
+            <Radio colorScheme="primary" value="Vegetarian" w="57%">
+              Vegetarian
             </Radio>
             <Radio colorScheme="primary" value="Non-Veg" w="55%">
               <Text ml={3} bold color="#0D6E92">
@@ -178,10 +187,9 @@ function AddGuest(route) {
           </Flex>
         </Radio.Group>
 
-        <Text color="#0D6E92" fontSize="lg" ml={6} bold>
+        <Text fontSize="lg" ml={6} mb={2} bold>
           Status
         </Text>
-
         <Radio.Group
           defaultValue="invited"
           direction="row"
@@ -196,10 +204,8 @@ function AddGuest(route) {
                 Invited
               </Text>
             </Radio>
-            <Radio colorScheme="primary" value="Attending" w="60%">
-              <Text ml={3} bold color="#0D6E92">
-                Attending
-              </Text>
+            <Radio colorScheme="primary" value="Attending" w="62%">
+              Attending
             </Radio>
           </Flex>
         </Radio.Group>
@@ -213,6 +219,7 @@ function AddGuest(route) {
             Save
           </Button>
         </Center>
+        <ErrorModal showModal={showModal} setShowModal={setShowModal} />
       </ImageBackground>
     </NativeBaseProvider>
   );
