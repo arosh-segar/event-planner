@@ -147,9 +147,10 @@ function AddGuest(route) {
               bg: 'blueGray.400',
               endIcon: <CheckIcon size={4} />,
             }}>
-            {events.map(e => (
-              <Select.Item label={e.name} value={e.name} />
-            ))}
+            <Select.Item label="Kane's 11th" value="Kane's 11th" />
+            <Select.Item label="Norma's Party" value="Norma's Party" />
+            <Select.Item label="Event 3" value="Event 3" />
+            <Select.Item label="David's Birthday" value="David's Birthday" />
           </Select>
         </VStack>
         <Text fontSize="lg" ml={6} mb={2} bold>
