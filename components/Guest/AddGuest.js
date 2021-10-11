@@ -152,10 +152,9 @@ function AddGuest(route) {
             ))}
           </Select>
         </VStack>
-        <Text color="#0D6E92" fontSize="lg" ml={6} bold>
+        <Text fontSize="lg" ml={6} mb={2} bold>
           Food Preference
         </Text>
-
         <Radio.Group
           defaultValue="vegetarian"
           onChange={foodPreferenceInput =>
@@ -165,23 +164,17 @@ function AddGuest(route) {
           accessibilityLabel="favorite colorscheme"
           ml={6}>
           <Flex w="90%" direction="row">
-            <Radio colorScheme="primary" value="Vegetarian" w="65%">
-              <Text ml={3} bold color="#0D6E92">
-                Vegetarian
-              </Text>
+            <Radio colorScheme="primary" value="Vegetarian" w="57%">
+              Vegetarian
             </Radio>
             <Radio colorScheme="primary" value="Non-Veg" w="55%">
-              <Text ml={3} bold color="#0D6E92">
-                Non-Veg
-              </Text>
+              Non-Veg
             </Radio>
           </Flex>
         </Radio.Group>
-
-        <Text color="#0D6E92" fontSize="lg" ml={6} bold>
+        <Text fontSize="lg" ml={6} mb={2} bold>
           Status
         </Text>
-
         <Radio.Group
           defaultValue="invited"
           direction="row"
@@ -192,14 +185,10 @@ function AddGuest(route) {
           ml={6}>
           <Flex direction="row">
             <Radio colorScheme="primary" value="Invited" w="50%">
-              <Text ml={3} bold color="#0D6E92">
-                Invited
-              </Text>
+              Invited
             </Radio>
-            <Radio colorScheme="primary" value="Attending" w="60%">
-              <Text ml={3} bold color="#0D6E92">
-                Attending
-              </Text>
+            <Radio colorScheme="primary" value="Attending" w="62%">
+              Attending
             </Radio>
           </Flex>
         </Radio.Group>

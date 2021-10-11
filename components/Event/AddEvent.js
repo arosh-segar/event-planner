@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 
 import {ImageBackground, StyleSheet} from 'react-native';
+import ErrorModal from '../modals/ErrorModal';
 
 function AddEvent(route) {
   const {addEvents} = route.route.params;
@@ -22,6 +23,7 @@ function AddEvent(route) {
   const [estimatedBudget, setEstimatedBudget] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -55,17 +57,30 @@ function AddEvent(route) {
     return `E${Math.floor(Math.random() * 100)}`;
   };
 
-  const handleSubmit = async () => {
-    const event = {
-      name,
-      type,
-      venue,
-      estimatedBudget,
-      date: `${date?.getDate()} / ${date?.getMonth()} / ${date?.getFullYear()}`,
-      time: `${time?.getHours()} : ${time?.getMinutes()} : 00`,
-    };
+  const validateFields = () => {
+    let isValid = true;
 
-    addEvents(event);
+    if (!name || !type || !venue || !estimatedBudget || !date || !time) {
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const handleSubmit = async () => {
+    if (validateFields()) {
+      const event = {
+        name,
+        type,
+        venue,
+        estimatedBudget,
+        date: `${date?.getDate()} / ${date?.getMonth()} / ${date?.getFullYear()}`,
+        time: `${time?.getHours()} : ${time?.getMinutes()} : 00`,
+      };
+      addEvents(event);
+    } else {
+      setShowModal(true);
+    }
   };
 
   return (
@@ -239,6 +254,7 @@ function AddEvent(route) {
             Add Event
           </Button>
         </Center>
+        <ErrorModal showModal={showModal} setShowModal={setShowModal} />
       </ImageBackground>
     </NativeBaseProvider>
   );
