@@ -14,6 +14,7 @@ import {
 } from 'native-base';
 import {ImageBackground, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import ErrorModal from '../modals/ErrorModal';
 
 function AddShoppingItem(route) {
   const {addShoppingItem} = route.route.params;
@@ -23,6 +24,7 @@ function AddShoppingItem(route) {
   const [itemStatus, setItemStatus] = useState('pending');
   const [event, setEvent] = useState('');
   const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getEvents();
@@ -30,6 +32,16 @@ function AddShoppingItem(route) {
 
   const generateID = () => {
     return `E${Math.floor(Math.random() * 100)}`;
+  };
+
+  const validateFields = () => {
+    let isValid = true;
+
+    if (!itemName || !itemPrice || !itemQty || !itemStatus || !event) {
+      isValid = false;
+    }
+
+    return isValid;
   };
 
   const getEvents = async () => {
@@ -40,15 +52,19 @@ function AddShoppingItem(route) {
   };
 
   const handleSubmit = async () => {
-    const shoppingItem = {
-      itemName,
-      itemQty,
-      itemPrice,
-      itemStatus,
-      event,
-    };
+    if (validateFields()) {
+      const shoppingItem = {
+        itemName,
+        itemQty,
+        itemPrice,
+        itemStatus,
+        event,
+      };
 
-    addShoppingItem(shoppingItem);
+      addShoppingItem(shoppingItem);
+    } else {
+      setShowModal(true);
+    }
   };
 
   return (
@@ -172,6 +188,7 @@ function AddShoppingItem(route) {
             <Text color="#FFFFFF">SAVE</Text>
           </Button>
         </Center>
+        <ErrorModal showModal={showModal} setShowModal={setShowModal} />
       </ImageBackground>
     </NativeBaseProvider>
   );
