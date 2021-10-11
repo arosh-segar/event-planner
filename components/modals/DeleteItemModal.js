@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Modal} from 'native-base';
 
 function DeleteItemModal(props) {
-  const {showModal, setShowModal, closeTask, name} = props;
+  const {showModal, setShowModal, deleteItem, name} = props;
   return (
     <>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -14,7 +14,8 @@ function DeleteItemModal(props) {
             <Button.Group space={2}>
               <Button
                 onPress={() => {
-                  closeTask(name);
+                  deleteItem(name);
+                  setShowModal(false);
                 }}>
                 Yes
               </Button>
