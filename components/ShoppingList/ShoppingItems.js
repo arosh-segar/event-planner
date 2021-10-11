@@ -65,6 +65,7 @@ class ShoppingItems extends React.Component {
         this.setState({currentSelection: this.state.events[0]?.name});
       }
     }
+    this.calculateTotal();
   };
 
   addShoppingItem = async shoppingItem => {
@@ -74,6 +75,7 @@ class ShoppingItems extends React.Component {
       'shoppingItems',
       JSON.stringify(updatedShoppingItems),
     );
+    this.calculateTotal();
     this.props.navigation.navigate('Shopping List');
   };
 
@@ -91,6 +93,27 @@ class ShoppingItems extends React.Component {
         ),
       ),
     );
+    this.calculateTotal();
+  };
+
+  calculateTotal = () => {
+    let spentItemsPrice = 0.0;
+
+    for (let itm of this.state.shoppingItems) {
+      if (itm.event === this.state.events[0]?.name) {
+        let price = parseFloat(itm.itemPrice) * parseFloat(itm.itemQty);
+
+        if (itm.itemStatus == 'purchased') {
+          spentItemsPrice = spentItemsPrice + price;
+        }
+      }
+    }
+    this.setState({spent: spentItemsPrice.toFixed(2)});
+
+    let remainingAmt = this.state.event?.estimatedBudget - spentItemsPrice;
+    remainingAmt = parseFloat(remainingAmt).toFixed(2);
+
+    this.setState({remaining: remainingAmt});
   };
 
   onChipSelected = option => {
@@ -100,23 +123,25 @@ class ShoppingItems extends React.Component {
     this.setState({
       event: this.state.events.find(event => event.name === option),
     });
-    this.setState({budget: this.state.event.estimatedBudget});
+    this.setState({budget: this.state.event?.estimatedBudget});
 
     let spentItemsPrice = 0.0;
 
     for (let itm of this.state.shoppingItems) {
-      let price = parseFloat(itm?.itemPrice);
+      if (itm.event === option) {
+        let price = parseFloat(itm.itemPrice) * parseFloat(itm.itemQty);
 
-      if (itm.itemStatus == 'purchased') {
-        spentItemsPrice = spentItemsPrice + price;
+        if (itm.itemStatus == 'purchased') {
+          spentItemsPrice = spentItemsPrice + price;
+        }
       }
     }
 
-    let remainingAmt =
-      this.state.event?.estimatedBudget - spentItemsPrice.toFixed(2);
-    let spentAmt = spentItemsPrice.toFixed(2);
+    let remainingAmt = this.state.event?.estimatedBudget - spentItemsPrice;
+    spentItemsPrice = spentItemsPrice.toFixed(2);
+    remainingAmt = remainingAmt.toFixed(2);
 
-    this.setState({spent: spentAmt});
+    this.setState({spent: spentItemsPrice});
     this.setState({remaining: remainingAmt});
   };
 
@@ -188,7 +213,7 @@ class ShoppingItems extends React.Component {
                     BUDGET
                   </Text>
                   <Text color="#0D6E92" fontSize="lg" ml={1}>
-                    {this.state.event?.estimatedBudget}
+                    {parseFloat(this.state.event?.estimatedBudget).toFixed(2)}
                   </Text>
                 </Center>
                 <Center height={'65%'}>
@@ -204,15 +229,10 @@ class ShoppingItems extends React.Component {
                     REMAINING
                   </Text>
                   <Text color="#0D6E92" fontSize="lg" ml={0}>
-                    {this.state.remaining}
-                  </Text>
-                </Center>
-                <Center height={'65%'}>
-                  <Text color="#0D6E92" fontSize="2xl" ml={4} bold>
-                    BUDGET
-                  </Text>
-                  <Text color="#0D6E92" fontSize="lg" ml={0}>
-                    {this.state.total}
+                    {/*{this.state.remaining}*/}
+                    {parseFloat(
+                      this.state.event?.estimatedBudget - this.state.spent,
+                    ).toFixed(2)}
                   </Text>
                 </Center>
               </HStack>
