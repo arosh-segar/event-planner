@@ -13,6 +13,7 @@ import {
   Flex,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import ErrorModal from '../modals/ErrorModal';
 
 function AddGuest(route) {
   const {addGuests} = route.route.params;
@@ -24,6 +25,7 @@ function AddGuest(route) {
   const [foodPreference, setFoodPreference] = useState('Vegetarian');
   const [status, setStatus] = useState('Invited');
   const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getEvents();
@@ -36,17 +38,38 @@ function AddGuest(route) {
     }
   };
 
+  const validateFields = () => {
+    let isValid = true;
+    if (
+      !name ||
+      !age ||
+      !gender ||
+      !email ||
+      !event ||
+      !foodPreference ||
+      !status ||
+      !events
+    ) {
+      isValid = false;
+    }
+    return isValid;
+  };
+
   const handleSubmit = () => {
-    const guest = {
-      name,
-      age,
-      gender,
-      email,
-      event,
-      foodPreference,
-      status,
-    };
-    addGuests(guest);
+    if (validateFields()) {
+      const guest = {
+        name,
+        age,
+        gender,
+        email,
+        event,
+        foodPreference,
+        status,
+      };
+      addGuests(guest);
+    } else {
+      setShowModal(true);
+    }
   };
 
   return (
@@ -203,6 +226,7 @@ function AddGuest(route) {
             Save
           </Button>
         </Center>
+        <ErrorModal showModal={showModal} setShowModal={setShowModal} />
       </ImageBackground>
     </NativeBaseProvider>
   );
