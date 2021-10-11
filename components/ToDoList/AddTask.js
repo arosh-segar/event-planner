@@ -70,7 +70,7 @@ function AddTask(route) {
       priority,
       event,
       notes,
-      status: 'pending',
+      status: 'Pending',
       date: `${date?.getDate()} / ${date?.getMonth()} / ${date?.getFullYear()}`,
       time: `${time?.getHours()} : ${time?.getMinutes()} : 00`,
     };

@@ -8,9 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Chip from './Chip';
 
 const priority = ['Low', 'Medium', 'High'];
-const events = ['e1', 'e2', 'e3'];
-const status = ['pending', 'done'];
-const tasks = ['t1', 't2', 't3'];
+const status = ['Pending', 'Done'];
 
 class Tasks extends React.Component {
   constructor(props) {
@@ -20,32 +18,53 @@ class Tasks extends React.Component {
       selected: false,
       currentSelection: '',
       filterBy: [],
-      event: events,
+      events:[],
       priority: priority,
       status: status,
-      taskNames: tasks,
+      taskNames:[],
       selectedValue: '',
     };
   }
   componentDidMount = () => {
-    this.getTasks();
+    this.getTasks().then(tasks=>{
+      const names = tasks.map(task =>{
+        return task.name
+      })
+      this.setState({taskNames:names})
+    })
+
+    this.getEvents().then(events =>{
+      const eventNames = events.map(event =>{
+        return event.name
+      })
+      this.setState({events:eventNames});
+    })
   };
 
   getTasks = async () => {
     const result = await AsyncStorage.getItem('tasks');
     if (result !== null) {
       this.setState({tasks: JSON.parse(result)});
+      return this.state.tasks
+    }
+
+  };
+
+  getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      return JSON.parse(result)
     }
   };
 
-  deleteTaskByName = async name => {
-    this.setState({
-      tasks: this.state.tasks.filter(task => task.name !== name),
-    });
-    await AsyncStorage.setItem(
-      'tasks',
-      JSON.stringify(this.state.tasks.filter(task => task.name !== name)),
-    );
+  closeTask = async name => {
+
+    const task =this.state.tasks.filter(task => task.name==name)
+    const tasks=this.state.tasks.filter(task => task.name!=name)
+    task[0].status='done'
+    tasks.push(task)
+    this.setState({task:tasks})
+    await AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks))
   };
 
   addTasks = async task => {
@@ -61,12 +80,12 @@ class Tasks extends React.Component {
     this.setState({currentSelection: option});
     let filter = [];
     if (option === 'Event') {
-      filter = this.state.event;
+      filter = this.state.events;
     } else if (option === 'Priority') {
       filter = this.state.priority;
     } else if (option === 'Status') {
       filter = this.state.status;
-    } else if (option === 'Task') {
+    } else if (option === 'Name') {
       filter = this.state.taskNames;
     }
     this.setState({filterBy: filter});
@@ -74,7 +93,6 @@ class Tasks extends React.Component {
 
   render() {
     const {navigation} = this.props;
-    const select = this.state.currentSelection;
     return (
       <NativeBaseProvider>
         <ImageBackground
@@ -118,7 +136,7 @@ class Tasks extends React.Component {
                   }
                   {
                     <Chip
-                      selectedOption={'Task'}
+                      selectedOption={'Name'}
                       onChipSelected={this.onChipSelected}
                       selected={
                         this.state.currentSelection === 'Task' ? true : false
@@ -135,12 +153,8 @@ class Tasks extends React.Component {
                 accessibilityLabel="Select your favorite programming language"
                 placeholder={this.state.currentSelection}
                 onValueChange={input => this.setState({selectedValue: input})}
-                _light={{
-                  placeholderTextColor: 'blueGray.400',
-                }}
-                _dark={{
-                  placeholderTextColor: 'blueGray.50',
-                }}
+                placeholderTextColor={"#101011"}
+                backgroundColor={"#9abadf"}
                 _selectedItem={{
                   bg: 'blueGray.400',
                   endIcon: <CheckIcon size={4} />,
@@ -161,7 +175,7 @@ class Tasks extends React.Component {
                         <Task
                           key={index}
                           task={task}
-                          deleteTaskByName={this.deleteTaskByName}
+                          closeTaskByName={this.closeTask}
                         />
                       </>
                     ))}
@@ -175,7 +189,7 @@ class Tasks extends React.Component {
                           <Task
                             key={index}
                             task={task}
-                            deleteTaskByName={this.deleteTaskByName}
+                            closeTaskByName={this.closeTask}
                           />
                         )}
                       </>
