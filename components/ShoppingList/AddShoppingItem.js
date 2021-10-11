@@ -78,6 +78,7 @@ function AddShoppingItem(route) {
         <Center mt={10}>
           <VStack alignItems="center" space={4} mb={5}>
             <Select
+              bg={'#FFFFFF'}
               borderColor="lightBlue.600"
               minWidth="90%"
               accessibilityLabel="Select your favorite programming language"
