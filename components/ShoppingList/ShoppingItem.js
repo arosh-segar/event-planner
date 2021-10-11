@@ -53,7 +53,7 @@ function ShoppingItem(props) {
               </Text>
               <Button
                 rounded="none"
-                bg="#fc1f0f"
+                bg="#ff3d3d"
                 onPress={() => setShowModal(true)}>
                 <FontAwesomeIcon icon={faTrash} color={'white'} />
               </Button>
