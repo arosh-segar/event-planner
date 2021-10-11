@@ -13,6 +13,7 @@ import {
   Flex,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import ErrorModal from '../modals/ErrorModal';
 
 function AddGuest(route) {
   const {addGuests} = route.route.params;
@@ -23,30 +24,40 @@ function AddGuest(route) {
   const [event, setEvent] = useState('');
   const [foodPreference, setFoodPreference] = useState('Vegetarian');
   const [status, setStatus] = useState('Invited');
-  const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    getEvents();
-  });
-
-  const getEvents = async () => {
-    const result = await AsyncStorage.getItem('events');
-    if (result !== null) {
-      setEvents(JSON.parse(result));
+  const validateFields = () => {
+    let isValid = true;
+    if (
+      !name ||
+      !age ||
+      !gender ||
+      !email ||
+      !event ||
+      !foodPreference ||
+      !status ||
+      !events
+    ) {
+      isValid = false;
     }
+    return isValid;
   };
 
   const handleSubmit = () => {
-    const guest = {
-      name,
-      age,
-      gender,
-      email,
-      event,
-      foodPreference,
-      status,
-    };
-    addGuests(guest);
+    if (validateFields()) {
+      const guest = {
+        name,
+        age,
+        gender,
+        email,
+        event,
+        foodPreference,
+        status,
+      };
+      addGuests(guest);
+    } else {
+      setShowModal(true);
+    }
   };
 
   return (
@@ -54,13 +65,14 @@ function AddGuest(route) {
       <ImageBackground
         hp={'100%'}
         wp={'100%'}
-        source={require('../ImageBackground/image/bg.jpg')}
+        source={require('../ImageBackground/image/bg-1.png')}
         resizeMode="cover"
         style={styles.image}>
         <Center>
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Guest Name"
             onChangeText={nameInput => setName(nameInput)}
@@ -76,6 +88,7 @@ function AddGuest(route) {
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Age"
             onChangeText={ageInput => setAge(ageInput)}
@@ -90,6 +103,7 @@ function AddGuest(route) {
           />
           <VStack alignItems="center" space={4} mb={5}>
             <Select
+              bg={'#FFFFFF'}
               borderColor="lightBlue.600"
               minWidth={'90%'}
               onValueChange={genderInput => setGender(genderInput)}
@@ -105,13 +119,14 @@ function AddGuest(route) {
                 bg: 'blueGray.400',
                 endIcon: <CheckIcon size={4} />,
               }}>
-              <Select.Item label="Male" value="js" />
-              <Select.Item label="Female" value="ts" />
+              <Select.Item label="Male" value="Male" />
+              <Select.Item label="Female" value="Female" />
             </Select>
           </VStack>
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Email"
             onChangeText={emailInput => setEmail(emailInput)}
@@ -129,6 +144,7 @@ function AddGuest(route) {
           <Select
             borderColor="lightBlue.600"
             minWidth="90%"
+            bg={'#FFFFFF'}
             accessibilityLabel="Select your favorite programming language"
             onValueChange={eventInput => setEvent(eventInput)}
             placeholder="Event Name"
@@ -142,15 +158,15 @@ function AddGuest(route) {
               bg: 'blueGray.400',
               endIcon: <CheckIcon size={4} />,
             }}>
-            {events.map(e => (
-              <Select.Item label={e.name} value={e.name} />
-            ))}
+            <Select.Item label="Kane's 11th" value="Kane's 11th" />
+            <Select.Item label="Norma's Party" value="Norma's Party" />
+            <Select.Item label="Event 3" value="Event 3" />
+            <Select.Item label="David's Birthday" value="David's Birthday" />
           </Select>
         </VStack>
-        <Text fontSize="lg" ml={6} bold>
+        <Text fontSize="lg" ml={6} mb={2} bold>
           Food Preference
         </Text>
-
         <Radio.Group
           defaultValue="vegetarian"
           onChange={foodPreferenceInput =>
@@ -160,7 +176,7 @@ function AddGuest(route) {
           accessibilityLabel="favorite colorscheme"
           ml={6}>
           <Flex w="90%" direction="row">
-            <Radio colorScheme="primary" value="Vegetarian" w="65%">
+            <Radio colorScheme="primary" value="Vegetarian" w="57%">
               Vegetarian
             </Radio>
             <Radio colorScheme="primary" value="Non-Veg" w="55%">
@@ -168,11 +184,9 @@ function AddGuest(route) {
             </Radio>
           </Flex>
         </Radio.Group>
-
-        <Text fontSize="lg" ml={6} bold>
+        <Text fontSize="lg" ml={6} mb={2} bold>
           Status
         </Text>
-
         <Radio.Group
           defaultValue="invited"
           direction="row"
@@ -185,7 +199,7 @@ function AddGuest(route) {
             <Radio colorScheme="primary" value="Invited" w="50%">
               Invited
             </Radio>
-            <Radio colorScheme="primary" value="Attending" w="60%">
+            <Radio colorScheme="primary" value="Attending" w="62%">
               Attending
             </Radio>
           </Flex>
@@ -200,6 +214,7 @@ function AddGuest(route) {
             Save
           </Button>
         </Center>
+        <ErrorModal showModal={showModal} setShowModal={setShowModal} />
       </ImageBackground>
     </NativeBaseProvider>
   );

@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-
-import Icon from 'react-native-vector-icons/Entypo';
 import {
   Text,
   NativeBaseProvider,
@@ -25,6 +23,12 @@ function Guest(props) {
   const [showModal, setShowModal] = useState(false);
   const {name, priority, event, notes, status, date, time} = props.task;
   const deleteTaskByName = props.deleteTaskByName;
+  const statusColor =
+    priority === 'Low'
+      ? '#40ff40'
+      : priority === 'Medium'
+      ? '#e6d32e'
+      : '#ff3d3d';
 
   return (
     <NativeBaseProvider>
@@ -34,44 +38,38 @@ function Guest(props) {
           rounded="lg"
           minWidth="90%"
           mb={5}
-          borderWidth={4}
-          borderColor={
-            priority === 'Low'
-              ? '#5ae653'
-              : priority === 'Medium'
-              ? '#e6d32e'
-              : '#fc1f0f'
-          }
-          bg="#0284c7"
+          borderWidth={2}
+          borderColor={statusColor}
+          bg="#FFFFFF"
           overflow="hidden">
-          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+          <Text color="#0284c7" bold mb={3} mt={3} ml={3}>
             Task : {name}
           </Text>
-          <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+          <Text color="#0284c7" bold mb={3} mt={3} ml={3}>
             Event : {event}
           </Text>
           <Collapse isOpen={isOpen}>
             <SlideFade in={isOpen}>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#0284c7" bold mb={3} mt={3} ml={3}>
                 Priority : {priority}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#0284c7" bold mb={3} mt={3} ml={3}>
                 Status: {status}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#0284c7" bold mb={3} mt={3} ml={3}>
                 Date: {date}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#0284c7" bold mb={3} mt={3} ml={3}>
                 Time: {time}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#0284c7" bold mb={3} mt={3} ml={3}>
                 Notes: {notes}
               </Text>
               <Button
                 rounded="none"
-                bg="#fc1f0f"
+                bg={statusColor}
                 onPress={() => setShowModal(true)}>
-                <FontAwesomeIcon icon={faTrash} color={'white'} />
+                <FontAwesomeIcon icon={faTrash} color={'#FFFFFF'} />
               </Button>
             </SlideFade>
           </Collapse>
@@ -79,7 +77,7 @@ function Guest(props) {
             <Text onPress={() => setIsOpen(!isOpen)} ml={3}>
               <FontAwesomeIcon
                 icon={isOpen ? faChevronUp : faChevronDown}
-                color={'white'}
+                color={statusColor}
               />
             </Text>
           </VStack>

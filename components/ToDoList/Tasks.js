@@ -42,7 +42,10 @@ class Tasks extends React.Component {
     this.setState({
       tasks: this.state.tasks.filter(task => task.name !== name),
     });
-    await AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks));
+    await AsyncStorage.setItem(
+      'tasks',
+      JSON.stringify(this.state.tasks.filter(task => task.name !== name)),
+    );
   };
 
   addTasks = async task => {
@@ -77,7 +80,7 @@ class Tasks extends React.Component {
         <ImageBackground
           hp={'100%'}
           wp={'100%'}
-          source={require('../ImageBackground/image/bg.jpg')}
+          source={require('../ImageBackground/image/bgl90.jpg')}
           resizeMode="cover"
           style={styles.image}>
           <Center h="100%">
@@ -182,7 +185,7 @@ class Tasks extends React.Component {
               </ScrollView>
             </VStack>
             <FAB
-              buttonColor="blue"
+              buttonColor="#0284c7"
               iconTextColor="#FFFFFF"
               onClickAction={() => {
                 navigation.navigate('AddTask');

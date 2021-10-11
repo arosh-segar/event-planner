@@ -83,7 +83,7 @@ function AddTask(route) {
       <ImageBackground
         hp={'100%'}
         wp={'100%'}
-        source={require('../ImageBackground/image/bg.jpg')}
+        source={require('../ImageBackground/image/bg-1.png')}
         resizeMode="cover"
         style={styles.image}>
         <Center mt={10}>
@@ -91,6 +91,7 @@ function AddTask(route) {
             w="90%"
             mx={3}
             mb={5}
+            bg={'#FFFFFF'}
             placeholder="Task Name"
             borderColor="lightBlue.600"
             onChangeText={taskInput => setName(taskInput)}
@@ -104,6 +105,7 @@ function AddTask(route) {
           />
           <VStack alignItems="center" space={4} mb={5}>
             <Select
+              bg={'#FFFFFF'}
               borderColor="lightBlue.600"
               minWidth="90%"
               onValueChange={priorityInput => setPriority(priorityInput)}
@@ -126,6 +128,7 @@ function AddTask(route) {
           </VStack>
           <VStack alignItems="center" space={4} mb={5}>
             <Select
+              bg={'#FFFFFF'}
               borderColor="lightBlue.600"
               minWidth="90%"
               accessibilityLabel="Select your favorite programming language"
@@ -167,6 +170,7 @@ function AddTask(route) {
             <VStack
               w="50%"
               mb={5}
+              bg={'#FFFFFF'}
               space={2}
               paddingY={2}
               alignItems="center"
@@ -207,6 +211,7 @@ function AddTask(route) {
             <VStack
               w="50%"
               mb={5}
+              bg={'#FFFFFF'}
               space={2}
               paddingY={2}
               alignItems="center"
@@ -231,6 +236,7 @@ function AddTask(route) {
             w="90%"
             h={20}
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Notes"
             onChangeText={notesInput => setNotes(notesInput)}
