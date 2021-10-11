@@ -49,7 +49,10 @@ class Guests extends React.Component {
     this.setState({
       guests: this.state.guests.filter(guest => guest.name !== name),
     });
-    await AsyncStorage.setItem('guests', JSON.stringify(this.state.guests));
+    await AsyncStorage.setItem(
+      'guests',
+      JSON.stringify(this.state.guests.filter(guest => guest.name !== name)),
+    );
   };
 
   addGuests = async guest => {

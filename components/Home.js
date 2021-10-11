@@ -45,7 +45,7 @@ function Home({navigation}) {
               h="100%">
               <Center>
                 <FontAwesomeIcon icon={faCalendar} color="#0284c7" size={58} />
-                <Text mt="50%" color="#0284c7">
+                <Text bold mt="50%" color="#0284c7">
                   EVENTS
                 </Text>
               </Center>
@@ -62,7 +62,7 @@ function Home({navigation}) {
               onPress={() => navigation.navigate('Guests')}>
               <Center>
                 <FontAwesomeIcon icon={faUsers} color="#0284c7" size={65} />
-                <Text mt="35%" color="#0284c7">
+                <Text bold mt="35%" color="#0284c7">
                   GUESTS
                 </Text>
               </Center>
@@ -90,7 +90,7 @@ function Home({navigation}) {
                   color="#0284c7"
                   size={55}
                 />
-                <Text mt="30%" color="#0284c7">
+                <Text bold mt="30%" color="#0284c7">
                   TO-DO LIST
                 </Text>
               </Center>
@@ -112,7 +112,7 @@ function Home({navigation}) {
                   color="#0284c7"
                   size={55}
                 />
-                <Text mt="20%" color="#0284c7">
+                <Text bold mt="20%" color="#0284c7">
                   SHOPPING LIST
                 </Text>{' '}
               </Center>

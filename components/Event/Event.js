@@ -67,31 +67,31 @@ function Event(props) {
               )
             )}
             <VStack w="63%">
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Event Name : {name}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Date : {date}
               </Text>
             </VStack>
           </Flex>
           <Collapse isOpen={isOpen}>
             <SlideFade in={isOpen}>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Type : {type}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Venue : {venue}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Time : {time}
               </Text>
-              <Text color="#FFFFFF" mb={3} mt={3} ml={3}>
+              <Text color="#FFFFFF" bold mb={3} mt={3} ml={3}>
                 Budget : {estimatedBudget}
               </Text>
               <Button
                 rounded="none"
-                bg="#fc1f0f"
+                bg="#ff3d3d"
                 onPress={() => setShowModal(true)}>
                 <FontAwesomeIcon icon={faTrash} color={'white'} />
               </Button>

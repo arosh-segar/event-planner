@@ -18,10 +18,10 @@ class Tasks extends React.Component {
       selected: false,
       currentSelection: '',
       filterBy: [],
-      events:"",
+      events:[],
       priority: priority,
       status: status,
-      taskNames:"",
+      taskNames:[],
       selectedValue: '',
     };
   }
@@ -99,7 +99,7 @@ class Tasks extends React.Component {
         <ImageBackground
           hp={'100%'}
           wp={'100%'}
-          source={require('../ImageBackground/image/bg.jpg')}
+          source={require('../ImageBackground/image/bgl90.jpg')}
           resizeMode="cover"
           style={styles.image}>
           <Center h="100%">
@@ -204,9 +204,9 @@ class Tasks extends React.Component {
               </ScrollView>
             </VStack>
             <FAB
-                buttonColor="blue"
-                iconTextColor="#FFFFFF"
-                onClickAction={() => {
+              buttonColor="#0284c7"
+              iconTextColor="#FFFFFF"
+              onClickAction={() => {
                 navigation.navigate('AddTask');
                 navigation.navigate('AddTask', {addTasks: this.addTasks});
               }}
@@ -218,7 +218,6 @@ class Tasks extends React.Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

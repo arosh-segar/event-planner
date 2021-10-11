@@ -54,13 +54,14 @@ function AddGuest(route) {
       <ImageBackground
         hp={'100%'}
         wp={'100%'}
-        source={require('../ImageBackground/image/bg.jpg')}
+        source={require('../ImageBackground/image/bg-1.png')}
         resizeMode="cover"
         style={styles.image}>
         <Center>
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Guest Name"
             onChangeText={nameInput => setName(nameInput)}
@@ -76,6 +77,7 @@ function AddGuest(route) {
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Age"
             onChangeText={ageInput => setAge(ageInput)}
@@ -90,6 +92,7 @@ function AddGuest(route) {
           />
           <VStack alignItems="center" space={4} mb={5}>
             <Select
+              bg={'#FFFFFF'}
               borderColor="lightBlue.600"
               minWidth={'90%'}
               onValueChange={genderInput => setGender(genderInput)}
@@ -105,13 +108,14 @@ function AddGuest(route) {
                 bg: 'blueGray.400',
                 endIcon: <CheckIcon size={4} />,
               }}>
-              <Select.Item label="Male" value="js" />
-              <Select.Item label="Female" value="ts" />
+              <Select.Item label="Male" value="Male" />
+              <Select.Item label="Female" value="Female" />
             </Select>
           </VStack>
           <Input
             w="90%"
             mx={3}
+            bg={'#FFFFFF'}
             mb={5}
             placeholder="Email"
             onChangeText={emailInput => setEmail(emailInput)}
@@ -129,6 +133,7 @@ function AddGuest(route) {
           <Select
             borderColor="lightBlue.600"
             minWidth="90%"
+            bg={'#FFFFFF'}
             accessibilityLabel="Select your favorite programming language"
             onValueChange={eventInput => setEvent(eventInput)}
             placeholder="Event Name"
@@ -147,7 +152,7 @@ function AddGuest(route) {
             ))}
           </Select>
         </VStack>
-        <Text fontSize="lg" ml={6} bold>
+        <Text color="#0D6E92" fontSize="lg" ml={6} bold>
           Food Preference
         </Text>
 
@@ -161,15 +166,19 @@ function AddGuest(route) {
           ml={6}>
           <Flex w="90%" direction="row">
             <Radio colorScheme="primary" value="Vegetarian" w="65%">
-              Vegetarian
+              <Text ml={3} bold color="#0D6E92">
+                Vegetarian
+              </Text>
             </Radio>
             <Radio colorScheme="primary" value="Non-Veg" w="55%">
-              Non-Veg
+              <Text ml={3} bold color="#0D6E92">
+                Non-Veg
+              </Text>
             </Radio>
           </Flex>
         </Radio.Group>
 
-        <Text fontSize="lg" ml={6} bold>
+        <Text color="#0D6E92" fontSize="lg" ml={6} bold>
           Status
         </Text>
 
@@ -183,10 +192,14 @@ function AddGuest(route) {
           ml={6}>
           <Flex direction="row">
             <Radio colorScheme="primary" value="Invited" w="50%">
-              Invited
+              <Text ml={3} bold color="#0D6E92">
+                Invited
+              </Text>
             </Radio>
             <Radio colorScheme="primary" value="Attending" w="60%">
-              Attending
+              <Text ml={3} bold color="#0D6E92">
+                Attending
+              </Text>
             </Radio>
           </Flex>
         </Radio.Group>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, Alert} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import Event from './Event';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
@@ -25,7 +25,10 @@ class Events extends React.Component {
     this.setState({
       events: this.state.events.filter(event => event.name !== name),
     });
-    await AsyncStorage.setItem('events', JSON.stringify(this.state.events));
+    await AsyncStorage.setItem(
+      'events',
+      JSON.stringify(this.state.events.filter(event => event.name !== name)),
+    );
   };
 
   getEvents = async () => {
