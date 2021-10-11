@@ -1,11 +1,12 @@
-import React from 'react';
-import {StyleSheet, View, ScrollView, Alert} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, ScrollView} from 'react-native';
 import ShoppingItem from './ShoppingItem';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import FAB from 'react-native-fab';
+
 import {
   Box,
   Center,
@@ -20,130 +21,224 @@ import MaterialChip from 'react-native-material-chip';
 import {NativeBaseProvider} from 'native-base/src/core/NativeBaseProvider';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {ImageBackground} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import Chip from './Chip';
 
 class ShoppingItems extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      shoppingItems: [],
+      events: [],
+      event: {},
+      selected: false,
+      currentSelection: '',
+      filterBy: [],
+      selectedValue: '',
+      total: 0.0,
+      spent: 0.0,
+      remaining: 0.0,
+    };
+  }
+
+  componentDidMount = () => {
+    this.getShoppingItems();
+    this.getEvents();
+  };
+
+  getShoppingItems = async () => {
+    const result = await AsyncStorage.getItem('shoppingItems');
+    if (result !== null) {
+      this.setState({shoppingItems: JSON.parse(result)});
+      this.setState({event: this.state.events[0]});
+    }
+  };
+
+  getEvents = async () => {
+    const result = await AsyncStorage.getItem('events');
+    if (result !== null) {
+      this.setState({events: JSON.parse(result)});
+      this.setState({event: this.state.events[0]});
+      if (this.state.events.length > 0) {
+        this.setState({currentSelection: this.state.events[0]?.name});
+      }
+    }
+    this.calculateTotal();
+  };
+
+  addShoppingItem = async shoppingItem => {
+    const updatedShoppingItems = [...this.state.shoppingItems, shoppingItem];
+    this.setState({shoppingItems: updatedShoppingItems});
+    await AsyncStorage.setItem(
+      'shoppingItems',
+      JSON.stringify(updatedShoppingItems),
+    );
+    this.calculateTotal();
+    this.props.navigation.navigate('Shopping List');
+  };
+
+  deleteShoppingItem = async name => {
+    this.setState({
+      shoppingItems: this.state.shoppingItems.filter(
+        shoppingItem => shoppingItem.itemName !== name,
+      ),
+    });
+    await AsyncStorage.setItem(
+      'shoppingItems',
+      JSON.stringify(
+        this.state.shoppingItems.filter(
+          shoppingItem => shoppingItem.itemName !== name,
+        ),
+      ),
+    );
+    this.calculateTotal();
+  };
+
+  calculateTotal = () => {
+    let spentItemsPrice = 0.0;
+
+    for (let itm of this.state.shoppingItems) {
+      if (itm.event === this.state.events[0]?.name) {
+        let price = parseFloat(itm.itemPrice) * parseFloat(itm.itemQty);
+
+        if (itm.itemStatus == 'purchased') {
+          spentItemsPrice = spentItemsPrice + price;
+        }
+      }
+    }
+    this.setState({spent: spentItemsPrice.toFixed(2)});
+
+    let remainingAmt = this.state.event?.estimatedBudget - spentItemsPrice;
+    remainingAmt = parseFloat(remainingAmt).toFixed(2);
+
+    this.setState({remaining: remainingAmt});
+  };
+
+  onChipSelected = option => {
+    this.setState({selectedValue: ''});
+    this.setState({selected: !this.state.selected});
+    this.setState({currentSelection: option});
+    this.setState({
+      event: this.state.events.find(event => event.name === option),
+    });
+    this.setState({budget: this.state.event?.estimatedBudget});
+
+    let spentItemsPrice = 0.0;
+
+    for (let itm of this.state.shoppingItems) {
+      if (itm.event === option) {
+        let price = parseFloat(itm.itemPrice) * parseFloat(itm.itemQty);
+
+        if (itm.itemStatus == 'purchased') {
+          spentItemsPrice = spentItemsPrice + price;
+        }
+      }
+    }
+
+    let remainingAmt = this.state.event?.estimatedBudget - spentItemsPrice;
+    spentItemsPrice = spentItemsPrice.toFixed(2);
+    remainingAmt = remainingAmt.toFixed(2);
+
+    this.setState({spent: spentItemsPrice});
+    this.setState({remaining: remainingAmt});
+  };
+
   render() {
     const {navigation} = this.props;
 
     return (
       <NativeBaseProvider>
-        <Center h="100%">
-          <HStack w={'90%'} h={'10%'}>
-            <ScrollView horizontal={true}>
+        <ImageBackground
+          hp={'100%'}
+          wp={'100%'}
+          source={require('../ImageBackground/image/bgl90.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
+          <Center h="100%">
+            <HStack w={'90%'} h={'10%'}>
+              <ScrollView horizontal={true}>
+                <HStack space={3}>
+                  {this.state.events.map(event => (
+                    <Chip
+                      selectedOption={event.name}
+                      onChipSelected={this.onChipSelected}
+                      selected={
+                        this.state.currentSelection === event.name
+                          ? true
+                          : false
+                      }
+                    />
+                  ))}
+                </HStack>
+              </ScrollView>
+            </HStack>
+
+            <VStack w="100%" h="70%">
+              <ScrollView>
+                {this.state.shoppingItems.map((shoppingItem, index) => (
+                  <>
+                    {shoppingItem.itemName &&
+                      shoppingItem.event === this.state.currentSelection && (
+                        <ShoppingItem
+                          key={index}
+                          shoppingItem={shoppingItem}
+                          deleteShoppingItem={this.deleteShoppingItem}
+                        />
+                      )}
+                  </>
+                ))}
+              </ScrollView>
+              <FAB
+                buttonColor="#FFFFFF"
+                iconTextColor="#0D6E92"
+                onClickAction={() => {
+                  navigation.navigate('AddShoppingItem');
+                  navigation.navigate('AddShoppingItem', {
+                    addShoppingItem: this.addShoppingItem,
+                  });
+                  // this.props.navigation.navigate('AddShoppingItem', {
+                  //   addShoppingItem: this.addShoppingItem,
+                  // });
+                }}
+                visible={true}
+              />
+            </VStack>
+
+            <HStack w={'90%'} h={'10%'} mt={8}>
               <HStack space={3}>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
+                <Center height={'65%'}>
+                  <Text color="#0D6E92" fontSize="2xl" ml={0} bold>
+                    BUDGET
+                  </Text>
+                  <Text color="#0D6E92" fontSize="lg" ml={1}>
+                    {parseFloat(this.state.event?.estimatedBudget).toFixed(2)}
                   </Text>
                 </Center>
-                <Center
-                  border={0}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600"
-                  bg={'lightBlue.600'}>
-                  <Text px={25} color={'#ffff'} fontWeight={700}>
-                    ALL
+                <Center height={'65%'}>
+                  <Text color="#0D6E92" fontSize="2xl" ml={6} bold>
+                    SPENT
+                  </Text>
+                  <Text color="#0D6E92" fontSize="lg" ml={7}>
+                    {this.state.spent}
                   </Text>
                 </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
+                <Center height={'65%'}>
+                  <Text color="#0D6E92" fontSize="2xl" ml={4} bold>
+                    REMAINING
                   </Text>
-                </Center>
-                <Center
-                  border={3}
-                  borderRadius={20}
-                  height={'65%'}
-                  borderColor="lightBlue.600">
-                  <Text px={25} color={'lightBlue.600'} fontWeight={700}>
-                    ALL
+                  <Text color="#0D6E92" fontSize="lg" ml={0}>
+                    {/*{this.state.remaining}*/}
+                    {parseFloat(
+                      this.state.event?.estimatedBudget - this.state.spent,
+                    ).toFixed(2)}
                   </Text>
                 </Center>
               </HStack>
-            </ScrollView>
-          </HStack>
-
-          <VStack w="100%" h="70%">
-            <ScrollView>
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-              <ShoppingItem />
-            </ScrollView>
-          </VStack>
-          <FAB
-            buttonColor="blue"
-            iconTextColor="#FFFFFF"
-            onClickAction={() => {
-              navigation.navigate('AddShoppingItem');
-            }}
-            visible={true}
-          />
-
-          <HStack w={'90%'} h={'10%'} mt={8}>
-            <HStack space={3}>
-              <Center height={'65%'}>
-                <Text color="#0D6E92" fontSize="2xl" ml={0} bold>
-                  TOTAL
-                </Text>
-                <Text color="#0D6E92" fontSize="lg" ml={1}>
-                  100000.00
-                </Text>
-              </Center>
-              <Center height={'65%'}>
-                <Text color="#0D6E92" fontSize="2xl" ml={6} bold>
-                  SPENT
-                </Text>
-                <Text color="#0D6E92" fontSize="lg" ml={7}>
-                  50000.00
-                </Text>
-              </Center>
-              <Center height={'65%'}>
-                <Text color="#0D6E92" fontSize="2xl" ml={4} bold>
-                  REMAINING
-                </Text>
-                <Text color="#0D6E92" fontSize="lg" ml={0}>
-                  50000.00
-                </Text>
-              </Center>
             </HStack>
-          </HStack>
-        </Center>
-
-        <Center>
-          <Text fontSize="lg" ml={6} bold>
-            TOTAL
-          </Text>
-          <Text fontSize="lg" ml={6} bold>
-            100000.00
-          </Text>
-
-          <Text fontSize="lg" ml={6} bold>
-            SPENT
-          </Text>
-          <Text fontSize="lg" ml={6} bold>
-            50000.00
-          </Text>
-
-          <Text fontSize="lg" ml={6} bold>
-            REMAINING
-          </Text>
-          <Text fontSize="lg" ml={6} bold>
-            50000.00
-          </Text>
-        </Center>
+          </Center>
+        </ImageBackground>
       </NativeBaseProvider>
     );
   }
@@ -152,6 +247,12 @@ class ShoppingItems extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
   },
   icon: {
     color: 'rgba(128,128,128,1)',

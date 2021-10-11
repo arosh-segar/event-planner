@@ -1,13 +1,4 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useEffect} from 'react';
 
 import Home from './components/Home';
 import Events from './components/Event/Events';
@@ -20,6 +11,7 @@ import Tasks from './components/ToDoList/Tasks';
 import AddTask from './components/ToDoList/AddTask';
 import ShoppingItems from './components/ShoppingList/ShoppingItems';
 import AddShoppingItem from './components/ShoppingList/AddShoppingItem';
+import SplashScreen from 'react-native-splash-screen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -27,8 +19,24 @@ import {createStackNavigator} from '@react-navigation/stack';
 const {Navigator, Screen} = createStackNavigator();
 
 function App() {
+  const MyTheme = {
+    dark: false,
+    colors: {
+      primary: 'rgb(0, 0, 0)',
+      background: 'rgb(0, 0, 0)',
+      card: 'rgb(2, 132, 199)',
+      text: 'rgb(255,255,255)',
+      border: 'rgb(199, 199, 204)',
+      notification: 'rgb(255, 69, 58)',
+    },
+  };
+
+  useEffect(() => {
+    SplashScreen.hide();
+  });
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <Navigator>
         <Screen name={'Home'} component={Home} />
         <Screen name={'Events'} component={Events} />
