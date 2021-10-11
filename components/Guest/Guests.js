@@ -103,6 +103,7 @@ class Guests extends React.Component {
               </VStack>
               <Input
                 textAlign="center"
+                bg="#FFFFFF"
                 placeholder="Search Guest"
                 onChangeText={searchInput => {
                   this.setState({search: searchInput});

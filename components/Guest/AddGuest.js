@@ -35,8 +35,7 @@ function AddGuest(route) {
       !email ||
       !event ||
       !foodPreference ||
-      !status ||
-      !events
+      !status
     ) {
       isValid = false;
     }
@@ -160,8 +159,7 @@ function AddGuest(route) {
             }}>
             <Select.Item label="Kane's 11th" value="Kane's 11th" />
             <Select.Item label="Norma's Party" value="Norma's Party" />
-            <Select.Item label="Event 3" value="Event 3" />
-            <Select.Item label="David's Birthday" value="David's Birthday" />
+            <Select.Item label="Arosh" value="Arosh" />
           </Select>
         </VStack>
         <Text fontSize="lg" ml={6} mb={2} bold>

@@ -63,6 +63,7 @@ class Events extends React.Component {
               </VStack>
               <Input
                 textAlign="center"
+                bg="#FFFFFF"
                 placeholder="Search Event"
                 onChangeText={searchInput => {
                   this.setState({search: searchInput});
