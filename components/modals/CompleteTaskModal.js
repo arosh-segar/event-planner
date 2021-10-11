@@ -10,20 +10,21 @@ import {
 } from 'native-base';
 import {useState} from 'react';
 
-function DeleteItemModal(props) {
+function CompleteTaskModal(props) {
   const {showModal, setShowModal, closeTask, name} = props;
   return (
     <>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
-          <Modal.Header>Delete Item</Modal.Header>
-          <Modal.Body>Are you sure you want to delete {`${name}?`}</Modal.Body>
+          <Modal.Header>Complete Task</Modal.Header>
+          <Modal.Body>Are you sure you want to mark it as completed?</Modal.Body>
           <Modal.Footer>
             <Button.Group space={2}>
               <Button
                 onPress={() => {
                   closeTask(name);
+                  setShowModal(false);
                 }}>
                 Yes
               </Button>
@@ -43,4 +44,4 @@ function DeleteItemModal(props) {
   );
 }
 
-export default DeleteItemModal;
+export default CompleteTaskModal;
