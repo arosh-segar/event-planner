@@ -13,15 +13,17 @@ import {
 import {
   faChevronDown,
   faChevronUp,
-  faTrash,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import DeleteItemModal from '../modals/DeleteItemModal';
+import CompleteTaskModal from "../modals/CompleteTaskModal";
 
 function Guest(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const {name, priority, event, notes, status, date, time} = props.task;
+  const closeTask = props.closeTaskByName;
   const deleteTaskByName = props.deleteTaskByName;
   const statusColor =
     priority === 'Low'
@@ -66,10 +68,12 @@ function Guest(props) {
                 Notes: {notes}
               </Text>
               <Button
+                disabled={status=='done'?true:false}
                 rounded="none"
                 bg={statusColor}
                 onPress={() => setShowModal(true)}>
-                <FontAwesomeIcon icon={faTrash} color={'#FFFFFF'} />
+                <FontAwesomeIcon icon={faCheck} color={'white'} />
+
               </Button>
             </SlideFade>
           </Collapse>
@@ -81,10 +85,10 @@ function Guest(props) {
               />
             </Text>
           </VStack>
-          <DeleteItemModal
+          <CompleteTaskModal
             showModal={showModal}
             setShowModal={setShowModal}
-            deleteItem={deleteTaskByName}
+            closeTask={closeTask}
             name={name}
           />
         </Box>

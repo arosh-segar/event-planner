@@ -15,6 +15,7 @@ import {
 import {ImageBackground, StyleSheet} from 'react-native';
 import ErrorModal from '../modals/ErrorModal';
 
+
 function AddEvent(route) {
   const {addEvents} = route.route.params;
   const [name, setName] = useState('');

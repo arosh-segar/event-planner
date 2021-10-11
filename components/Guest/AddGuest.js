@@ -178,10 +178,13 @@ function AddGuest(route) {
               Vegetarian
             </Radio>
             <Radio colorScheme="primary" value="Non-Veg" w="55%">
-              Non-Veg
+              <Text ml={3} bold color="#0D6E92">
+                Non-Veg
+              </Text>
             </Radio>
           </Flex>
         </Radio.Group>
+
         <Text fontSize="lg" ml={6} mb={2} bold>
           Status
         </Text>
@@ -195,7 +198,9 @@ function AddGuest(route) {
           ml={6}>
           <Flex direction="row">
             <Radio colorScheme="primary" value="Invited" w="50%">
-              Invited
+              <Text ml={3} bold color="#0D6E92">
+                Invited
+              </Text>
             </Radio>
             <Radio colorScheme="primary" value="Attending" w="62%">
               Attending

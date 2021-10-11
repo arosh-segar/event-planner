@@ -1,12 +1,6 @@
 import React from 'react';
 
 import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
-import Events from './Event/Events';
-import ShoppingItems from './ShoppingList/ShoppingItems';
-import {
   Image,
   Button,
   Center,

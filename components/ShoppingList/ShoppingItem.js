@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 
-import Icon from 'react-native-vector-icons/Entypo';
 import {
   Text,
   NativeBaseProvider,
